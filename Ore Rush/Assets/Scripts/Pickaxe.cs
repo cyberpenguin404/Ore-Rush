@@ -27,7 +27,7 @@ public class Pickaxe : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, mineRange))
         {
-            if (hit.collider.CompareTag("Mineable"))
+            if (hit.collider.CompareTag("Wall"))
             {
                 Destroy(hit.collider.gameObject);
             }
