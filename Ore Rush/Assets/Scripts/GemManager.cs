@@ -1,10 +1,11 @@
-using System;
 using UnityEngine;
 
 public class GemManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject Gem;
+
+    [SerializeField] private Vector2 gridsize;
 
     [SerializeField]
     private int StartGemCount;
@@ -20,13 +21,14 @@ public class GemManager : MonoBehaviour
         for (int i = 0; i < StartGemCount; i++)
         {
             SpawnGem();
+            _gemCount++;
         }
     }
 
     private void SpawnGem()
     {
         _gemCount++;
-        throw new NotImplementedException();
+        Instantiate(Gem, new Vector3(Random.Range(-gridsize.x, gridsize.x), 0.5f, Random.Range(-gridsize.y, gridsize.y)), Quaternion.identity);
     }
 
     void Update()
