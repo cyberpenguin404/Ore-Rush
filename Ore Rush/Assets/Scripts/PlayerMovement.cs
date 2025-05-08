@@ -4,12 +4,14 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float PlayerSpeed;
+    [SerializeField]
+    private CharacterController _charController;
 
     private Vector3 _moveInput;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        _charController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -22,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
         _moveInput = Vector3.ClampMagnitude(_moveInput, 1f);
 
-        transform.position += _moveInput * PlayerSpeed * Time.deltaTime;
+        _charController.Move(_moveInput * PlayerSpeed * Time.deltaTime);
 
 
         if (_moveInput.sqrMagnitude > 0.01f)
