@@ -139,7 +139,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5888716619608412519}
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSpeed: 5
-  _charController: {fileID: 0}
+  _charController: {fileID: 4480786922093275286}
 --- !u!114 &4086000098995297152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,10 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a509b995e0977784881986c8d14a02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FrontOfPlayer: {fileID: 527566462365354702}
   _scoreText: {fileID: 0}
   _cooldownText: {fileID: 0}
-  PickaxeCooldown: 10
+  PickaxeCooldown: 5
   <CarryingOffset>k__BackingField: {x: 0, y: 1, z: 0}
   <mineRange>k__BackingField: 3
   <PickaxeStunTime>k__BackingField: 0.1

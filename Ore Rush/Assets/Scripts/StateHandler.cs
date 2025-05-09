@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class StateHandler : MonoBehaviour
 {
-    private State currentState;
-
-    [SerializeField]
-    private GameObject FrontOfPlayer;
-
+    private State _currentState;
 
     public GameObject _carryingObject { get; private set; }
 
@@ -29,11 +25,11 @@ public class StateHandler : MonoBehaviour
     
     private void Start()
     {
-        currentState = new NoneState(this);
+        _currentState = new NoneState(this);
     }
     void Update()
     {
-        currentState.Update();
+        _currentState.Update();
         HandleCooldowns();
     }
 
@@ -48,21 +44,21 @@ public class StateHandler : MonoBehaviour
 
     public void ChangeState(State state)
     {
-        currentState.Exit();
-        currentState = state;
-        currentState.Enter();
+        _currentState.Exit();
+        _currentState = state;
+        _currentState.Enter();
     }
 
     public void PickUpGem(GameObject gem)
     {
-        if (currentState.GetType() != typeof(NoneState)) return;
+        if (_currentState.GetType() != typeof(NoneState)) return;
         _carryingObject = gem;
         ChangeState(new CarryingState(this));
     }
 
     internal void CollectGem()
     {
-        if (currentState.GetType() == typeof(CarryingState))
+        if (_currentState.GetType() == typeof(CarryingState))
         {
             _score++;
             _scoreText.text = "Score: " + _score;
@@ -74,13 +70,16 @@ public class StateHandler : MonoBehaviour
 
     internal void Mine()
     {
+
+        Debug.Log("Mine called");
         if (_currentPickaxeCooldown > 0)
         {
+            Debug.Log("Cooldown");
             return;
         }
 
 
-        Ray ray = new Ray(FrontOfPlayer.transform.position, FrontOfPlayer.transform.forward);
+        Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, mineRange))
@@ -90,6 +89,14 @@ public class StateHandler : MonoBehaviour
                 _currentPickaxeCooldown = PickaxeCooldown;
                 Destroy(hit.collider.gameObject);
             }
+            else
+            {
+                Debug.Log("Not right tag");
+            }
+        }
+        else
+        {
+            Debug.Log("Nothing found");
         }
     }
 }

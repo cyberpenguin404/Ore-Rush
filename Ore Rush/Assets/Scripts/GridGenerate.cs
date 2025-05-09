@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GridGenera : MonoBehaviour
+public class GridGenerate : MonoBehaviour
 {
 
     public int width = 25;
@@ -14,14 +14,14 @@ public class GridGenera : MonoBehaviour
     public Transform collectionZone; // Assign in Inspector
 
     private GameObject[,] gridArray;
-    private List<Vector2Int> wallPositions = new List<Vector2Int>();
+    public List<Vector3> wallPositions = new List<Vector3>();
     private List<Vector2Int> specialTilePositions = new List<Vector2Int>();
 
     public float wallRegenInterval = 60f;
 
     void Awake()
     {
-        CreateFloor();
+        //CreateFloor();
         StartCoroutine(RegenerateWallsRoutine());
     }
 
@@ -81,9 +81,8 @@ public class GridGenera : MonoBehaviour
 
         // Instantiate walls
         foreach (var pos in wallPositions)
-        {
-            Vector3 spawnPos = GridToWorldPosition(pos);
-            GameObject wall = Instantiate(wallPrefab, spawnPos, Quaternion.identity);
+        {;
+            GameObject wall = Instantiate(wallPrefab, pos, Quaternion.identity);
             wall.tag = "Wall";
         }
     }
@@ -143,7 +142,7 @@ public class GridGenera : MonoBehaviour
 
                     if (!IsInCenterSquare(pos, 5) && pos != WorldToGridPosition(collectionZone.position))
                     {
-                        wallPositions.Add(pos);
+                        wallPositions.Add(GridToWorldPosition(pos));
                         specialTilePositions.Add(pos);
                     }
                 }
@@ -177,7 +176,7 @@ public class GridGenera : MonoBehaviour
             })
             {
                 Vector2Int neighbor = current + dir;
-                if (IsInsideGrid(neighbor) && !visited[neighbor.x, neighbor.y] && !wallPositions.Contains(neighbor))
+                if (IsInsideGrid(neighbor) && !visited[neighbor.x, neighbor.y] && !wallPositions.Contains(GridToWorldPosition(neighbor)))
                 {
                     visited[neighbor.x, neighbor.y] = true;
                     queue.Enqueue(neighbor);

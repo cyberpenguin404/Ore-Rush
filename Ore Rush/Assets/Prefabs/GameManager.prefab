@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2797907973698817927}
   - component: {fileID: 3541460209804128929}
+  - component: {fileID: 743688315619495738}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,7 +46,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
-  gridsize: {x: 12, y: 12}
+  gemPositions: []
+  GridGenerateScript: {fileID: 743688315619495738}
   StartGemCount: 0
   MaxGemCount: 5
   GemSpawnRate: 2
+--- !u!114 &743688315619495738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279610497413997235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70eaaa1e149d9e840ba6616c75ffc121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 25
+  height: 25
+  tilePrefab: {fileID: 3136595020201079051, guid: 8d4315fce0524a24d92bd46bbe81a615, type: 3}
+  wallPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
+  collectionZone: {fileID: 0}
+  wallPositions: []
+  wallRegenInterval: 60
