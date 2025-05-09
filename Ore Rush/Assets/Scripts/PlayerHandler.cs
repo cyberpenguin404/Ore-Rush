@@ -2,13 +2,14 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class StateHandler : MonoBehaviour
+public class PlayerHandler : MonoBehaviour
 {
     private State _currentState;
 
+    public string PlayerName;
     public GameObject _carryingObject { get; private set; }
 
-    private int _score;
+    public int Score { get; private set; }
 
     [SerializeField]
     private TextMeshProUGUI _scoreText;
@@ -60,8 +61,8 @@ public class StateHandler : MonoBehaviour
     {
         if (_currentState.GetType() == typeof(CarryingState))
         {
-            _score++;
-            _scoreText.text = "Score: " + _score;
+            Score++;
+            _scoreText.text = "Score: " + Score;
             Destroy(_carryingObject);
             ChangeState(new NoneState(this));
         }

@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected StateHandler Owner;
+    protected PlayerHandler Owner;
 
-    public State(StateHandler owner)
+    public State(PlayerHandler owner)
     {
         this.Owner = owner;
     }

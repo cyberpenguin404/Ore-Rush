@@ -1,10 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using static StateHandler;
+using static PlayerHandler;
 
 public class NoneState : State
 {
-    public NoneState(StateHandler owner) : base(owner)
+    public NoneState(PlayerHandler owner) : base(owner)
     {
     }
     public override void Update()
