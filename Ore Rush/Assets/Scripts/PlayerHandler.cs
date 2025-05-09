@@ -7,14 +7,15 @@ public class PlayerHandler : MonoBehaviour
     private State _currentState;
 
     public string PlayerName;
+
+    public int PlayerIndex;
     public GameObject _carryingObject { get; private set; }
 
     public int Score { get; private set; }
 
-    [SerializeField]
-    private TextMeshProUGUI _scoreText;
-    [SerializeField]
-    private TextMeshProUGUI _cooldownText;
+    private TextMeshProUGUI ScoreText => PlayerIndex == 1 ? GameManager.Instance.ScoreTextPlayer1 : GameManager.Instance.ScoreTextPlayer2;
+
+    private TextMeshProUGUI CooldownText => PlayerIndex == 1 ? GameManager.Instance.CooldownText1 : GameManager.Instance.CooldownText2;
     [SerializeField]
     private float PickaxeCooldown;
 
@@ -27,6 +28,9 @@ public class PlayerHandler : MonoBehaviour
     private void Start()
     {
         _currentState = new NoneState(this);
+
+        GameManager.Instance._playerCount++;
+        PlayerIndex = GameManager.Instance._playerCount;
     }
     void Update()
     {
@@ -38,7 +42,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (_currentPickaxeCooldown > 0)
         {
-            _cooldownText.text = "Pickaxe cooldown:" + _currentPickaxeCooldown.ToString();
+            CooldownText.text = "Pickaxe cooldown:" + ((int)_currentPickaxeCooldown).ToString();
             _currentPickaxeCooldown -= Time.deltaTime;
         }
     }
@@ -62,12 +66,16 @@ public class PlayerHandler : MonoBehaviour
         if (_currentState.GetType() == typeof(CarryingState))
         {
             Score++;
-            _scoreText.text = "Score: " + Score;
+            ScoreText.text = "Score: " + Score;
             Destroy(_carryingObject);
             ChangeState(new NoneState(this));
         }
     }
-
+    public void StartMine()
+    {
+        if (_currentState.GetType() == typeof(NoneState))
+        ChangeState(new MineState(this));
+    }
 
     internal void Mine()
     {

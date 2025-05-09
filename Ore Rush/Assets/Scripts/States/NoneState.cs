@@ -9,9 +9,5 @@ public class NoneState : State
     }
     public override void Update()
     {
-        if (Input.GetButtonDown("Fire1") && Owner._currentPickaxeCooldown <= 0)
-        {
-            Owner.ChangeState(new MineState(Owner));
-        }
     }
 }
