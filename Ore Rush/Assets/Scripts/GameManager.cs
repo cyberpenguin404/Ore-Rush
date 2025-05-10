@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Multiplayer")]
 
-    private List<PlayerHandler> Players = new List<PlayerHandler>();
+    public List<PlayerHandler> Players = new List<PlayerHandler>();
     public int _playerCount = 0;
     
 

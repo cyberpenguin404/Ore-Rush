@@ -32,6 +32,7 @@ public class PlayerHandler : MonoBehaviour
         _currentState = new NoneState(this);
 
         GameManager.Instance._playerCount++;
+        GameManager.Instance.Players.Add(this);
         PlayerIndex = GameManager.Instance._playerCount;
     }
     void Update()
