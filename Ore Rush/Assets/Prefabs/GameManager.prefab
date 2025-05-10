@@ -51,8 +51,8 @@ MonoBehaviour:
   gemPositions: []
   GridGenerateScript: {fileID: 743688315619495738}
   StartGemCount: 0
-  MaxGemCount: 5
-  GemSpawnRate: 2
+  MaxGemCount: 30
+  GemSpawnRate: 5
 --- !u!114 &743688315619495738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
   collectionZone: {fileID: 0}
   wallPositions: []
-  wallRegenInterval: 60
+  wallRegenInterval: 30
 --- !u!114 &685837030237778843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   WinnerText: {fileID: 0}
   Players: []
   _playerCount: 0
-  GameTime: 20
+  GameTime: 150
 --- !u!114 &161785804182294043
 MonoBehaviour:
   m_ObjectHideFlags: 0

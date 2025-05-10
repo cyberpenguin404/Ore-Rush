@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Mineable
+  - Unbreakable
   layers:
   - Default
   - TransparentFX

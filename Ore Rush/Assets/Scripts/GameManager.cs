@@ -75,6 +75,10 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         PlayerHandler winningplayer = Players.OrderByDescending(i => i.Score).FirstOrDefault();
+        foreach (PlayerHandler player in Players)
+        {
+            Debug.Log($"{player.PlayerName}: {player.Score}");
+        }
         WinnerText.text = winningplayer.PlayerName + " has won!";
         Time.timeScale = 0;
         _gameRunning = false;

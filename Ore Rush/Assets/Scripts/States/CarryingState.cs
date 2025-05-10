@@ -22,6 +22,7 @@ public class CarryingState : State
     }
     public override void Update()
     {
+        if (Owner._carryingObject != null)
         Owner._carryingObject.transform.position = Owner.transform.position + Owner.CarryingOffset;
     }
 }

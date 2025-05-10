@@ -11,7 +11,7 @@ public class PlayerHandler : MonoBehaviour
     public int PlayerIndex;
     public GameObject _carryingObject { get; private set; }
 
-    public int Score { get; private set; }
+    public int Score;
 
     private TextMeshProUGUI ScoreText => PlayerIndex == 1 ? GameManager.Instance.ScoreTextPlayer1 : GameManager.Instance.ScoreTextPlayer2;
 
@@ -34,6 +34,7 @@ public class PlayerHandler : MonoBehaviour
         GameManager.Instance._playerCount++;
         GameManager.Instance.Players.Add(this);
         PlayerIndex = GameManager.Instance._playerCount;
+        PlayerName = "Player " + PlayerIndex;
     }
     void Update()
     {
