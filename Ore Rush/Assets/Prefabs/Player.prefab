@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 4480786922093275286}
   - component: {fileID: 5093671487154244242}
   - component: {fileID: 1148637994131080323}
+  - component: {fileID: -9111881618879416552}
   - component: {fileID: 5707481357011166481}
   m_Layer: 0
   m_Name: Player
@@ -256,6 +257,24 @@ MonoBehaviour:
   <CarryingOffset>k__BackingField: {x: 0, y: 1, z: 0}
   <mineRange>k__BackingField: 1
   <PickaxeStunTime>k__BackingField: 0.1
+--- !u!114 &-9111881618879416552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5816790847310507089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6638fab6e1b16b44787ea4ae3f0b6002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorPrefab: {fileID: 3961507253054405463, guid: 02e6eb23df51aaa4b9ca493978d734a6, type: 3}
+  pillarPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
+  moveRepeatDelay: 0.3
+  moveRepeatRate: 0.1
+  cooldownDuration: 5
+  PlayerHandlerScript: {fileID: 1148637994131080323}
 --- !u!114 &5707481357011166481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +332,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8bf87e1c-b8b1-4365-a7b9-049c4aeb96b0
     m_ActionName: 'Player/Pickaxe[/DualShock4GamepadHID/buttonSouth,/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -9111881618879416552}
+        m_TargetAssemblyTypeName: DynamiteScript, Assembly-CSharp
+        m_MethodName: ToggleDynamite
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fc5eeb0a-1f27-4407-a1ba-b0d1d3651e29
+    m_ActionName: 'Player/Use Dynamite[/DualShock4GamepadHID/buttonEast,/Keyboard/o]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -9111881618879416552}
+        m_TargetAssemblyTypeName: DynamiteScript, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 60a34163-9029-4490-a2a2-0083e74ec22e
+    m_ActionName: 'Player/Aim Dynamite[/DualShock4GamepadHID/rightStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

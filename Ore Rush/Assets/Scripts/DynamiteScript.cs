@@ -1,16 +1,20 @@
 ﻿using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DynamiteScript : MonoBehaviour
 {
+    private const float IndicatorVerticalOffset = 2f;
     public GameObject indicatorPrefab;  // The green cube
     public GameObject pillarPrefab;     // The 1x1 pillar
-    public GameObject player;
 
-    public float moveRepeatDelay = 0.3f;   // Time before repeat starts
+    public float moveRepeatDelay = 0.6f;   // Time before repeat starts
     public float moveRepeatRate = 0.1f;    // Time between repeated moves
 
     public float cooldownDuration = 5f;
+
+    [SerializeField]
+    private PlayerHandler PlayerHandlerScript;
 
 
     private float moveTimer = 0f;
@@ -25,6 +29,8 @@ public class DynamiteScript : MonoBehaviour
 
     private int halfGridSize = 12; // 25x25 centered = -12 to 12
 
+    private Vector2 _aimInput;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,30 +41,25 @@ public class DynamiteScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleToggle();
+        HandleCooldown();
 
         if (indicatorActive)
         {
-            HandleMovement();
-            
+            HandleAiming();
         }
     }
 
-
-    void HandleToggle()
+    public void ToggleDynamite(InputAction.CallbackContext context)
     {
-        if (cooldownTimer > 0f)
+        if (!context.started || cooldownTimer > 0f)
         {
-            cooldownTimer -= Time.deltaTime;
-            return; // On cooldown, ignore input
+            return;
         }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
             if (!indicatorActive)
             {
+                Debug.Log("activated indicator");
                 // Snap player position to nearest grid cell
-                Vector3 playerPos = player.transform.position;
+                Vector3 playerPos = transform.position;
                 gridPos = new Vector2Int(Mathf.RoundToInt(playerPos.x), Mathf.RoundToInt(playerPos.z));
 
                 // Clamp to grid bounds
@@ -73,9 +74,10 @@ public class DynamiteScript : MonoBehaviour
                 indicatorInstance.SetActive(true);
             }
             else
-            {
-                // Try to place pillar
-                Vector3 spawnPos = new Vector3(gridPos.x, 1.25f, gridPos.y);
+        {
+            Debug.Log("placed pillar");
+            // Try to place pillar
+            Vector3 spawnPos = new Vector3(gridPos.x, 0, gridPos.y);
                 bool occupied = false;
 
                 Collider[] colliders = Physics.OverlapBox(spawnPos, Vector3.one * 0.45f);
@@ -99,6 +101,14 @@ public class DynamiteScript : MonoBehaviour
                     cooldownTimer = cooldownDuration;
                 }
             }
+    }
+
+    void HandleCooldown()
+    {
+        if (cooldownTimer > 0f)
+        {
+            PlayerHandlerScript.DynamiteCooldownText.text = "Dynamite cooldown: " + ((int)cooldownTimer).ToString();
+            cooldownTimer -= Time.deltaTime;
         }
     }
 
@@ -117,24 +127,32 @@ public class DynamiteScript : MonoBehaviour
         }
     }
 
-
-
-    void HandleMovement()
+    public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2Int inputDir = Vector2Int.zero;
+        _aimInput = context.ReadValue<Vector2>();
+    }
+
+    public void HandleAiming()
+    {
+        Vector2Int moveDir = Vector2Int.zero;
+
 
         // Priority order: Vertical before Horizontal
-        if (Input.GetKey(KeyCode.W)) inputDir = Vector2Int.up;
-        else if (Input.GetKey(KeyCode.S)) inputDir = Vector2Int.down;
-        else if (Input.GetKey(KeyCode.A)) inputDir = Vector2Int.left;
-        else if (Input.GetKey(KeyCode.D)) inputDir = Vector2Int.right;
+        if (_aimInput.y > 0.5f)
+            moveDir = Vector2Int.up;
+        else if (_aimInput.y < -0.5f)
+            moveDir = Vector2Int.down;
+        else if (_aimInput.x < -0.5f)
+            moveDir = Vector2Int.left;
+        else if (_aimInput.x > 0.5f)
+            moveDir = Vector2Int.right;
 
-        if (inputDir != Vector2Int.zero)
+        if (moveDir != Vector2Int.zero)
         {
-            if (inputDir != lastInputDir)
+            if (moveDir != lastInputDir)
             {
                 // New direction → move immediately
-                MoveIndicator(inputDir);
+                MoveIndicator(moveDir);
                 moveTimer = moveRepeatDelay;
             }
             else
@@ -143,12 +161,12 @@ public class DynamiteScript : MonoBehaviour
                 moveTimer -= Time.deltaTime;
                 if (moveTimer <= 0f)
                 {
-                    MoveIndicator(inputDir);
+                    MoveIndicator(moveDir);
                     moveTimer = moveRepeatRate;
                 }
             }
 
-            lastInputDir = inputDir;
+            lastInputDir = moveDir;
         }
         else
         {
@@ -162,6 +180,6 @@ public class DynamiteScript : MonoBehaviour
     Vector3 GridToWorldPosition(Vector2Int gridPosition)
     {
         // Convert grid pos to world pos (center of cell)
-        return new Vector3(gridPosition.x, 0.25f, gridPosition.y);
+        return new Vector3(gridPosition.x, IndicatorVerticalOffset, gridPosition.y);
     }
 }

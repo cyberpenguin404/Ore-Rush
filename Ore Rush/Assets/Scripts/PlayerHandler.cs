@@ -15,7 +15,9 @@ public class PlayerHandler : MonoBehaviour
 
     private TextMeshProUGUI ScoreText => PlayerIndex == 1 ? GameManager.Instance.ScoreTextPlayer1 : GameManager.Instance.ScoreTextPlayer2;
 
-    private TextMeshProUGUI CooldownText => PlayerIndex == 1 ? GameManager.Instance.CooldownText1 : GameManager.Instance.CooldownText2;
+    private TextMeshProUGUI PickaxeCooldownText => PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownText1 : GameManager.Instance.PickaxeCooldownText2;
+    [HideInInspector]
+    public TextMeshProUGUI DynamiteCooldownText => PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownText1 : GameManager.Instance.DynamiteCooldownText2;
     [SerializeField]
     private float PickaxeCooldown;
 
@@ -42,7 +44,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (_currentPickaxeCooldown > 0)
         {
-            CooldownText.text = "Pickaxe cooldown:" + ((int)_currentPickaxeCooldown).ToString();
+            PickaxeCooldownText.text = "Pickaxe cooldown:" + ((int)_currentPickaxeCooldown).ToString();
             _currentPickaxeCooldown -= Time.deltaTime;
         }
     }

@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI ScoreTextPlayer1;
     public TextMeshProUGUI ScoreTextPlayer2;
-    public TextMeshProUGUI CooldownText1;
-    public TextMeshProUGUI CooldownText2;
+    public TextMeshProUGUI PickaxeCooldownText1;
+    public TextMeshProUGUI PickaxeCooldownText2;
+    public TextMeshProUGUI DynamiteCooldownText1;
+    public TextMeshProUGUI DynamiteCooldownText2;
     public TextMeshProUGUI playerCountStartScreen;
     public GameObject startScreen;
     [SerializeField]
@@ -26,8 +28,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Multiplayer")]
 
-    [SerializeField]
-    public Transform[] SpawnPoints;
     private List<PlayerHandler> Players = new List<PlayerHandler>();
     public int _playerCount = 0;
     
