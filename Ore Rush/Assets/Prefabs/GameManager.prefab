@@ -94,8 +94,9 @@ MonoBehaviour:
   startScreen: {fileID: 0}
   CountdownText: {fileID: 0}
   WinnerText: {fileID: 0}
+  Players: []
   _playerCount: 0
-  GameTime: 300
+  GameTime: 20
 --- !u!114 &161785804182294043
 MonoBehaviour:
   m_ObjectHideFlags: 0
