@@ -178,7 +178,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: bd46058bc4f32464f9c9fece64c3d77c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -253,7 +253,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: Player 1
   PlayerIndex: 0
+  Score: 0
   PickaxeCooldown: 3
+  player1Material: {fileID: 2100000, guid: bd46058bc4f32464f9c9fece64c3d77c, type: 2}
+  player2Material: {fileID: 2100000, guid: 0ea9bd0d855efbb47bea27a5568428f0, type: 2}
   <CarryingOffset>k__BackingField: {x: 0, y: 1, z: 0}
   <mineRange>k__BackingField: 1
   <PickaxeStunTime>k__BackingField: 0.1
@@ -269,11 +272,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6638fab6e1b16b44787ea4ae3f0b6002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicatorPrefab: {fileID: 3961507253054405463, guid: 02e6eb23df51aaa4b9ca493978d734a6, type: 3}
+  indicatorPrefabPlayer1: {fileID: 3961507253054405463, guid: 02e6eb23df51aaa4b9ca493978d734a6, type: 3}
+  indicatorPrefabPlayer2: {fileID: 3961507253054405463, guid: 24aa484dee5800644befa2b1d076410e, type: 3}
   pillarPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
   moveRepeatDelay: 0.3
   moveRepeatRate: 0.1
-  cooldownDuration: 5
+  cooldownDuration: 10
   PlayerHandlerScript: {fileID: 1148637994131080323}
 --- !u!114 &5707481357011166481
 MonoBehaviour:

@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerHandler : MonoBehaviour
 {
@@ -21,11 +22,18 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField]
     private float PickaxeCooldown;
 
+    [Header: Materials]
+    [SerializeField]
+    private Material player1Material;
+    [SerializeField]
+    private Material player2Material;
+
     public float _currentPickaxeCooldown { get; private set; }
 
     [field: SerializeField] public Vector3 CarryingOffset { get; private set; }
     [field: SerializeField] public float mineRange { get; private set; }
     [field: SerializeField] public float PickaxeStunTime { get; private set; }
+
     
     private void Start()
     {
@@ -35,11 +43,22 @@ public class PlayerHandler : MonoBehaviour
         GameManager.Instance.Players.Add(this);
         PlayerIndex = GameManager.Instance._playerCount;
         PlayerName = "Player " + PlayerIndex;
+
+        GetComponent<Renderer>().material = PlayerIndex == 1 ? player1Material : player2Material;
     }
     void Update()
     {
         _currentState.Update();
         HandleCooldowns();
+        HandleCarrying();
+    }
+
+    private void HandleCarrying()
+    {
+        if (_carryingObject != null)
+        {
+            _carryingObject.transform.position = transform.position + CarryingOffset;
+        }
     }
 
     private void HandleCooldowns()
@@ -60,24 +79,21 @@ public class PlayerHandler : MonoBehaviour
 
     public void PickUpGem(GameObject gem)
     {
-        if (_currentState.GetType() != typeof(NoneState)) return;
         _carryingObject = gem;
-        ChangeState(new CarryingState(this));
+        _carryingObject.GetComponent<Collider>().enabled = false;
     }
 
     internal void CollectGem()
     {
-        if (_currentState.GetType() == typeof(CarryingState))
+        if (_carryingObject != null)
         {
             Score++;
             ScoreText.text = "Score: " + Score;
             Destroy(_carryingObject);
-            ChangeState(new NoneState(this));
         }
     }
     public void StartMine()
     {
-        if (_currentState.GetType() == typeof(NoneState))
         ChangeState(new MineState(this));
     }
 

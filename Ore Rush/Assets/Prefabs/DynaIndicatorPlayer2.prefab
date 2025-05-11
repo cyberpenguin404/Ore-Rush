@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2761107870520807716}
   - component: {fileID: 6713874136042340016}
   m_Layer: 0
-  m_Name: DynaIndicator
+  m_Name: DynaIndicatorPlayer2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7cd41aed69cdc824d80031fceec59d5a, type: 2}
+  - {fileID: 2100000, guid: 0ea9bd0d855efbb47bea27a5568428f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
