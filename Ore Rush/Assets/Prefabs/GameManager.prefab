@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
-  gemPositions: []
   gemObjects: []
   GridGenerateScript: {fileID: 743688315619495738}
   StartGemCount: 2
@@ -87,6 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GemManager: {fileID: 3541460209804128929}
   ScoreTextPlayer1: {fileID: 0}
   ScoreTextPlayer2: {fileID: 0}
   PickaxeCooldownText1: {fileID: 0}

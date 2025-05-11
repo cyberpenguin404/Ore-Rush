@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GemManager GemManager;
 
     [Header("UI References")]
 

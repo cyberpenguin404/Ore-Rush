@@ -80,8 +80,8 @@ public class GridGenerate : MonoBehaviour
         {
             ResetPlayerPositions();
             RemoveGems();
-            gemManager.SpawnStartingGems();
             GenerateReachableWallLayout();
+            gemManager.SpawnStartingGems();
             yield return new WaitForSeconds(wallRegenInterval);
         }
     }
@@ -92,6 +92,7 @@ public class GridGenerate : MonoBehaviour
         {
             Destroy(gem);
         }
+        gemManager.gemObjects.Clear();
     }
 
     private void ResetPlayerPositions()

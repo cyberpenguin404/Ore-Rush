@@ -79,8 +79,12 @@ public class PlayerHandler : MonoBehaviour
 
     public void PickUpGem(GameObject gem)
     {
-        _carryingObject = gem;
-        _carryingObject.GetComponent<Collider>().enabled = false;
+        if (_carryingObject == null)
+        {
+            GameManager.Instance.GemManager.PickupGem(gem);
+            _carryingObject = gem;
+            _carryingObject.GetComponent<Collider>().enabled = false;
+        }
     }
 
     internal void CollectGem()
