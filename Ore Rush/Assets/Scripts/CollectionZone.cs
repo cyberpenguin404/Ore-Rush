@@ -9,6 +9,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
             return;
         }
 
-        other.GetComponentInChildren<StateHandler>().CollectGem();
+        other.GetComponentInChildren<PlayerHandler>().CollectGem();
     }
 }

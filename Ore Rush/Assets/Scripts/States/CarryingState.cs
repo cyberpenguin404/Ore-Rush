@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
-using static StateHandler;
+using static PlayerHandler;
 
 public class CarryingState : State
 {
 
-    public CarryingState(StateHandler owner) : base(owner)
+    public CarryingState(PlayerHandler owner) : base(owner)
     {
     }
 

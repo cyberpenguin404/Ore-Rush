@@ -6,7 +6,7 @@ public class MineState : State
 
     private float _timer;
 
-    public MineState(StateHandler owner) : base(owner)
+    public MineState(PlayerHandler owner) : base(owner)
     {
     }
 

@@ -1,50 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7281935945929174288
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d7593b3a9277ac4696b20006c21dde2, type: 3}
-  m_Name: VisualEnvironment
-  m_EditorClassIdentifier: 
-  active: 1
-  skyType:
-    m_OverrideState: 1
-    m_Value: 4
-  cloudType:
-    m_OverrideState: 1
-    m_Value: 0
-  skyAmbientMode:
-    m_OverrideState: 0
-    m_Value: 1
-  planetRadius:
-    m_OverrideState: 1
-    m_Value: 6378.1
-  renderingSpace:
-    m_OverrideState: 1
-    m_Value: 1
-  centerMode:
-    m_OverrideState: 1
-    m_Value: 0
-  planetCenter:
-    m_OverrideState: 1
-    m_Value: {x: 0, y: -6378.1, z: 0}
-  windOrientation:
-    m_OverrideState: 1
-    m_Value: 0
-  windSpeed:
-    m_OverrideState: 1
-    m_Value: 0
-  fogType:
-    m_OverrideState: 1
-    m_Value: 0
-  m_Version: 1
---- !u!114 &-3935946139211915840
+--- !u!114 &-4760905995138667708
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,7 +91,7 @@ MonoBehaviour:
   directionalLightsOnly:
     m_OverrideState: 0
     m_Value: 0
---- !u!114 &-3854075490320323599
+--- !u!114 &-198042756690129889
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -291,6 +247,50 @@ MonoBehaviour:
   m_Name: Sky and Fog Settings
   m_EditorClassIdentifier: 
   components:
-  - {fileID: -7281935945929174288}
-  - {fileID: -3854075490320323599}
-  - {fileID: -3935946139211915840}
+  - {fileID: 2783166573106701804}
+  - {fileID: -198042756690129889}
+  - {fileID: -4760905995138667708}
+--- !u!114 &2783166573106701804
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7593b3a9277ac4696b20006c21dde2, type: 3}
+  m_Name: VisualEnvironment
+  m_EditorClassIdentifier: 
+  active: 1
+  skyType:
+    m_OverrideState: 1
+    m_Value: 4
+  cloudType:
+    m_OverrideState: 1
+    m_Value: 0
+  skyAmbientMode:
+    m_OverrideState: 0
+    m_Value: 1
+  planetRadius:
+    m_OverrideState: 1
+    m_Value: 6378.1
+  renderingSpace:
+    m_OverrideState: 1
+    m_Value: 1
+  centerMode:
+    m_OverrideState: 1
+    m_Value: 0
+  planetCenter:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: -6378.1, z: 0}
+  windOrientation:
+    m_OverrideState: 1
+    m_Value: 0
+  windSpeed:
+    m_OverrideState: 1
+    m_Value: 0
+  fogType:
+    m_OverrideState: 1
+    m_Value: 0
+  m_Version: 1

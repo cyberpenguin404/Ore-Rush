@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2797907973698817927}
   - component: {fileID: 3541460209804128929}
   - component: {fileID: 743688315619495738}
+  - component: {fileID: 685837030237778843}
+  - component: {fileID: 161785804182294043}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -70,3 +72,87 @@ MonoBehaviour:
   collectionZone: {fileID: 0}
   wallPositions: []
   wallRegenInterval: 60
+--- !u!114 &685837030237778843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279610497413997235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScoreTextPlayer1: {fileID: 0}
+  ScoreTextPlayer2: {fileID: 0}
+  PickaxeCooldownText1: {fileID: 0}
+  PickaxeCooldownText2: {fileID: 0}
+  DynamiteCooldownText1: {fileID: 0}
+  DynamiteCooldownText2: {fileID: 0}
+  playerCountStartScreen: {fileID: 0}
+  startScreen: {fileID: 0}
+  CountdownText: {fileID: 0}
+  WinnerText: {fileID: 0}
+  _playerCount: 0
+  GameTime: 300
+--- !u!114 &161785804182294043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279610497413997235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 2
+  m_MaxPlayerCount: -1
+  m_AllowJoining: 1
+  m_JoinBehavior: 1
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Join
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 63f838f1-5226-4fad-8498-70637e93a970
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: ae4b9713-241b-4a2e-8739-1ead57bf27b1
+        m_Path: <Gamepad>/start
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 0402125b-27d6-421b-a451-521ad577e5be
+        m_Path: <Keyboard>/space
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 5816790847310507089, guid: 8422d968174a7e34aae42222a09a9e53, type: 3}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
