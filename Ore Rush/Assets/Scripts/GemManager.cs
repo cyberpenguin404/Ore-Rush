@@ -8,7 +8,7 @@ public class GemManager : MonoBehaviour
     private GameObject Gem;
 
     [SerializeField]
-    public List<Vector3> gemPositions = new List<Vector3>();
+    public List<GameObject> gemObjects = new List<GameObject>();
 
 
     private List<Vector2Int> ValidSpawnPositions = new List<Vector2Int>();
@@ -25,7 +25,8 @@ public class GemManager : MonoBehaviour
 
     private int _gemCount;
     private double _timer;
-    void Start()
+
+    public void SpawnStartingGems()
     {
         for (int i = 0; i < StartGemCount; i++)
         {
@@ -33,6 +34,7 @@ public class GemManager : MonoBehaviour
             _gemCount++;
         }
     }
+
     public void RecalculateSpawnPositions()
     {
         ValidSpawnPositions.Clear();
@@ -43,7 +45,7 @@ public class GemManager : MonoBehaviour
                 Vector2Int pos = new Vector2Int(x, y);
                 Vector3 worldPos = GridGenerateScript.GridToWorldPosition(pos);
 
-                if (!GridGenerateScript.wallPositions.Contains(worldPos) && !gemPositions.Contains(worldPos))
+                if (!GridGenerateScript.wallPositions.Contains(worldPos) && !gemObjects.Exists(obj => obj.transform.position == worldPos))
                 {
                     ValidSpawnPositions.Add(pos);
                 }
@@ -65,13 +67,12 @@ public class GemManager : MonoBehaviour
         Vector3 spawnPosition = GridGenerateScript.GridToWorldPosition(gridPosition);
 
 
-        gemPositions.Add(spawnPosition);
         ValidSpawnPositions.Remove(gridPosition);
-        Instantiate(Gem, spawnPosition, Quaternion.identity);
+        gemObjects.Add(Instantiate(Gem, spawnPosition, Quaternion.identity));
     }
     public void PickupGem(GameObject gem)
     {
-        gemPositions.Remove(gem.transform.position);
+        gemObjects.Remove(gem);
         ValidSpawnPositions.Add(GridGenerateScript.WorldToGridPosition(gem.transform.position));
     }
 

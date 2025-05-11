@@ -8,7 +8,6 @@ public class Gem : MonoBehaviour
         {
             return;
         }
-
         other.GetComponentInChildren<PlayerHandler>().PickUpGem(this.gameObject);
     }
 }

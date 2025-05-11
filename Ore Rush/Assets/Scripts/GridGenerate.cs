@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,14 @@ public class GridGenerate : MonoBehaviour
     public int width = 25;
     public int height = 25;
 
-    public GameObject tilePrefab;
-    public GameObject wallPrefab;
+    public GameObject TilePrefab;
+    public GameObject WallPrefab;
     public Transform collectionZone; // Assign in Inspector
+
+    [SerializeField]
+    private GameManager gameManager;
+    [SerializeField]
+    private GemManager gemManager;
 
     private GameObject[,] gridArray;
     public List<Vector3> wallPositions = new List<Vector3>();
@@ -19,10 +25,31 @@ public class GridGenerate : MonoBehaviour
 
     public float wallRegenInterval = 60f;
 
+    private Vector3 _spawnPosition = new Vector3(0,1,0);
+
     void Awake()
     {
         //CreateFloor();
         StartCoroutine(RegenerateWallsRoutine());
+        AddUnbreakableOuterWalls();
+    }
+
+    private void AddUnbreakableOuterWalls()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            Vector3 bottom = GridToWorldPosition(new Vector2Int(x, 0));
+            Vector3 top = GridToWorldPosition(new Vector2Int(x, height - 1));
+            Instantiate(WallPrefab, bottom, Quaternion.identity).tag = "Unbreakable";
+            Instantiate(WallPrefab, top, Quaternion.identity).tag = "Unbreakable";
+        }
+        for (int y = 0; y < height; y++)
+        {
+            Vector3 left = GridToWorldPosition(new Vector2Int(0, y));
+            Vector3 right = GridToWorldPosition(new Vector2Int(width - 1, y));
+            Instantiate(WallPrefab, left, Quaternion.identity).tag = "Unbreakable";
+            Instantiate(WallPrefab, right, Quaternion.identity).tag = "Unbreakable";
+        }
     }
 
     void CreateFloor()
@@ -41,7 +68,7 @@ public class GridGenerate : MonoBehaviour
                     continue;
 
                 Vector3 worldPos = start + new Vector3(x, 0, z);
-                GameObject tile = Instantiate(tilePrefab, worldPos, Quaternion.identity, transform);
+                GameObject tile = Instantiate(TilePrefab, worldPos, Quaternion.identity, transform);
                 gridArray[x, z] = tile;
             }
         }
@@ -51,8 +78,28 @@ public class GridGenerate : MonoBehaviour
     {
         while (true)
         {
+            ResetPlayerPositions();
+            RemoveGems();
             GenerateReachableWallLayout();
+            gemManager.SpawnStartingGems();
             yield return new WaitForSeconds(wallRegenInterval);
+        }
+    }
+
+    private void RemoveGems()
+    {
+        foreach (GameObject gem in gemManager.gemObjects.ToList())
+        {
+            Destroy(gem);
+        }
+        gemManager.gemObjects.Clear();
+    }
+
+    private void ResetPlayerPositions()
+    {
+        foreach (PlayerHandler player in gameManager.Players)
+        {
+            player.transform.position = _spawnPosition;
         }
     }
 
@@ -82,7 +129,7 @@ public class GridGenerate : MonoBehaviour
         // Instantiate walls
         foreach (var pos in wallPositions)
         {;
-            GameObject wall = Instantiate(wallPrefab, pos, Quaternion.identity);
+            GameObject wall = Instantiate(WallPrefab, pos, Quaternion.identity);
             wall.tag = "Wall";
         }
     }

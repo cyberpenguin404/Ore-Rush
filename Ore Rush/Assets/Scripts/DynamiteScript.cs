@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 public class DynamiteScript : MonoBehaviour
 {
     private const float IndicatorVerticalOffset = 2f;
-    public GameObject indicatorPrefab;  // The green cube
+    public GameObject indicatorPrefabPlayer1;
+    public GameObject indicatorPrefabPlayer2;
+
     public GameObject pillarPrefab;     // The 1x1 pillar
 
     public float moveRepeatDelay = 0.6f;   // Time before repeat starts
@@ -16,6 +18,7 @@ public class DynamiteScript : MonoBehaviour
     [SerializeField]
     private PlayerHandler PlayerHandlerScript;
 
+    private GameObject _indicatorPrefab;  // The green cube
 
     private float moveTimer = 0f;
     private Vector2Int lastInputDir = Vector2Int.zero;
@@ -34,7 +37,9 @@ public class DynamiteScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        indicatorInstance = Instantiate(indicatorPrefab, GridToWorldPosition(gridPos), Quaternion.identity);
+        _indicatorPrefab = PlayerHandlerScript.PlayerIndex == 1 ? indicatorPrefabPlayer1 : indicatorPrefabPlayer2;
+        indicatorInstance = Instantiate(_indicatorPrefab, GridToWorldPosition(gridPos), Quaternion.identity);
+        
         indicatorInstance.SetActive(false);
     }
 
