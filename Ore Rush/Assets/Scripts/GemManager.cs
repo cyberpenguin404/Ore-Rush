@@ -23,7 +23,6 @@ public class GemManager : MonoBehaviour
     [SerializeField]
     private int GemSpawnRate;
 
-    private int _gemCount;
     private double _timer;
 
     public void SpawnStartingGems()
@@ -31,7 +30,6 @@ public class GemManager : MonoBehaviour
         for (int i = 0; i < StartGemCount; i++)
         {
             SpawnGem();
-            _gemCount++;
         }
     }
 
@@ -55,7 +53,6 @@ public class GemManager : MonoBehaviour
     private void SpawnGem()
     {
         RecalculateSpawnPositions();
-        _gemCount++;
 
         if (ValidSpawnPositions.Count == 0)
         {
@@ -81,7 +78,7 @@ public class GemManager : MonoBehaviour
         _timer += Time.deltaTime;
         if (_timer > GemSpawnRate)
         {
-            if (_gemCount < MaxGemCount - 1)
+            if (gemObjects.Count < MaxGemCount - 1)
             {
                 SpawnGem();
             }

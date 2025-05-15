@@ -15,6 +15,9 @@ public class GridGenerate : MonoBehaviour
     public Transform collectionZone; // Assign in Inspector
 
     [SerializeField]
+    private float wallCollapseSpeed;
+
+    [SerializeField]
     private GameManager gameManager;
     [SerializeField]
     private GemManager gemManager;
@@ -83,7 +86,16 @@ public class GridGenerate : MonoBehaviour
             GenerateReachableWallLayout();
             gemManager.SpawnStartingGems();
             yield return new WaitForSeconds(wallRegenInterval);
+            StartCoroutine(CollapseMaze());
         }
+    }
+    IEnumerator CollapseMaze()
+    {
+        double timer = 0;
+        while (true) {
+            timer += Time.deltaTime;
+
+        } 
     }
 
     private void RemoveGems()

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public GemManager GemManager;
 
+    public bool StartGameManually;
+
     [Header("UI References")]
 
     public TextMeshProUGUI ScoreTextPlayer1;
@@ -47,6 +49,10 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+        if (StartGameManually)
+        {
+            StartGame();
+        }
         if ( _playerCount == 2)
         {
             StartGame();
