@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 743688315619495738}
   - component: {fileID: 685837030237778843}
   - component: {fileID: 161785804182294043}
+  - component: {fileID: 2488219585443282208}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -49,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
   gemObjects: []
-  GridGenerateScript: {fileID: 743688315619495738}
+  GridGenerateScript: {fileID: 2488219585443282208}
   StartGemCount: 2
   MaxGemCount: 30
   GemSpawnRate: 5
@@ -70,6 +71,7 @@ MonoBehaviour:
   TilePrefab: {fileID: 8221948552495963588, guid: 16042ce7f13bf7549b91ae5b8bc2652b, type: 3}
   WallPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
   collectionZone: {fileID: 0}
+  wallCollapseSpeed: 0
   gameManager: {fileID: 685837030237778843}
   gemManager: {fileID: 3541460209804128929}
   wallPositions: []
@@ -87,6 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GemManager: {fileID: 3541460209804128929}
+  StartGameManually: 0
   ScoreTextPlayer1: {fileID: 0}
   ScoreTextPlayer2: {fileID: 0}
   PickaxeCooldownText1: {fileID: 0}
@@ -113,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 2
-  m_MaxPlayerCount: -1
+  m_MaxPlayerCount: 2
   m_AllowJoining: 1
   m_JoinBehavior: 1
   m_PlayerJoinedEvent:
@@ -160,3 +163,25 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &2488219585443282208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279610497413997235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70eaaa1e149d9e840ba6616c75ffc121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 25
+  height: 25
+  TilePrefab: {fileID: 0}
+  WallPrefab: {fileID: 0}
+  collectionZone: {fileID: 0}
+  wallCollapseSpeed: 0
+  gameManager: {fileID: 0}
+  gemManager: {fileID: 0}
+  wallPositions: []
+  wallRegenInterval: 60
