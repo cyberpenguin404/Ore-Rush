@@ -22,7 +22,7 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField]
     private float PickaxeCooldown;
 
-    [Header: Materials]
+    [Header("Materials")]
     [SerializeField]
     private Material player1Material;
     [SerializeField]
