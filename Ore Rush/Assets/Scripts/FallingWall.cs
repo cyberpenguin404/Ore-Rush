@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FallingWall : MonoBehaviour
 {
-    private bool _isFalling = true;
+    internal bool _isFalling = true;
     private const float _gravity = 9.81f;
     void Update()
     {
@@ -16,7 +16,7 @@ public class FallingWall : MonoBehaviour
         }
     }
 
-    private void ImpactOnGround()
+    internal virtual void ImpactOnGround()
     {
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         _isFalling = false;
@@ -49,5 +49,4 @@ public class FallingWall : MonoBehaviour
         }
         GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
     }
-
 }

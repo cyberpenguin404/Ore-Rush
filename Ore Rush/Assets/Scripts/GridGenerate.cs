@@ -154,7 +154,7 @@ public class GridGenerate : MonoBehaviour
 
                         if (!wallPositions.Contains(worldPos))
                         {
-                            GameManager.Instance.DropWall(worldPos);
+                            GameManager.Instance.DropDeathWall(worldPos);
                             wallPositions.Add(worldPos);
                         }
                     }

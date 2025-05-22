@@ -104,6 +104,7 @@ MonoBehaviour:
   CountdownText: {fileID: 0}
   WinnerText: {fileID: 0}
   _fallingWallPrefab: {fileID: 1348852216195122236, guid: 8abb7f9fdc56d3d4ebe330f56e5727f0, type: 3}
+  _deathFallingWallPrefab: {fileID: 1348852216195122236, guid: c33b4f48443af8e40ae14db93b6c4abb, type: 3}
   Players: []
   _playerCount: 0
   GameTime: 300

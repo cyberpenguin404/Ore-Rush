@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI WinnerText;
     [SerializeField]
     private GameObject _fallingWallPrefab;
+    [SerializeField]
+    private GameObject _deathFallingWallPrefab;
 
 
     [Header("Multiplayer")]
@@ -83,6 +85,10 @@ public class GameManager : MonoBehaviour
     public void DropWall(Vector3 position)
     {
         Instantiate(_fallingWallPrefab, position, Quaternion.identity);
+    }
+    public void DropDeathWall(Vector3 position)
+    {
+        Instantiate(_deathFallingWallPrefab, position, Quaternion.identity);
     }
 
     private void StartGame()

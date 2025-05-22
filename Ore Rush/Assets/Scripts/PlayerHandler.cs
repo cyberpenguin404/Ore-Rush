@@ -219,10 +219,7 @@ public class PlayerHandler : MonoBehaviour
         {
             ThrowGemAway();
         }
-        if (GameManager.Instance.GridGenerate._isCollapsingMaze)
-        {
-            transform.position = new Vector3(0,1,0);
-        }
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
     private void ThrowGemAway()
     {
