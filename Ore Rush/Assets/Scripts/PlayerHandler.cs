@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerHandler : MonoBehaviour
@@ -41,7 +42,19 @@ public class PlayerHandler : MonoBehaviour
     [field: SerializeField] public float mineRange { get; private set; }
     [field: SerializeField] public float PickaxeStunTime { get; private set; }
     private bool _isStunnedAnimating = false;
+    public bool _canTurn = true;
 
+    [Header("Movement Settings")]
+    public float PlayerSpeed;
+    [SerializeField]
+    private CharacterController _charController;
+
+    private Vector2 _moveInput;
+
+    public void OnMovement(InputAction.CallbackContext context)
+    {
+        _moveInput = context.ReadValue<Vector2>();
+    }
 
     private void Start()
     {
@@ -72,6 +85,7 @@ public class PlayerHandler : MonoBehaviour
             return;
         }
 
+        HandleMovement();
         _currentState.Update();
         HandleCooldowns();
         HandleCarrying();
@@ -117,6 +131,7 @@ public class PlayerHandler : MonoBehaviour
         if (_currentPickaxeCooldown > 0)
         {
             PickaxeCooldownText.text = "Pickaxe cooldown:" + ((int)_currentPickaxeCooldown).ToString();
+            GameManager.Instance.PickaxeCooldownSlider1.value = _currentPickaxeCooldown; 
             _currentPickaxeCooldown -= Time.deltaTime;
         }
     }
@@ -149,13 +164,16 @@ public class PlayerHandler : MonoBehaviour
     }
     public void StartMine()
     {
-        ChangeState(new MineState(this));
+        if (_currentState.GetType() == typeof(NoneState))
+        {
+            ChangeState(new MineState(this));
+        }
     }
 
-    internal void Mine()
+    internal void Mine(Vector3 direction)
     {
 
-        //Debug.Log("Mine called");
+        Debug.Log("Mine called");
         if (_currentPickaxeCooldown > 0)
         {
             //Debug.Log("Cooldown");
@@ -163,10 +181,12 @@ public class PlayerHandler : MonoBehaviour
         }
 
 
-        Ray ray = new Ray(new Vector3(transform.position.x,0,transform.position.z), transform.forward);
+        Ray ray = new Ray(new Vector3(transform.position.x,0,transform.position.z), direction);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, mineRange))
+        int wallLayerMask = 1 << LayerMask.NameToLayer("Pickaxeable");
+
+        if (Physics.Raycast(ray, out hit, mineRange, wallLayerMask))
         {
             if (hit.collider.CompareTag("Wall"))
             {
@@ -176,7 +196,7 @@ public class PlayerHandler : MonoBehaviour
             else if (hit.collider.CompareTag("Scaffholding"))
             {
                 _currentPickaxeCooldown = PickaxeCooldown;
-                hit.collider.GetComponent<ScaffholdingScript>().CollapseScaffholding(transform.forward);
+                hit.collider.GetComponent<ScaffholdingScript>().CollapseScaffholding(direction);
             }
             else
             {
@@ -199,10 +219,7 @@ public class PlayerHandler : MonoBehaviour
         {
             ThrowGemAway();
         }
-        if (GameManager.Instance.GridGenerate._isCollapsingMaze)
-        {
-            transform.position = Vector3.zero;
-        }
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
     private void ThrowGemAway()
     {
@@ -236,5 +253,23 @@ public class PlayerHandler : MonoBehaviour
         _carryingObject.GetComponent<Collider>().enabled = true;
         GameManager.Instance.GemManager.gemObjects.Add(_carryingObject);
         _carryingObject = null;
+    }
+
+
+    private void HandleMovement()
+    {
+        _moveInput = Vector2.ClampMagnitude(_moveInput, 1f);
+
+        Vector3 move = new Vector3(_moveInput.x, 0, _moveInput.y);
+
+        _charController.Move(move * PlayerSpeed * Time.deltaTime);
+
+
+        if (move.sqrMagnitude > 0.01f && _canTurn)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+            targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0); // Only rotate on Y-axis
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Smooth rotation
+        }
     }
 }

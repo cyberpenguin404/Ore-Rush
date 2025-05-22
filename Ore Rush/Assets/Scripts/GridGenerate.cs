@@ -2,17 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class GridGenerate : MonoBehaviour
 {
-
+    public bool AutoGenerate = false;
+    #region AutoGenerate
     private int _width;
     private int _height;
-
     public GameObject TilePrefab;
     public GameObject WallPrefab;
-    public Transform collectionZone; // Assign in Inspector
+    #endregion
+
+    public List<GameObject> Maps = new List<GameObject>();
+
+    public Transform collectionZone;
+    public float wallRegenInterval = 60f;
 
     [SerializeField]
     private float wallCollapseSpeed;
@@ -26,7 +32,6 @@ public class GridGenerate : MonoBehaviour
     public List<Vector3> wallPositions = new List<Vector3>();
     private List<Vector2Int> specialTilePositions = new List<Vector2Int>();
 
-    public float wallRegenInterval = 60f;
 
     private Vector3 _spawnPosition = new Vector3(0,1,0);
     public bool _isCollapsingMaze { get; private set; } = false;
@@ -37,6 +42,7 @@ public class GridGenerate : MonoBehaviour
         _height = GameManager.Instance.Height;
         //CreateFloor();
         StartCoroutine(RegenerateWallsRoutine());
+        if (AutoGenerate)
         AddUnbreakableOuterWalls();
     }
     private void AddUnbreakableOuterWalls()
@@ -85,7 +91,7 @@ public class GridGenerate : MonoBehaviour
         {
             ResetPlayerPositions();
             RemoveGems();
-            GenerateReachableWallLayout();
+            GenerateMaps();
             gemManager.SpawnStartingGems();
             yield return new WaitForSeconds(wallRegenInterval);
             StartCoroutine(CollapseMaze());
@@ -96,6 +102,35 @@ public class GridGenerate : MonoBehaviour
             }
         }
     }
+
+    private void GenerateMaps()
+    {
+        if (AutoGenerate)
+        {
+            GenerateReachableWallLayout();
+        }
+        else
+        {
+            GeneratePremadeMap();
+        }
+    }
+
+    private void GeneratePremadeMap()
+    {
+        GameObject map = Instantiate(
+            Maps[UnityEngine.Random.Range(0, Maps.Count)],
+            Vector3.zero,
+            Quaternion.Euler(0, 90 * UnityEngine.Random.Range(0, 4), 0)
+        ); 
+        foreach (Transform child in map.GetComponentsInChildren<Transform>())
+        {
+            if (child.CompareTag("Wall"))
+            {
+                wallPositions.Add(child.position);
+            }
+        }
+    }
+
     IEnumerator CollapseMaze()
     {
         _isCollapsingMaze = true;
@@ -119,7 +154,7 @@ public class GridGenerate : MonoBehaviour
 
                         if (!wallPositions.Contains(worldPos))
                         {
-                            GameManager.Instance.DropWall(worldPos);
+                            GameManager.Instance.DropDeathWall(worldPos);
                             wallPositions.Add(worldPos);
                         }
                     }

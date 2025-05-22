@@ -81,31 +81,47 @@ public class DynamiteScript : MonoBehaviour
             else
         {
             Debug.Log("placed pillar");
-            // Try to place pillar
-            Vector3 spawnPos = new Vector3(gridPos.x, 0, gridPos.y);
-                bool occupied = false;
+            bool anyPlaced = false;
 
-                Collider[] colliders = Physics.OverlapBox(spawnPos, Vector3.one * 0.45f);
-                foreach (var col in colliders)
+            int range = 2; // 5x5 square centered = -2 to +2
+            for (int dx = -range; dx <= range; dx++)
+            {
+                for (int dy = -range; dy <= range; dy++)
                 {
-                    if (col.CompareTag("Wall"))
+                    Vector2Int targetGridPos = new Vector2Int(gridPos.x + dx, gridPos.y + dy);
+
+                    // Clamp to play area
+                    targetGridPos.x = Mathf.Clamp(targetGridPos.x, -halfGridSize, halfGridSize);
+                    targetGridPos.y = Mathf.Clamp(targetGridPos.y, -halfGridSize, halfGridSize);
+
+                    Vector3 spawnPos = new Vector3(targetGridPos.x, 10, targetGridPos.y);
+
+                    Collider[] colliders = Physics.OverlapBox(spawnPos, Vector3.one * 0.45f);
+                    bool occupied = false;
+                    foreach (var col in colliders)
                     {
-                        occupied = true;
-                        break;
+                        if (col.CompareTag("Wall"))
+                        {
+                            occupied = true;
+                            break;
+                        }
+                    }
+
+                    if (!occupied)
+                    {
+                        GameManager.Instance.DropWall(spawnPos);
+                        anyPlaced = true;
                     }
                 }
-
-                if (!occupied)
-                {
-                    // Place pillar
-                    Instantiate(pillarPrefab, spawnPos, Quaternion.identity);
-
-                    // Turn indicator OFF and start cooldown
-                    indicatorActive = false;
-                    indicatorInstance.SetActive(false);
-                    cooldownTimer = cooldownDuration;
-                }
             }
+
+            if (anyPlaced)
+            {
+                indicatorActive = false;
+                indicatorInstance.SetActive(false);
+                cooldownTimer = cooldownDuration;
+            }
+        }
     }
 
     void HandleCooldown()

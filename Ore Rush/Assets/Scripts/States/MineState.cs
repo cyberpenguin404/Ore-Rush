@@ -4,6 +4,8 @@ public class MineState : State
 {
     private float _playerSpeed;
 
+    private Vector3 _direction;
+
     private float _timer;
 
     public MineState(PlayerHandler owner) : base(owner)
@@ -12,13 +14,17 @@ public class MineState : State
 
     public override void Enter()
     {
-        _playerSpeed = Owner.GetComponent<PlayerMovement>().PlayerSpeed;
-        Owner.GetComponent<PlayerMovement>().PlayerSpeed = 0;
+        _playerSpeed = Owner.PlayerSpeed;
+        Owner.PlayerSpeed = 0;
+        _direction = Owner.transform.forward;
+        Owner._canTurn = false;
     }
     public override void Exit()
     {
-        Owner.Mine();
-        Owner.GetComponent<PlayerMovement>().PlayerSpeed = _playerSpeed;
+        Debug.Log("Exited mine state");
+        Owner.Mine(_direction);
+        Owner.PlayerSpeed = _playerSpeed;
+        Owner._canTurn = true;
     }
     public override void Update()
     {

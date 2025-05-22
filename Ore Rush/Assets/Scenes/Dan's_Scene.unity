@@ -485,6 +485,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1197044481}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: StartGameManually
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: PickaxeCooldownText1
       value: 
       objectReference: {fileID: 595722947}
