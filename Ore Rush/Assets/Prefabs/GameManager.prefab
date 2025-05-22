@@ -107,7 +107,7 @@ MonoBehaviour:
   _deathFallingWallPrefab: {fileID: 1348852216195122236, guid: c33b4f48443af8e40ae14db93b6c4abb, type: 3}
   Players: []
   _playerCount: 0
-  GameTime: 300
+  GameTime: 180
   <Width>k__BackingField: 25
   <Height>k__BackingField: 25
 --- !u!114 &161785804182294043
