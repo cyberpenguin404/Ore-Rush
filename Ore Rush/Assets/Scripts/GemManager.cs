@@ -14,7 +14,7 @@ public class GemManager : MonoBehaviour
     private List<Vector2Int> ValidSpawnPositions = new List<Vector2Int>();
 
     [SerializeField]
-    private GridGenerate GridGenerateScript;
+    public GridGenerate GridGenerateScript;
 
     [SerializeField]
     private int StartGemCount;
@@ -36,9 +36,9 @@ public class GemManager : MonoBehaviour
     public void RecalculateSpawnPositions()
     {
         ValidSpawnPositions.Clear();
-        for (int x = 0; x < GridGenerateScript.width; x++)
+        for (int x = 0; x < GameManager.Instance.Width; x++)
         {
-            for (int y = 0; y < GridGenerateScript.height; y++)
+            for (int y = 0; y < GameManager.Instance.Height; y++)
             {
                 Vector2Int pos = new Vector2Int(x, y);
                 Vector3 worldPos = GridGenerateScript.GridToWorldPosition(pos);
