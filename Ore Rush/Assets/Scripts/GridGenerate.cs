@@ -100,6 +100,7 @@ public class GridGenerate : MonoBehaviour
             {
                 yield return null;
             }
+            Debug.Log("restarting");
         }
     }
 
@@ -111,6 +112,14 @@ public class GridGenerate : MonoBehaviour
         }
         else
         {
+            foreach (var wall in GameObject.FindGameObjectsWithTag("Wall"))
+            {
+                Destroy(wall);
+            }
+            foreach (var wall in GameObject.FindGameObjectsWithTag("DeathWall"))
+            {
+                Destroy(wall);
+            }
             GeneratePremadeMap();
         }
     }
@@ -185,6 +194,10 @@ public class GridGenerate : MonoBehaviour
 
     void GenerateReachableWallLayout()
     {
+        foreach (var wall in GameObject.FindGameObjectsWithTag("DeathWall"))
+        {
+            Destroy(wall);
+        }
         // Clear old walls
         foreach (var wall in GameObject.FindGameObjectsWithTag("Wall"))
         {
