@@ -254,12 +254,12 @@ MonoBehaviour:
   PlayerName: Player 1
   PlayerIndex: 0
   Score: 0
-  PickaxeCooldown: 3
+  PickaxeCooldown: 0
   player1Material: {fileID: 2100000, guid: bd46058bc4f32464f9c9fece64c3d77c, type: 2}
   player2Material: {fileID: 2100000, guid: 0ea9bd0d855efbb47bea27a5568428f0, type: 2}
   <CarryingOffset>k__BackingField: {x: 0, y: 1, z: 0}
   <mineRange>k__BackingField: 1
-  <PickaxeStunTime>k__BackingField: 0.1
+  <PickaxeStunTime>k__BackingField: 0.5
 --- !u!114 &-9111881618879416552
 MonoBehaviour:
   m_ObjectHideFlags: 0

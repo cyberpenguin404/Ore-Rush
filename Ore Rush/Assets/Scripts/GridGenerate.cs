@@ -7,8 +7,8 @@ using UnityEngine;
 public class GridGenerate : MonoBehaviour
 {
 
-    public int width = 25;
-    public int height = 25;
+    private int _width;
+    private int _height;
 
     public GameObject TilePrefab;
     public GameObject WallPrefab;
@@ -29,27 +29,29 @@ public class GridGenerate : MonoBehaviour
     public float wallRegenInterval = 60f;
 
     private Vector3 _spawnPosition = new Vector3(0,1,0);
+    public bool _isCollapsingMaze { get; private set; } = false;
 
-    void Awake()
+    private void Start()
     {
+        _width = GameManager.Instance.Width;
+        _height = GameManager.Instance.Height;
         //CreateFloor();
         StartCoroutine(RegenerateWallsRoutine());
         AddUnbreakableOuterWalls();
     }
-
     private void AddUnbreakableOuterWalls()
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < _width; x++)
         {
             Vector3 bottom = GridToWorldPosition(new Vector2Int(x, 0));
-            Vector3 top = GridToWorldPosition(new Vector2Int(x, height - 1));
+            Vector3 top = GridToWorldPosition(new Vector2Int(x, _height - 1));
             Instantiate(WallPrefab, bottom, Quaternion.identity).tag = "Unbreakable";
             Instantiate(WallPrefab, top, Quaternion.identity).tag = "Unbreakable";
         }
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < _height; y++)
         {
             Vector3 left = GridToWorldPosition(new Vector2Int(0, y));
-            Vector3 right = GridToWorldPosition(new Vector2Int(width - 1, y));
+            Vector3 right = GridToWorldPosition(new Vector2Int(_width - 1, y));
             Instantiate(WallPrefab, left, Quaternion.identity).tag = "Unbreakable";
             Instantiate(WallPrefab, right, Quaternion.identity).tag = "Unbreakable";
         }
@@ -57,12 +59,12 @@ public class GridGenerate : MonoBehaviour
 
     void CreateFloor()
     {
-        Vector3 start = new Vector3(-(width - 1) / 2f, 0, -(height - 1) / 2f);
-        gridArray = new GameObject[width, height];
+        Vector3 start = new Vector3(-(_width - 1) / 2f, 0, -(_height - 1) / 2f);
+        gridArray = new GameObject[_width, _height];
 
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < _width; x++)
         {
-            for (int z = 0; z < height; z++)
+            for (int z = 0; z < _height; z++)
             {
                 Vector2Int pos = new Vector2Int(x, z);
 
@@ -87,15 +89,46 @@ public class GridGenerate : MonoBehaviour
             gemManager.SpawnStartingGems();
             yield return new WaitForSeconds(wallRegenInterval);
             StartCoroutine(CollapseMaze());
+
+            while (_isCollapsingMaze)
+            {
+                yield return null;
+            }
         }
     }
     IEnumerator CollapseMaze()
     {
-        double timer = 0;
-        while (true) {
-            timer += Time.deltaTime;
+        _isCollapsingMaze = true;
+        int maxLayer = Mathf.Max(_width, _height) / 2;
+        for (int layer = 0; layer <= maxLayer; layer++)
+        {
+            for (int x = 0; x < _width; x++)
+            {
+                for (int y = 0; y < _height; y++)
+                {
+                    Vector2Int pos = new Vector2Int(x, y);
 
-        } 
+                    if (IsInCenterSquare(pos, 3)) continue; // Skip the 3x3 center
+                    if (!IsInsideGrid(pos)) continue;
+
+                    int distanceFromEdge = Mathf.Min(x, _width - 1 - x, y, _height - 1 - y);
+                    if (distanceFromEdge == layer)
+                    {
+                        Vector3 worldPos = GridToWorldPosition(pos);
+                        worldPos.y = 10;
+
+                        if (!wallPositions.Contains(worldPos))
+                        {
+                            GameManager.Instance.DropWall(worldPos);
+                            wallPositions.Add(worldPos);
+                        }
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(wallCollapseSpeed);
+        }
+        _isCollapsingMaze = false;
     }
 
     private void RemoveGems()
@@ -152,10 +185,10 @@ public class GridGenerate : MonoBehaviour
         specialTilePositions.Clear();
 
         // Adjust for maze dimensions
-        if (width % 2 == 0) width -= 1;
-        if (height % 2 == 0) height -= 1;
+        if (_width % 2 == 0) _width -= 1;
+        if (_height % 2 == 0) _height -= 1;
 
-        bool[,] maze = new bool[width, height];
+        bool[,] maze = new bool[_width, _height];
         Stack<Vector2Int> stack = new Stack<Vector2Int>();
         Vector2Int start = new Vector2Int(1, 1);
 
@@ -191,9 +224,9 @@ public class GridGenerate : MonoBehaviour
         }
 
         // Convert empty cells to wall positions (exclude center 5x5)
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < _width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < _height; y++)
             {
                 if (!maze[x, y])
                 {
@@ -211,13 +244,13 @@ public class GridGenerate : MonoBehaviour
 
     bool IsInsideMaze(Vector2Int pos, bool[,] maze)
     {
-        return pos.x > 0 && pos.x < width && pos.y > 0 && pos.y < height;
+        return pos.x > 0 && pos.x < _width && pos.y > 0 && pos.y < _height;
     }
 
     bool IsCollectionZoneReachable()
     {
         Vector2Int start = WorldToGridPosition(collectionZone.position);
-        bool[,] visited = new bool[width, height];
+        bool[,] visited = new bool[_width, _height];
         Queue<Vector2Int> queue = new Queue<Vector2Int>();
 
         queue.Enqueue(start);
@@ -243,33 +276,33 @@ public class GridGenerate : MonoBehaviour
             }
         }
 
-        int walkableTiles = width * height - wallPositions.Count;
+        int walkableTiles = _width * _height - wallPositions.Count;
         return reachable >= walkableTiles;
     }
 
     public Vector2Int WorldToGridPosition(Vector3 worldPosition)
     {
-        int x = Mathf.RoundToInt(worldPosition.x + (width - 1) / 2f);
-        int y = Mathf.RoundToInt(worldPosition.z + (height - 1) / 2f);
+        int x = Mathf.RoundToInt(worldPosition.x + (_width - 1) / 2f);
+        int y = Mathf.RoundToInt(worldPosition.z + (_height - 1) / 2f);
         return new Vector2Int(x, y);
     }
 
     public Vector3 GridToWorldPosition(Vector2Int gridPosition)
     {
-        float x = gridPosition.x - (width - 1) / 2f;
-        float z = gridPosition.y - (height - 1) / 2f;
+        float x = gridPosition.x - (_width - 1) / 2f;
+        float z = gridPosition.y - (_height - 1) / 2f;
         return new Vector3(x, 0, z);
     }
 
     public bool IsInsideGrid(Vector2Int pos)
     {
-        return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
+        return pos.x >= 0 && pos.x < _width && pos.y >= 0 && pos.y < _height;
     }
 
     bool IsInCenterSquare(Vector2Int pos, int size)
     {
-        int minX = (width - size) / 2;
-        int minY = (height - size) / 2;
+        int minX = (_width - size) / 2;
+        int minY = (_height - size) / 2;
         return pos.x >= minX && pos.x < minX + size && pos.y >= minY && pos.y < minY + size;
     }
 }

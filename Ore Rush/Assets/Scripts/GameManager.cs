@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public GemManager GemManager;
+    public GridGenerate GridGenerate;
 
     public bool StartGameManually;
 
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI CountdownText;
     [SerializeField]
     private TextMeshProUGUI WinnerText;
+    [SerializeField]
+    private GameObject _fallingWallPrefab;
 
 
     [Header("Multiplayer")]
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour
     [Header("Game Settings")]
     [SerializeField]
     private float GameTime;
+    [field: SerializeField] public int Width { get; private set; } = 25;
+    [field: SerializeField] public int Height { get; private set; } = 25;
     private double _remainingTime;
     private bool _gameRunning = true;
 
@@ -71,6 +76,10 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+    }
+    public void DropWall(Vector3 position)
+    {
+        Instantiate(_fallingWallPrefab, position, Quaternion.identity);
     }
 
     private void StartGame()
