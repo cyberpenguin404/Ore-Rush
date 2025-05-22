@@ -120,6 +120,10 @@ public class GridGenerate : MonoBehaviour
             {
                 Destroy(wall);
             }
+
+            wallPositions.Clear();
+            specialTilePositions.Clear();
+
             GeneratePremadeMap();
         }
     }
@@ -144,34 +148,40 @@ public class GridGenerate : MonoBehaviour
     {
         _isCollapsingMaze = true;
         int maxLayer = Mathf.Max(_width, _height) / 2;
+
         for (int layer = 0; layer <= maxLayer; layer++)
         {
+            bool skippedLayer = true;
+
             for (int x = 0; x < _width; x++)
             {
                 for (int y = 0; y < _height; y++)
                 {
                     Vector2Int pos = new Vector2Int(x, y);
-
-                    if (IsInCenterSquare(pos, 3)) continue; // Skip the 3x3 center
                     if (!IsInsideGrid(pos)) continue;
 
                     int distanceFromEdge = Mathf.Min(x, _width - 1 - x, y, _height - 1 - y);
-                    if (distanceFromEdge == layer)
-                    {
-                        Vector3 worldPos = GridToWorldPosition(pos);
-                        worldPos.y = 10;
+                    if (distanceFromEdge != layer) continue;
 
-                        if (!wallPositions.Contains(worldPos))
-                        {
-                            GameManager.Instance.DropDeathWall(worldPos);
-                            wallPositions.Add(worldPos);
-                        }
+                    if (IsInCenterSquare(pos, 3)) continue;
+
+                    Vector3 worldPos = GridToWorldPosition(pos);
+                    worldPos.y = 10;
+
+                    if (!wallPositions.Contains(worldPos))
+                    {
+                        GameManager.Instance.DropDeathWall(worldPos);
+                        wallPositions.Add(worldPos);
+                        skippedLayer = false;
                     }
                 }
             }
-
-            yield return new WaitForSeconds(wallCollapseSpeed);
+            if (!skippedLayer)
+            {
+                yield return new WaitForSeconds(wallCollapseSpeed);
+            }
         }
+
         _isCollapsingMaze = false;
     }
 

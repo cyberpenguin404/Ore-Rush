@@ -8,6 +8,7 @@ TagManager:
   - Mineable
   - Unbreakable
   - Scaffholding
+  - DeathWall
   layers:
   - Default
   - TransparentFX
