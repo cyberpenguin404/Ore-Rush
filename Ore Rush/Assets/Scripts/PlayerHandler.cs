@@ -271,5 +271,6 @@ public class PlayerHandler : MonoBehaviour
             targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0); // Only rotate on Y-axis
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Smooth rotation
         }
+        transform.position = new Vector3(transform.position.x, 1, transform.position.z);
     }
 }
