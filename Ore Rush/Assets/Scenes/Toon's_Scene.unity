@@ -462,6 +462,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1071557820}
     - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: collectionZone
       value: 
       objectReference: {fileID: 105757491}
