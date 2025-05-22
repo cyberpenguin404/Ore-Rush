@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
   gemObjects: []
-  GridGenerateScript: {fileID: 0}
+  GridGenerateScript: {fileID: 743688315619495738}
   StartGemCount: 2
   MaxGemCount: 30
   GemSpawnRate: 5
@@ -65,14 +65,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70eaaa1e149d9e840ba6616c75ffc121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AutoGenerate: 0
   TilePrefab: {fileID: 8221948552495963588, guid: 16042ce7f13bf7549b91ae5b8bc2652b, type: 3}
   WallPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
+  Maps:
+  - {fileID: 1951668637724875440, guid: f2c0dc8ca413b454390d07c6b95e55b6, type: 3}
   collectionZone: {fileID: 0}
+  wallRegenInterval: 30
   wallCollapseSpeed: 2
   gameManager: {fileID: 685837030237778843}
   gemManager: {fileID: 3541460209804128929}
   wallPositions: []
-  wallRegenInterval: 30
 --- !u!114 &685837030237778843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,7 +94,9 @@ MonoBehaviour:
   ScoreTextPlayer1: {fileID: 0}
   ScoreTextPlayer2: {fileID: 0}
   PickaxeCooldownText1: {fileID: 0}
+  PickaxeCooldownSlider1: {fileID: 0}
   PickaxeCooldownText2: {fileID: 0}
+  PickaxeCooldownSlider2: {fileID: 0}
   DynamiteCooldownText1: {fileID: 0}
   DynamiteCooldownText2: {fileID: 0}
   playerCountStartScreen: {fileID: 0}

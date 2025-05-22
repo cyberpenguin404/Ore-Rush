@@ -119,7 +119,7 @@ public class GridGenerate : MonoBehaviour
     {
         GameObject map = Instantiate(
             Maps[UnityEngine.Random.Range(0, Maps.Count)],
-            new Vector3(10, 0, 11),
+            Vector3.zero,
             Quaternion.Euler(0, 90 * UnityEngine.Random.Range(0, 4), 0)
         );
     }
