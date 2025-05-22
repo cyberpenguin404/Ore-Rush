@@ -34,6 +34,20 @@ public class FallingWall : MonoBehaviour
                 return;
             }
         }
+        if (Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.position, wallPos) <= 3)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        foreach (Vector3 wall in GameManager.Instance.GridGenerate.wallPositions)
+        {
+            if (Vector3.Distance(wall, wallPos) <= 0.9f)
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+        GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
     }
 
 }

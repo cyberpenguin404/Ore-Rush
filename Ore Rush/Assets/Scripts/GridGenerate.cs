@@ -17,7 +17,7 @@ public class GridGenerate : MonoBehaviour
 
     public List<GameObject> Maps = new List<GameObject>();
 
-    public Transform collectionZone; // Assign in Inspector
+    public Transform collectionZone;
     public float wallRegenInterval = 60f;
 
     [SerializeField]
@@ -121,7 +121,14 @@ public class GridGenerate : MonoBehaviour
             Maps[UnityEngine.Random.Range(0, Maps.Count)],
             Vector3.zero,
             Quaternion.Euler(0, 90 * UnityEngine.Random.Range(0, 4), 0)
-        );
+        ); 
+        foreach (Transform child in map.GetComponentsInChildren<Transform>())
+        {
+            if (child.CompareTag("Wall"))
+            {
+                wallPositions.Add(child.position);
+            }
+        }
     }
 
     IEnumerator CollapseMaze()

@@ -94,7 +94,7 @@ public class DynamiteScript : MonoBehaviour
                     targetGridPos.x = Mathf.Clamp(targetGridPos.x, -halfGridSize, halfGridSize);
                     targetGridPos.y = Mathf.Clamp(targetGridPos.y, -halfGridSize, halfGridSize);
 
-                    Vector3 spawnPos = new Vector3(targetGridPos.x, 0, targetGridPos.y);
+                    Vector3 spawnPos = new Vector3(targetGridPos.x, 10, targetGridPos.y);
 
                     Collider[] colliders = Physics.OverlapBox(spawnPos, Vector3.one * 0.45f);
                     bool occupied = false;
@@ -109,7 +109,7 @@ public class DynamiteScript : MonoBehaviour
 
                     if (!occupied)
                     {
-                        Instantiate(pillarPrefab, spawnPos, Quaternion.identity);
+                        GameManager.Instance.DropWall(spawnPos);
                         anyPlaced = true;
                     }
                 }
