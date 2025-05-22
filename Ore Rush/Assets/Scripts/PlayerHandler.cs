@@ -117,6 +117,7 @@ public class PlayerHandler : MonoBehaviour
         if (_currentPickaxeCooldown > 0)
         {
             PickaxeCooldownText.text = "Pickaxe cooldown:" + ((int)_currentPickaxeCooldown).ToString();
+            GameManager.Instance.PickaxeCooldownSlider1.value = _currentPickaxeCooldown; 
             _currentPickaxeCooldown -= Time.deltaTime;
         }
     }
