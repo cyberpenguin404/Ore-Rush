@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,7 +20,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI ScoreTextPlayer1;
     public TextMeshProUGUI ScoreTextPlayer2;
     public TextMeshProUGUI PickaxeCooldownText1;
+    public Slider PickaxeCooldownSlider1;
     public TextMeshProUGUI PickaxeCooldownText2;
+    public Slider PickaxeCooldownSlider2;
     public TextMeshProUGUI DynamiteCooldownText1;
     public TextMeshProUGUI DynamiteCooldownText2;
     public TextMeshProUGUI playerCountStartScreen;
