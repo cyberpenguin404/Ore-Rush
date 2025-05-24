@@ -191,6 +191,12 @@ public class PlayerHandler : MonoBehaviour
             if (hit.collider.CompareTag("Wall"))
             {
                 _currentPickaxeCooldown = PickaxeCooldown;
+
+                GameManager.Instance.GridGenerate.wallPositions.Remove(hit.transform.position);
+                GameManager.Instance.GridGenerate.wallObjects.Remove(hit.collider.gameObject);
+                GameManager.Instance.GemManager.EmptyWalls.Remove(hit.transform.position);
+                GameManager.Instance.GemManager.EmptyTiles.Add(hit.transform.position);
+
                 Destroy(hit.collider.gameObject);
             }
             else if (hit.collider.CompareTag("Scaffholding"))
@@ -238,12 +244,12 @@ public class PlayerHandler : MonoBehaviour
             Vector3 worldPos = GameManager.Instance.GemManager.GridGenerateScript.GridToWorldPosition(targetGridPos);
 
             if (!GameManager.Instance.GemManager.GridGenerateScript.wallPositions.Contains(worldPos) &&
-                !GameManager.Instance.GemManager.gemObjects.Exists(obj => obj.transform.position == worldPos))
+                !GameManager.Instance.GemManager.GemObjects.Exists(obj => obj.transform.position == worldPos))
             {
                 _carryingObject.transform.position = worldPos;
                 _carryingObject.GetComponent<Collider>().enabled = true;
 
-                GameManager.Instance.GemManager.gemObjects.Add(_carryingObject);
+                GameManager.Instance.GemManager.GemObjects.Add(_carryingObject);
                 _carryingObject = null;
                 return;
             }
@@ -251,7 +257,7 @@ public class PlayerHandler : MonoBehaviour
 
         _carryingObject.transform.position = transform.position + Vector3.up * 0.5f;
         _carryingObject.GetComponent<Collider>().enabled = true;
-        GameManager.Instance.GemManager.gemObjects.Add(_carryingObject);
+        GameManager.Instance.GemManager.GemObjects.Add(_carryingObject);
         _carryingObject = null;
     }
 

@@ -47,12 +47,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b73d3afdfa7f249a8079ff00995e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
-  gemObjects: []
+  _gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
+  _scaffholding: {fileID: 2152728252885862023, guid: 7550a64eab1f5ba49842b7eb6e6cad23, type: 3}
+  GemObjects: []
+  ScaffholdingObjects: []
+  EmptyTiles: []
+  EmptyWalls: []
   GridGenerateScript: {fileID: 743688315619495738}
-  StartGemCount: 2
-  MaxGemCount: 30
-  GemSpawnRate: 5
+  _startScaffholdingCount: 0
+  _maxScaffholdingCount: 5
+  _scaffholdingSpawnRate: 10
+  _startGemCount: 2
+  _maxGemCount: 30
+  _gemSpawnRate: 5
 --- !u!114 &743688315619495738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,10 +79,11 @@ MonoBehaviour:
   - {fileID: 1951668637724875440, guid: f2c0dc8ca413b454390d07c6b95e55b6, type: 3}
   collectionZone: {fileID: 0}
   wallRegenInterval: 30
-  wallCollapseSpeed: 2
+  wallCollapseSpeed: 1
   gameManager: {fileID: 685837030237778843}
   gemManager: {fileID: 3541460209804128929}
   wallPositions: []
+  wallObjects: []
 --- !u!114 &685837030237778843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,8 +109,9 @@ MonoBehaviour:
   DynamiteCooldownText2: {fileID: 0}
   playerCountStartScreen: {fileID: 0}
   startScreen: {fileID: 0}
-  CountdownText: {fileID: 0}
-  WinnerText: {fileID: 0}
+  _countdownText: {fileID: 0}
+  _winnerScreen: {fileID: 0}
+  _winnerText: {fileID: 0}
   _fallingWallPrefab: {fileID: 1348852216195122236, guid: 8abb7f9fdc56d3d4ebe330f56e5727f0, type: 3}
   _deathFallingWallPrefab: {fileID: 1348852216195122236, guid: c33b4f48443af8e40ae14db93b6c4abb, type: 3}
   Players: []

@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public GemManager GemManager;
+    public SpawnManager GemManager;
     public GridGenerate GridGenerate;
 
     public bool StartGameManually;

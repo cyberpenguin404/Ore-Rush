@@ -26,14 +26,15 @@ public class GridGenerate : MonoBehaviour
     [SerializeField]
     private GameManager gameManager;
     [SerializeField]
-    private GemManager gemManager;
+    private SpawnManager gemManager;
 
     private GameObject[,] gridArray;
     public List<Vector3> wallPositions = new List<Vector3>();
+    public List<GameObject> wallObjects = new List<GameObject>();
     private List<Vector2Int> specialTilePositions = new List<Vector2Int>();
 
 
-    private Vector3 _spawnPosition = new Vector3(0,1,0);
+    private Vector3 _spawnPosition = new Vector3(0, 1, 0);
     public bool _isCollapsingMaze { get; private set; } = false;
 
     private void Start()
@@ -43,7 +44,7 @@ public class GridGenerate : MonoBehaviour
         //CreateFloor();
         StartCoroutine(RegenerateWallsRoutine());
         if (AutoGenerate)
-        AddUnbreakableOuterWalls();
+            AddUnbreakableOuterWalls();
     }
     private void AddUnbreakableOuterWalls()
     {
@@ -92,7 +93,7 @@ public class GridGenerate : MonoBehaviour
             ResetPlayerPositions();
             RemoveGems();
             GenerateMaps();
-            gemManager.SpawnStartingGems();
+            gemManager.InitiateMap();
             yield return new WaitForSeconds(wallRegenInterval);
             StartCoroutine(CollapseMaze());
 
@@ -112,16 +113,19 @@ public class GridGenerate : MonoBehaviour
         }
         else
         {
-            foreach (var wall in GameObject.FindGameObjectsWithTag("Wall"))
-            {
-                Destroy(wall);
-            }
             foreach (var wall in GameObject.FindGameObjectsWithTag("DeathWall"))
             {
+                wallObjects.Remove(wall);
+                Destroy(wall);
+            }
+            foreach (var wall in GameObject.FindGameObjectsWithTag("Wall"))
+            {
+                wallObjects.Remove(wall);
                 Destroy(wall);
             }
 
             wallPositions.Clear();
+            wallObjects.Clear();
             specialTilePositions.Clear();
 
             GeneratePremadeMap();
@@ -134,12 +138,21 @@ public class GridGenerate : MonoBehaviour
             Maps[UnityEngine.Random.Range(0, Maps.Count)],
             Vector3.zero,
             Quaternion.Euler(0, 90 * UnityEngine.Random.Range(0, 4), 0)
-        ); 
+        );
         foreach (Transform child in map.GetComponentsInChildren<Transform>())
         {
             if (child.CompareTag("Wall"))
             {
-                wallPositions.Add(child.position);
+                Vector3 roundedPos = new Vector3(Mathf.Round(child.position.x),Mathf.Round(child.position.y),Mathf.Round(child.position.z));
+                wallPositions.Add(roundedPos);
+                gemManager.EmptyWalls.Add(roundedPos);
+                wallObjects.Add(child.gameObject);
+            }
+            if (child.CompareTag("Scaffholding"))
+            {
+                Vector3 roundedPos = new Vector3(Mathf.Round(child.position.x), Mathf.Round(child.position.y), Mathf.Round(child.position.z));
+                wallPositions.Add(roundedPos);
+                wallObjects.Add(child.gameObject);
             }
         }
     }
@@ -163,7 +176,7 @@ public class GridGenerate : MonoBehaviour
                     int distanceFromEdge = Mathf.Min(x, _width - 1 - x, y, _height - 1 - y);
                     if (distanceFromEdge != layer) continue;
 
-                    if (IsInCenterSquare(pos, 3)) continue;
+                    if (IsInCenterSquare(pos, 5)) continue;
 
                     Vector3 worldPos = GridToWorldPosition(pos);
                     worldPos.y = 10;
@@ -187,11 +200,11 @@ public class GridGenerate : MonoBehaviour
 
     private void RemoveGems()
     {
-        foreach (GameObject gem in gemManager.gemObjects.ToList())
+        foreach (GameObject gem in gemManager.GemObjects.ToList())
         {
             Destroy(gem);
         }
-        gemManager.gemObjects.Clear();
+        gemManager.GemObjects.Clear();
     }
 
     private void ResetPlayerPositions()
@@ -231,7 +244,8 @@ public class GridGenerate : MonoBehaviour
 
         // Instantiate walls
         foreach (var pos in wallPositions)
-        {;
+        {
+            ;
             GameObject wall = Instantiate(WallPrefab, pos, Quaternion.identity);
             wall.tag = "Wall";
         }

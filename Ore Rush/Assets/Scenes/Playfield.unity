@@ -207,7 +207,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: GameTime
-      value: 1
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: WinnerText
@@ -265,6 +265,14 @@ PrefabInstance:
       propertyPath: collectionZone
       value: 
       objectReference: {fileID: 299288655}
+    - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: wallCollapseSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: wallRegenInterval
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2797907973698817927, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -303,6 +311,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2797907973698817927, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _gem
+      value: 
+      objectReference: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _maxGemCount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _gemSpawnRate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _scaffholding
+      value: 
+      objectReference: {fileID: 2152728252885862023, guid: 7550a64eab1f5ba49842b7eb6e6cad23, type: 3}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _startGemCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _maxScaffholdingCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _scaffholdingSpawnRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _startScaffholdingCount
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7279610497413997235, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
@@ -471,10 +511,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScoresUI
       objectReference: {fileID: 0}
-    - target: {fileID: 1933419066665841812, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2530134239242040940, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -555,46 +591,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3605026622101375491, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 762176180}
-    - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RestartGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5467060519920957049, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_text
-      value: Back to tilescreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 5467060519920957049, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_fontSize
-      value: 117.32
-      objectReference: {fileID: 0}
-    - target: {fileID: 5467060519920957049, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 117.32
-      objectReference: {fileID: 0}
-    - target: {fileID: 8102610167267180803, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 411.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8102610167267180803, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -169
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
