@@ -130,6 +130,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &240736930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1933419066665841812, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+  m_PrefabInstance: {fileID: 1273225334}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &299288655 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1714496965570739711, guid: 8ee86d94ea9e1ca429966fec0373e2ae, type: 3}
@@ -201,7 +206,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: GameTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: WinnerText
+      value: 
+      objectReference: {fileID: 778561960}
+    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _winnerText
       value: 
       objectReference: {fileID: 778561960}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
@@ -210,6 +223,14 @@ PrefabInstance:
       objectReference: {fileID: 2094037976}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: CountdownText
+      value: 
+      objectReference: {fileID: 699932198}
+    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _winnerScreen
+      value: 
+      objectReference: {fileID: 240736930}
+    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: _countdownText
       value: 
       objectReference: {fileID: 699932198}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
@@ -383,6 +404,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &762176180 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+  m_PrefabInstance: {fileID: 456377489}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &768819364 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7595450732535270700, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
@@ -439,7 +471,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScoresUI
       objectReference: {fileID: 0}
-    - target: {fileID: 2129645662251415486, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+    - target: {fileID: 1933419066665841812, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -523,17 +555,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3084300495969946897, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5988324309385590049, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8271065470997521520, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+    - target: {fileID: 3605026622101375491, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 762176180}
+    - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731266638478238129, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5467060519920957049, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_text
+      value: Back to tilescreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 5467060519920957049, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_fontSize
+      value: 117.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 5467060519920957049, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 117.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102610167267180803, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 411.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102610167267180803, guid: 56acc487330b66f4ba3597b28551e5cf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -169
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

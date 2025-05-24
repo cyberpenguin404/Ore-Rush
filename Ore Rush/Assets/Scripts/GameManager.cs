@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -28,9 +29,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerCountStartScreen;
     public GameObject startScreen;
     [SerializeField]
-    private TextMeshProUGUI CountdownText;
+    private TextMeshProUGUI _countdownText;
     [SerializeField]
-    private TextMeshProUGUI WinnerText;
+    private GameObject _winnerScreen;
+    [SerializeField]
+    private TextMeshProUGUI _winnerText;
     [SerializeField]
     private GameObject _fallingWallPrefab;
     [SerializeField]
@@ -75,7 +78,7 @@ public class GameManager : MonoBehaviour
         {
             _remainingTime -= Time.deltaTime;
 
-            CountdownText.text = ((int)(_remainingTime / 60)) + ":" + (int)(_remainingTime % 60);
+            _countdownText.text = ((int)(_remainingTime / 60)) + ":" + (int)(_remainingTime % 60);
         }
         else if (_gameRunning && _remainingTime <= 0)
         {
@@ -96,15 +99,20 @@ public class GameManager : MonoBehaviour
         startScreen.SetActive(false);
         Time.timeScale = 1;
     }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
+    }
 
     private void EndGame()
     {
+        _winnerScreen.SetActive(true);
         PlayerHandler winningplayer = Players.OrderByDescending(i => i.Score).FirstOrDefault();
         foreach (PlayerHandler player in Players)
         {
             Debug.Log($"{player.PlayerName}: {player.Score}");
         }
-        WinnerText.text = winningplayer.PlayerName + " has won!";
+        _winnerText.text = winningplayer.PlayerName + " has won!";
         Time.timeScale = 0;
         _gameRunning = false;
     }
@@ -118,6 +126,5 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 }
