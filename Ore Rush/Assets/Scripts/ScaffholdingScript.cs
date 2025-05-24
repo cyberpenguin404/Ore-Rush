@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class ScaffholdingScript : MonoBehaviour
 {
+    private const int StartDropHeight = 20;
+    private const float WidthIncreasePerDistance = 0.5f;
     [SerializeField] private GameObject _indicator;
 
     private Dictionary<Collider, Vector3> _playerDirections = new();
@@ -37,23 +38,21 @@ public class ScaffholdingScript : MonoBehaviour
     private void GenerateIndicators(Collider player, Vector3 direction)
     {
         List<GameObject> indicators = new();
-        int counter = 1;
 
-        for (int i = 0; i < 100; i++)
+        GenerateConePattern(direction, (position, distance) =>
         {
-            Vector3 indicatorPosition = transform.position + (direction * counter);
+            GameObject instance = Instantiate(_indicator, position, Quaternion.identity);
+            indicators.Add(instance);
+        });
 
-            if (Mathf.Abs(indicatorPosition.x) > GameManager.Instance.Width / 2 ||
-                Mathf.Abs(indicatorPosition.z) > GameManager.Instance.Height / 2)
-            {
-                break;
-            }
-
-            indicators.Add(Instantiate(_indicator, indicatorPosition, Quaternion.identity));
-            counter++;
-        }
 
         _playerIndicators[player] = indicators;
+    }
+
+    private static bool IsOutOfBounds(Vector3 indicatorPosition)
+    {
+        return Mathf.Abs(indicatorPosition.x) > GameManager.Instance.Width / 2 ||
+                        Mathf.Abs(indicatorPosition.z) > GameManager.Instance.Height / 2;
     }
 
     public void OnTriggerExitRelayed(Collider other)
@@ -88,25 +87,49 @@ public class ScaffholdingScript : MonoBehaviour
     {
         direction = ConvertDirectionToCardinal(direction);
 
-        int counter = 1;
-
-        for (int i = 0; i < 100; i++)
+        GenerateConePattern(direction, (position, distance) =>
         {
-            Vector3 wallPosition = transform.position + (direction * counter) + Vector3.up * (counter + 10);
+            position = new Vector3(position.x, StartDropHeight +  distance, position.z);
+            GameManager.Instance.DropWall(position);
+        });
 
-            if (Mathf.Abs(wallPosition.x) > GameManager.Instance.Width / 2 ||
-                Mathf.Abs(wallPosition.z) > GameManager.Instance.Height / 2)
-            {
-                break;
-            }
-
-            GameManager.Instance.DropWall(wallPosition);
-            counter++;
-        }
         foreach (var player in _playerIndicators.Keys.ToList())
         {
             RemoveIndicators(player);
         }
         Destroy(gameObject);
+    }
+    private void GenerateConePattern(Vector3 direction, System.Action<Vector3, int> action)
+    {
+        Vector3 perpendicularDirection = Vector3.Cross(Vector3.up, direction).normalized;
+
+        int counter = 1;
+        float maxWidth = 0;
+
+        for (int distance = 0; distance < 100; distance++)
+        {
+            Vector3 centerPosition = transform.position + (direction * counter);
+
+            if (IsOutOfBounds(centerPosition))
+                break;
+
+            action(centerPosition, distance);
+
+            for (int width = 1; width <= (int)maxWidth; width++)
+            {
+                Vector3 sideOffset = perpendicularDirection * width;
+
+                Vector3 leftPosition = centerPosition - sideOffset;
+                Vector3 rightPosition = centerPosition + sideOffset;
+
+                if (!IsOutOfBounds(leftPosition))
+                    action(leftPosition, distance);
+                if (!IsOutOfBounds(rightPosition))
+                    action(rightPosition, distance);
+            }
+
+            counter++;
+            maxWidth += WidthIncreasePerDistance;
+        }
     }
 }
