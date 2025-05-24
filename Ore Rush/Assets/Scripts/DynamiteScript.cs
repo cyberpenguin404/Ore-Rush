@@ -16,6 +16,11 @@ public class DynamiteScript : MonoBehaviour
     public float cooldownDuration = 5f;
 
     [SerializeField]
+    private int _range = 2;
+    [SerializeField, Range(0,100)]
+    private int _fallingWallChance = 50;
+
+    [SerializeField]
     private PlayerHandler PlayerHandlerScript;
 
     private GameObject _indicatorPrefab;  // The green cube
@@ -39,7 +44,7 @@ public class DynamiteScript : MonoBehaviour
     {
         _indicatorPrefab = PlayerHandlerScript.PlayerIndex == 1 ? indicatorPrefabPlayer1 : indicatorPrefabPlayer2;
         indicatorInstance = Instantiate(_indicatorPrefab, GridToWorldPosition(gridPos), Quaternion.identity);
-        
+
         indicatorInstance.SetActive(false);
     }
 
@@ -60,68 +65,81 @@ public class DynamiteScript : MonoBehaviour
         {
             return;
         }
-            if (!indicatorActive)
-            {
-                Debug.Log("activated indicator");
-                // Snap player position to nearest grid cell
-                Vector3 playerPos = transform.position;
-                gridPos = new Vector2Int(Mathf.RoundToInt(playerPos.x), Mathf.RoundToInt(playerPos.z));
-
-                // Clamp to grid bounds
-                gridPos.x = Mathf.Clamp(gridPos.x, -halfGridSize, halfGridSize);
-                gridPos.y = Mathf.Clamp(gridPos.y, -halfGridSize, halfGridSize);
-
-                // Update indicator position
-                indicatorInstance.transform.position = GridToWorldPosition(gridPos);
-
-                // Enable
-                indicatorActive = true;
-                indicatorInstance.SetActive(true);
-            }
-            else
+        if (!indicatorActive)
         {
-            Debug.Log("placed pillar");
-            bool anyPlaced = false;
+            ActivateIndicator();
+        }
+        else
+        {
+            PlaceWalls();
+        }
+    }
 
-            int range = 2; // 5x5 square centered = -2 to +2
-            for (int dx = -range; dx <= range; dx++)
+    private void PlaceWalls()
+    {
+        Debug.Log("placed pillar");
+        bool anyPlaced = false;
+
+        for (int dx = -_range; dx <= _range; dx++)
+        {
+            for (int dy = -_range; dy <= _range; dy++)
             {
-                for (int dy = -range; dy <= range; dy++)
+                Vector2Int targetGridPos = new Vector2Int(gridPos.x + dx, gridPos.y + dy);
+
+                // Clamp to play area
+                targetGridPos.x = Mathf.Clamp(targetGridPos.x, -halfGridSize, halfGridSize);
+                targetGridPos.y = Mathf.Clamp(targetGridPos.y, -halfGridSize, halfGridSize);
+
+                Vector3 spawnPos = new Vector3(targetGridPos.x, 10, targetGridPos.y);
+
+                Collider[] colliders = Physics.OverlapBox(spawnPos, Vector3.one * 0.45f);
+                bool occupied = false;
+                foreach (var col in colliders)
                 {
-                    Vector2Int targetGridPos = new Vector2Int(gridPos.x + dx, gridPos.y + dy);
-
-                    // Clamp to play area
-                    targetGridPos.x = Mathf.Clamp(targetGridPos.x, -halfGridSize, halfGridSize);
-                    targetGridPos.y = Mathf.Clamp(targetGridPos.y, -halfGridSize, halfGridSize);
-
-                    Vector3 spawnPos = new Vector3(targetGridPos.x, 10, targetGridPos.y);
-
-                    Collider[] colliders = Physics.OverlapBox(spawnPos, Vector3.one * 0.45f);
-                    bool occupied = false;
-                    foreach (var col in colliders)
+                    if (col.CompareTag("Wall"))
                     {
-                        if (col.CompareTag("Wall"))
-                        {
-                            occupied = true;
-                            break;
-                        }
+                        occupied = true;
+                        break;
                     }
+                }
 
-                    if (!occupied)
+                if (!occupied)
+                {
+                    if (Random.Range(0, 100/_fallingWallChance) == 0)
                     {
                         GameManager.Instance.DropWall(spawnPos);
                         anyPlaced = true;
                     }
                 }
             }
-
-            if (anyPlaced)
-            {
-                indicatorActive = false;
-                indicatorInstance.SetActive(false);
-                cooldownTimer = cooldownDuration;
-            }
         }
+
+        if (anyPlaced)
+        {
+            indicatorActive = false;
+            indicatorInstance.SetActive(false);
+            cooldownTimer = cooldownDuration;
+        }
+    }
+
+    private void ActivateIndicator()
+    {
+        Debug.Log("activated indicator");
+        // Snap player position to nearest grid cell
+        Vector3 playerPos = transform.position;
+        gridPos = new Vector2Int(Mathf.RoundToInt(playerPos.x), Mathf.RoundToInt(playerPos.z));
+
+        // Clamp to grid bounds
+        gridPos.x = Mathf.Clamp(gridPos.x, -halfGridSize, halfGridSize);
+        gridPos.y = Mathf.Clamp(gridPos.y, -halfGridSize, halfGridSize);
+
+        // Update indicator position
+        indicatorInstance.transform.position = GridToWorldPosition(gridPos);
+        indicatorInstance.transform.localScale = new Vector3(1 +_range * 2, 0.1f, 1 + _range * 2);
+
+        // Enable
+        indicatorActive = true;
+        indicatorInstance.SetActive(true);
     }
 
     void HandleCooldown()
