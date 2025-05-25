@@ -32,7 +32,10 @@ public class PlayerHandler : MonoBehaviour
             ScoreText.text = value.ToString();
         }
     }
-
+    [HideInInspector]
+    public Image DynamiteIcon;
+    [HideInInspector]
+    public GameObject RJoystickIcon;
     private TextMeshProUGUI ScoreText => PlayerIndex == 1 ? GameManager.Instance.ScoreTextPlayer1 : GameManager.Instance.ScoreTextPlayer2;
 
     public Slider PickaxeCooldownSlider;
@@ -83,8 +86,10 @@ public class PlayerHandler : MonoBehaviour
         PickaxeCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownSlider1 : GameManager.Instance.PickaxeCooldownSlider2;
         PickaxeCooldownSlider.value = 1;
         DynamiteCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownSlider1 : GameManager.Instance.DynamiteCooldownSlider2;
+        DynamiteIcon = PlayerIndex == 1 ? GameManager.Instance.DynamiteIcon1 : GameManager.Instance.DynamiteIcon2;
+        RJoystickIcon = PlayerIndex == 1 ? GameManager.Instance.RJoystickIcon1 : GameManager.Instance.RJoystickIcon1;
 
-    SetSpawnpoint();
+        SetSpawnpoint();
     }
 
     private void SetSpawnpoint()

@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI ScoreTextPlayer2;
     public Slider PickaxeCooldownSlider1;
     public Slider PickaxeCooldownSlider2;
+    public Image DynamiteIcon1;
+    public Image DynamiteIcon2;
+    public GameObject RJoystickIcon1;
+    public GameObject RJoystickIcon2;
     public Slider DynamiteCooldownSlider1;
     public Slider DynamiteCooldownSlider2;
     public GameObject startScreen;

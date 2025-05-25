@@ -397,6 +397,8 @@ MonoBehaviour:
   PlayerIndex: 0
   _arrowIndicator: {fileID: 5274578565627849861}
   stunDuration: 2
+  DynamiteIcon: {fileID: 0}
+  RJoystickIcon: {fileID: 0}
   PickaxeCooldownSlider: {fileID: 0}
   DynamiteCooldownSlider: {fileID: 0}
   PickaxeAnimtor: {fileID: 221471189132607324}
@@ -427,6 +429,7 @@ MonoBehaviour:
   moveRepeatDelay: 0.3
   moveRepeatRate: 0.1
   cooldownDuration: 10
+  _flashColor: {r: 1, g: 0, b: 0, a: 1}
   _range: 5
   _fallingWallChance: 50
   PlayerHandlerScript: {fileID: 1148637994131080323}
