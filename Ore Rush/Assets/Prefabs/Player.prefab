@@ -429,7 +429,7 @@ MonoBehaviour:
   moveRepeatDelay: 0.3
   moveRepeatRate: 0.1
   cooldownDuration: 10
-  _flashColor: {r: 1, g: 0, b: 0, a: 1}
+  _flashColor: {r: 1, g: 0.51713115, b: 0, a: 1}
   _range: 5
   _fallingWallChance: 50
   PlayerHandlerScript: {fileID: 1148637994131080323}
