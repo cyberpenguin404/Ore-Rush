@@ -54,8 +54,8 @@ public class ScaffholdingScript : MonoBehaviour
 
     private static bool IsOutOfBounds(Vector3 indicatorPosition)
     {
-        return Mathf.Abs(indicatorPosition.x) > GameManager.Instance.Width / 2 ||
-                        Mathf.Abs(indicatorPosition.z) > GameManager.Instance.Height / 2;
+        return Mathf.Abs(indicatorPosition.x) > (GameManager.Instance.Width / 2) + 1 ||
+                        Mathf.Abs(indicatorPosition.z) > (GameManager.Instance.Width / 2) + 1;
     }
 
     public void OnTriggerExitRelayed(Collider other)
