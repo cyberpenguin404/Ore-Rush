@@ -397,6 +397,7 @@ MonoBehaviour:
   PlayerIndex: 0
   _arrowIndicator: {fileID: 5274578565627849861}
   stunDuration: 2
+  PickaxeCooldownSlider: {fileID: 0}
   DynamiteCooldownSlider: {fileID: 0}
   PickaxeAnimtor: {fileID: 221471189132607324}
   PickaxeCooldown: 0
@@ -404,7 +405,7 @@ MonoBehaviour:
   player2Material: {fileID: 2100000, guid: 0ea9bd0d855efbb47bea27a5568428f0, type: 2}
   <CarryingOffset>k__BackingField: {x: 0, y: 1, z: 0}
   <mineRange>k__BackingField: 1
-  <PickaxeStunTime>k__BackingField: 1
+  <PickaxeStunTime>k__BackingField: 0.5
   _canTurn: 1
   PlayerSpeed: 5
   _charController: {fileID: 4480786922093275286}
