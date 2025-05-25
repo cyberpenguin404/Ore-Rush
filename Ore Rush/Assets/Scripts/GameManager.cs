@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float _screenShakeDuration = 0.2f;
     [SerializeField]
-    private int _screenShakeMagnitude = 1;
+    private float _screenShakeMagnitude = 1;
     [SerializeField]
     private int _countdownTime = 5;
     public SpawnManager GemManager;
