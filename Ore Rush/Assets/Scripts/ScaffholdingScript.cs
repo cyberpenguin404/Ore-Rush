@@ -8,6 +8,9 @@ public class ScaffholdingScript : MonoBehaviour
     private const float WidthIncreasePerDistance = 0.5f;
     [SerializeField] private GameObject _indicator;
 
+    [SerializeField, Range(0, 100)]
+    private int _fallingWallChance = 50;
+
     private Dictionary<Collider, Vector3> _playerDirections = new();
     private Dictionary<Collider, List<GameObject>> _playerIndicators = new();
     public void OnTriggerStayRelayed(Collider other)
@@ -90,7 +93,11 @@ public class ScaffholdingScript : MonoBehaviour
         GenerateConePattern(direction, (position, distance) =>
         {
             position = new Vector3(position.x, StartDropHeight +  distance, position.z);
-            GameManager.Instance.DropWall(position);
+
+            if (Random.Range(0, 100 / _fallingWallChance) == 0)
+            {
+                GameManager.Instance.DropWall(position);
+            }
         });
 
         foreach (var player in _playerIndicators.Keys.ToList())
