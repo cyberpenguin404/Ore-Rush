@@ -87,7 +87,7 @@ public class PlayerHandler : MonoBehaviour
         PickaxeCooldownSlider.value = 1;
         DynamiteCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownSlider1 : GameManager.Instance.DynamiteCooldownSlider2;
         DynamiteIcon = PlayerIndex == 1 ? GameManager.Instance.DynamiteIcon1 : GameManager.Instance.DynamiteIcon2;
-        RJoystickIcon = PlayerIndex == 1 ? GameManager.Instance.RJoystickIcon1 : GameManager.Instance.RJoystickIcon1;
+        RJoystickIcon = PlayerIndex == 1 ? GameManager.Instance.RJoystickIcon1 : GameManager.Instance.RJoystickIcon2;
 
         SetSpawnpoint();
     }
