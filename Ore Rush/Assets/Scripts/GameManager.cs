@@ -190,6 +190,7 @@ public class GameManager : MonoBehaviour
     public void DropDeathWall(Vector3 position)
     {
         Instantiate(_deathFallingWallPrefab, position, Quaternion.identity);
+        _screenShake.Shake(_screenShakeDuration, _screenShakeMagnitude);
     }
 
     private void StartGame()
