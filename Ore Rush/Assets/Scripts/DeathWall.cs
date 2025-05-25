@@ -37,8 +37,9 @@ public class DeathWall : FallingWall
         GameManager.Instance.GridGenerate.wallObjects.Add(gameObject);
         GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
     }
-    private void Update()
+    public override void Update()
     {
+        base.Update();
         foreach (PlayerHandler player in GameManager.Instance.Players)
         {
             Vector3 playerPos = player.transform.position;

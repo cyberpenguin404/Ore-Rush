@@ -4,7 +4,7 @@ public class FallingWall : MonoBehaviour
 {
     internal bool _isFalling = true;
     private const float _gravity = 9.81f;
-    void Update()
+    virtual public void Update()
     {
         if (_isFalling)
         {
