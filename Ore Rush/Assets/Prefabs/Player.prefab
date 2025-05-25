@@ -426,7 +426,7 @@ MonoBehaviour:
   moveRepeatDelay: 0.3
   moveRepeatRate: 0.1
   cooldownDuration: 10
-  _range: 4
+  _range: 5
   _fallingWallChance: 50
   PlayerHandlerScript: {fileID: 1148637994131080323}
   _player: {fileID: 1148637994131080323}
