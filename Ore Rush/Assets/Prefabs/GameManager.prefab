@@ -96,13 +96,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _screenShakeDuration: 0.2
-  _screenShakeMagnitude: 0.5
+  _screenShakeDurationWall: 0.2
+  _screenShakeMagnitudeWall: 0.5
+  _screenShakeDurationDeathWall: 0.2
+  _screenShakeMagnitudeDeathWall: 0.1
   _countdownTime: 5
   GemManager: {fileID: 3541460209804128929}
   GridGenerate: {fileID: 743688315619495738}
   _screenShake: {fileID: 0}
-  StartGameManually: 1
+  StartGameManually: 0
   ScoreTextPlayer1: {fileID: 0}
   ScoreTextPlayer2: {fileID: 0}
   PickaxeCooldownSlider1: {fileID: 0}
