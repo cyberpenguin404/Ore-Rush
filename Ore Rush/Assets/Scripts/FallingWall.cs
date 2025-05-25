@@ -24,6 +24,16 @@ public class FallingWall : MonoBehaviour
         Vector3 wallPos = transform.position;
         float hitRadius = 1.1f; // Increased range for easier hits
 
+        Collider[] colliders = Physics.OverlapSphere(wallPos, 0.5f);
+        foreach (Collider col in colliders)
+        {
+            if (col.CompareTag("Unbreakable"))
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+
         if (Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.position, wallPos) <= 3)
         {
             Destroy(gameObject);
