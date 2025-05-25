@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerHandler : MonoBehaviour
@@ -22,14 +23,23 @@ public class PlayerHandler : MonoBehaviour
 
     private float _stunTimer = 0f;
     [SerializeField] private float stunDuration = 2f;
-
-    public int Score;
+    public int Score
+    {
+        get => GameManager.Instance.PlayerScores.ContainsKey(PlayerIndex) ? GameManager.Instance.PlayerScores[PlayerIndex] : 0;
+        set
+        {
+            GameManager.Instance.ChangeScore(value, PlayerIndex);
+            ScoreText.text = value.ToString();
+        }
+    }
 
     private TextMeshProUGUI ScoreText => PlayerIndex == 1 ? GameManager.Instance.ScoreTextPlayer1 : GameManager.Instance.ScoreTextPlayer2;
 
-    private TextMeshProUGUI PickaxeCooldownText => PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownText1 : GameManager.Instance.PickaxeCooldownText2;
-    [HideInInspector]
-    public TextMeshProUGUI DynamiteCooldownText => PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownText1 : GameManager.Instance.DynamiteCooldownText2;
+    private Slider _pickaxeCooldownSlider;
+    public Slider DynamiteCooldownSlider;
+
+    public Animator PickaxeAnimtor;
+
     [SerializeField]
     private float PickaxeCooldown;
 
@@ -63,13 +73,18 @@ public class PlayerHandler : MonoBehaviour
     {
         _currentState = new NoneState(this);
 
-        GameManager.Instance._playerCount++;
-        GameManager.Instance.Players.Add(this);
+        GameManager.Instance.ConnectPlayer(this);
         PlayerIndex = GameManager.Instance._playerCount;
         PlayerName = "Player " + PlayerIndex;
 
+        GameManager.Instance.PlayerScores[PlayerIndex] = 0;
+
         GetComponent<Renderer>().material = PlayerIndex == 1 ? player1Material : player2Material;
-        SetSpawnpoint();
+        _pickaxeCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownSlider1 : GameManager.Instance.PickaxeCooldownSlider2;
+        _pickaxeCooldownSlider.value = 1;
+        DynamiteCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownSlider1 : GameManager.Instance.DynamiteCooldownSlider2;
+
+    SetSpawnpoint();
     }
 
     private void SetSpawnpoint()
@@ -170,8 +185,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (_currentPickaxeCooldown > 0)
         {
-            PickaxeCooldownText.text = "Pickaxe cooldown:" + ((int)_currentPickaxeCooldown).ToString();
-            GameManager.Instance.PickaxeCooldownSlider1.value = _currentPickaxeCooldown; 
+            _pickaxeCooldownSlider.value = 1 - _currentPickaxeCooldown / PickaxeCooldown; 
             _currentPickaxeCooldown -= Time.deltaTime;
         }
     }
@@ -198,7 +212,6 @@ public class PlayerHandler : MonoBehaviour
         if (_carryingObject != null)
         {
             Score++;
-            ScoreText.text = "Score: " + Score;
             Destroy(_carryingObject);
         }
     }

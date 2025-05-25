@@ -39,6 +39,9 @@ public class DynamiteScript : MonoBehaviour
 
     private Vector2 _aimInput;
 
+    [SerializeField]
+    private PlayerHandler _player;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,6 +49,8 @@ public class DynamiteScript : MonoBehaviour
         indicatorInstance = Instantiate(_indicatorPrefab, GridToWorldPosition(gridPos), Quaternion.identity);
 
         indicatorInstance.SetActive(false);
+
+        _player.DynamiteCooldownSlider.value = 1;
     }
 
     // Update is called once per frame
@@ -61,7 +66,7 @@ public class DynamiteScript : MonoBehaviour
 
     public void ToggleDynamite(InputAction.CallbackContext context)
     {
-        if (!context.started || cooldownTimer > 0f)
+        if (!context.started || cooldownTimer > 0f || !GameManager.Instance.MainGameRunning)
         {
             return;
         }
@@ -146,7 +151,7 @@ public class DynamiteScript : MonoBehaviour
     {
         if (cooldownTimer > 0f)
         {
-            PlayerHandlerScript.DynamiteCooldownText.text = "Dynamite cooldown: " + ((int)cooldownTimer).ToString();
+            _player.DynamiteCooldownSlider.value = 1 - (cooldownTimer / cooldownDuration);
             cooldownTimer -= Time.deltaTime;
         }
     }

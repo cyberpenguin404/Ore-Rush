@@ -96,22 +96,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _countdownTime: 5
   GemManager: {fileID: 3541460209804128929}
   GridGenerate: {fileID: 743688315619495738}
   StartGameManually: 0
   ScoreTextPlayer1: {fileID: 0}
   ScoreTextPlayer2: {fileID: 0}
-  PickaxeCooldownText1: {fileID: 0}
   PickaxeCooldownSlider1: {fileID: 0}
-  PickaxeCooldownText2: {fileID: 0}
   PickaxeCooldownSlider2: {fileID: 0}
-  DynamiteCooldownText1: {fileID: 0}
-  DynamiteCooldownText2: {fileID: 0}
-  playerCountStartScreen: {fileID: 0}
+  DynamiteCooldownSlider1: {fileID: 0}
+  DynamiteCooldownSlider2: {fileID: 0}
   startScreen: {fileID: 0}
   SpawnPointPlayer1: {x: -1, y: 1, z: 0}
   SpawnPointPlayer2: {x: 1, y: 1, z: 0}
+  player1Connected: {fileID: 0}
+  player2Connected: {fileID: 0}
+  StartScreenAnimator: {fileID: 0}
+  RedBar: {fileID: 0}
+  BlueBar: {fileID: 0}
+  ClashSymbol: {fileID: 0}
+  _scoreBarLerpSpeed: 3
   _countdownText: {fileID: 0}
+  _startCountdownText: {fileID: 0}
   _winnerScreen: {fileID: 0}
   _winnerText: {fileID: 0}
   _fallingWallPrefab: {fileID: 1348852216195122236, guid: 8abb7f9fdc56d3d4ebe330f56e5727f0, type: 3}
