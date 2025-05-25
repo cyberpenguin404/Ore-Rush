@@ -243,7 +243,10 @@ public class DynamiteScript : MonoBehaviour
             _player.DynamiteIcon.color = Color.Lerp(_startColor, _flashColor, lerp);
 
             if (!indicatorActive)
+            {
+                _player.DynamiteIcon.color = _startColor;
                 break;
+            }
 
             yield return null;
         }

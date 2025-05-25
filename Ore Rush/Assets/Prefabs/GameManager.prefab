@@ -56,7 +56,7 @@ MonoBehaviour:
   GridGenerateScript: {fileID: 743688315619495738}
   _startScaffholdingCount: 0
   _maxScaffholdingCount: 5
-  _scaffholdingSpawnRate: 10
+  _scaffholdingSpawnRate: 15
   _startGemCount: 2
   _maxGemCount: 30
   _gemSpawnRate: 5
@@ -78,7 +78,7 @@ MonoBehaviour:
   Maps:
   - {fileID: 1951668637724875440, guid: f2c0dc8ca413b454390d07c6b95e55b6, type: 3}
   collectionZone: {fileID: 0}
-  wallRegenInterval: 30
+  wallRegenInterval: 60
   wallCollapseSpeed: 1
   gameManager: {fileID: 685837030237778843}
   gemManager: {fileID: 3541460209804128929}
@@ -96,14 +96,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _screenShakeDuration: 0.2
+  _screenShakeMagnitude: 1
   _countdownTime: 5
   GemManager: {fileID: 3541460209804128929}
   GridGenerate: {fileID: 743688315619495738}
+  _screenShake: {fileID: 0}
   StartGameManually: 0
   ScoreTextPlayer1: {fileID: 0}
   ScoreTextPlayer2: {fileID: 0}
   PickaxeCooldownSlider1: {fileID: 0}
   PickaxeCooldownSlider2: {fileID: 0}
+  DynamiteIcon1: {fileID: 0}
+  DynamiteIcon2: {fileID: 0}
+  RJoystickIcon1: {fileID: 0}
+  RJoystickIcon2: {fileID: 0}
   DynamiteCooldownSlider1: {fileID: 0}
   DynamiteCooldownSlider2: {fileID: 0}
   startScreen: {fileID: 0}
@@ -128,6 +135,7 @@ MonoBehaviour:
   <Width>k__BackingField: 25
   <Height>k__BackingField: 25
   MainGameRunning: 0
+  _hasStartedGame: 0
 --- !u!114 &161785804182294043
 MonoBehaviour:
   m_ObjectHideFlags: 0
