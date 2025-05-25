@@ -148,6 +148,8 @@ public class SpawnManager : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.MainGameRunning)
+            return;
         HandleGemTimer();
         HandleScaffholdingTimer();
     }

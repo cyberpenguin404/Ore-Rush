@@ -94,6 +94,12 @@ public class GridGenerate : MonoBehaviour
             RemoveGems();
             GenerateMaps();
             gemManager.InitiateMap();
+
+            while (!GameManager.Instance.MainGameRunning)
+            {
+                yield return null;
+            }
+
             yield return new WaitForSeconds(wallRegenInterval);
             StartCoroutine(CollapseMaze());
 
@@ -211,7 +217,7 @@ public class GridGenerate : MonoBehaviour
     {
         foreach (PlayerHandler player in gameManager.Players)
         {
-            player.transform.position = _spawnPosition;
+            player.transform.position = player.PlayerIndex == 1? GameManager.Instance.SpawnPointPlayer1 : GameManager.Instance.SpawnPointPlayer2;
         }
     }
 

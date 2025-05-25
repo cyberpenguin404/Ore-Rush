@@ -17,6 +17,9 @@ public class PlayerHandler : MonoBehaviour
     public int PlayerIndex;
     public GameObject _carryingObject { get; private set; }
 
+    [SerializeField]
+    private GameObject _arrowIndicator;
+
     private float _stunTimer = 0f;
     [SerializeField] private float stunDuration = 2f;
 
@@ -66,12 +69,27 @@ public class PlayerHandler : MonoBehaviour
         PlayerName = "Player " + PlayerIndex;
 
         GetComponent<Renderer>().material = PlayerIndex == 1 ? player1Material : player2Material;
+        SetSpawnpoint();
     }
+
+    private void SetSpawnpoint()
+    {
+        _charController.enabled = false;
+        gameObject.transform.position = PlayerIndex == 1 ? GameManager.Instance.SpawnPointPlayer1 : GameManager.Instance.SpawnPointPlayer2;
+        _charController.enabled = true;
+    }
+
     void Update()
+    {
+        if (GameManager.Instance.MainGameRunning)
+        HandlePlayer();
+    }
+
+    private void HandlePlayer()
     {
         if (spawnWall)
         {
-            GameManager.Instance.DropWall(transform.position + Vector3.up *10);
+            GameManager.Instance.DropWall(transform.position + Vector3.up * 10);
             spawnWall = false;
         }
         if (_stunTimer > 0)
@@ -89,7 +107,29 @@ public class PlayerHandler : MonoBehaviour
         _currentState.Update();
         HandleCooldowns();
         HandleCarrying();
+        HandleArrow();
     }
+
+    private void HandleArrow()
+    {
+        if (_carryingObject != null)
+        {
+            _arrowIndicator.SetActive(true);
+            RotateArrow();
+        }
+        else
+        {
+            _arrowIndicator.SetActive(false);
+        }
+    }
+
+    private void RotateArrow()
+    {
+        Vector3 directionToCollection = GameManager.Instance.GridGenerate.collectionZone.position - transform.position;
+        directionToCollection.y = 0;
+        _arrowIndicator.transform.rotation = Quaternion.LookRotation(directionToCollection, Vector3.up);
+    }
+
     private IEnumerator StunAnimation()
     {
         float duration = _stunTimer; // or set a fixed duration like 0.5f
@@ -225,7 +265,7 @@ public class PlayerHandler : MonoBehaviour
         {
             ThrowGemAway();
         }
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 1, transform.position.z);
     }
     private void ThrowGemAway()
     {

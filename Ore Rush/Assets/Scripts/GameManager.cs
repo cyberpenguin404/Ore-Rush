@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI DynamiteCooldownText2;
     public TextMeshProUGUI playerCountStartScreen;
     public GameObject startScreen;
+    public Vector3 SpawnPointPlayer1;
+    public Vector3 SpawnPointPlayer2;
+
     [SerializeField]
     private TextMeshProUGUI _countdownText;
     [SerializeField]
@@ -53,20 +56,15 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public int Width { get; private set; } = 25;
     [field: SerializeField] public int Height { get; private set; } = 25;
     private double _remainingTime;
-    private bool _gameRunning = true;
+    public bool MainGameRunning = false;
 
     void Start()
     {
         _remainingTime = GameTime;
-        Time.timeScale = 0;
     }
     void Update()
     {
-        if (StartGameManually)
-        {
-            StartGame();
-        }
-        if ( _playerCount == 2)
+        if (StartGameManually || _playerCount == 2)
         {
             StartGame();
         }
@@ -74,17 +72,25 @@ public class GameManager : MonoBehaviour
         {
             playerCountStartScreen.text = _playerCount.ToString() + "/2 players are ready";
         }
+        if (MainGameRunning)
+        HandleGame();
+
+    }
+
+    private void HandleGame()
+    {
         if (_remainingTime > 0)
         {
             _remainingTime -= Time.deltaTime;
 
             _countdownText.text = ((int)(_remainingTime / 60)) + ":" + (int)(_remainingTime % 60);
         }
-        else if (_gameRunning && _remainingTime <= 0)
+        else if (MainGameRunning && _remainingTime <= 0)
         {
             EndGame();
         }
     }
+
     public void DropWall(Vector3 position)
     {
         Instantiate(_fallingWallPrefab, position, Quaternion.identity);
@@ -96,8 +102,8 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        MainGameRunning = true;
         startScreen.SetActive(false);
-        Time.timeScale = 1;
     }
     public void RestartGame()
     {
@@ -114,7 +120,7 @@ public class GameManager : MonoBehaviour
         }
         _winnerText.text = winningplayer.PlayerName + " has won!";
         Time.timeScale = 0;
-        _gameRunning = false;
+        MainGameRunning = false;
     }
 
     void Awake()

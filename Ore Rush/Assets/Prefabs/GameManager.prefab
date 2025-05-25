@@ -109,6 +109,8 @@ MonoBehaviour:
   DynamiteCooldownText2: {fileID: 0}
   playerCountStartScreen: {fileID: 0}
   startScreen: {fileID: 0}
+  SpawnPointPlayer1: {x: -1, y: 1, z: 0}
+  SpawnPointPlayer2: {x: 1, y: 1, z: 0}
   _countdownText: {fileID: 0}
   _winnerScreen: {fileID: 0}
   _winnerText: {fileID: 0}
@@ -119,6 +121,7 @@ MonoBehaviour:
   GameTime: 180
   <Width>k__BackingField: 25
   <Height>k__BackingField: 25
+  MainGameRunning: 0
 --- !u!114 &161785804182294043
 MonoBehaviour:
   m_ObjectHideFlags: 0
