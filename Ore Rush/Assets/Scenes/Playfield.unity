@@ -282,6 +282,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2140556995}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: <Width>k__BackingField
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: PickaxeCooldownSlider1
       value: 
       objectReference: {fileID: 1567568975}
