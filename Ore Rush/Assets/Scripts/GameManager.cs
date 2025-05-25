@@ -15,9 +15,16 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField]
+    private float _screenShakeDuration = 0.2f;
+    [SerializeField]
+    private int _screenShakeMagnitude = 1;
+    [SerializeField]
     private int _countdownTime = 5;
     public SpawnManager GemManager;
     public GridGenerate GridGenerate;
+
+    [SerializeField]
+    private ScreenShake _screenShake;
 
     public bool StartGameManually;
 
@@ -174,6 +181,7 @@ public class GameManager : MonoBehaviour
     public void DropWall(Vector3 position)
     {
         Instantiate(_fallingWallPrefab, position, Quaternion.identity);
+        _screenShake.Shake(_screenShakeDuration, _screenShakeMagnitude);
     }
     public void DropDeathWall(Vector3 position)
     {

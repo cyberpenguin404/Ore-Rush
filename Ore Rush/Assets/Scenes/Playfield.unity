@@ -231,7 +231,7 @@ PrefabInstance:
       objectReference: {fileID: 1348600952}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: GameTime
-      value: 5
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: ClashSymbol
@@ -301,6 +301,10 @@ PrefabInstance:
       propertyPath: collectionZone
       value: 
       objectReference: {fileID: 299288655}
+    - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: wallRegenInterval
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 2797907973698817927, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
