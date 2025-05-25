@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public int Height { get; private set; } = 25;
     private double _remainingTime;
     public bool MainGameRunning = false; 
-    private bool _hasStartedGame = false;
+    public bool _hasStartedGame = false;
 
     void Start()
     {
@@ -184,6 +184,7 @@ public class GameManager : MonoBehaviour
     {
         if (!_hasStartedGame)
         {
+            Debug.Log("Starting game");
             _hasStartedGame = true;
             StartCoroutine(StartCountdownRoutine());
         }
@@ -209,6 +210,7 @@ public class GameManager : MonoBehaviour
     }
     public void RestartGame()
     {
+        _hasStartedGame = false;
         SceneManager.LoadScene(0);
     }
 
@@ -221,8 +223,9 @@ public class GameManager : MonoBehaviour
             Debug.Log($"{player.PlayerName}: {player.Score}");
         }
         _winnerText.text = winningplayer.PlayerName + " has won!";
-        Time.timeScale = 0;
+        _playerCount = 0;
         MainGameRunning = false;
+        _hasStartedGame = false;
     }
 
     void Awake()

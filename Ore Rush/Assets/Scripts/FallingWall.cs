@@ -24,6 +24,11 @@ public class FallingWall : MonoBehaviour
         Vector3 wallPos = transform.position;
         float hitRadius = 1.1f; // Increased range for easier hits
 
+        if (Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.position, wallPos) <= 3)
+        {
+            Destroy(gameObject);
+            return;
+        }
         foreach (PlayerHandler player in GameManager.Instance.Players)
         {
             Vector3 playerPos = player.transform.position;
@@ -33,11 +38,6 @@ public class FallingWall : MonoBehaviour
                 Destroy(gameObject);
                 return;
             }
-        }
-        if (Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.position, wallPos) <= 3)
-        {
-            Destroy(gameObject);
-            return;
         }
         foreach (Vector3 wall in GameManager.Instance.GridGenerate.wallPositions)
         {
