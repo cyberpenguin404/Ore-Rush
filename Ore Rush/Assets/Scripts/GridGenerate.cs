@@ -26,14 +26,15 @@ public class GridGenerate : MonoBehaviour
     [SerializeField]
     private GameManager gameManager;
     [SerializeField]
-    private GemManager gemManager;
+    private SpawnManager gemManager;
 
     private GameObject[,] gridArray;
     public List<Vector3> wallPositions = new List<Vector3>();
+    public List<GameObject> wallObjects = new List<GameObject>();
     private List<Vector2Int> specialTilePositions = new List<Vector2Int>();
 
 
-    private Vector3 _spawnPosition = new Vector3(0,1,0);
+    private Vector3 _spawnPosition = new Vector3(0, 1, 0);
     public bool _isCollapsingMaze { get; private set; } = false;
 
     private void Start()
@@ -43,7 +44,7 @@ public class GridGenerate : MonoBehaviour
         //CreateFloor();
         StartCoroutine(RegenerateWallsRoutine());
         if (AutoGenerate)
-        AddUnbreakableOuterWalls();
+            AddUnbreakableOuterWalls();
     }
     private void AddUnbreakableOuterWalls()
     {
@@ -92,7 +93,13 @@ public class GridGenerate : MonoBehaviour
             ResetPlayerPositions();
             RemoveGems();
             GenerateMaps();
-            gemManager.SpawnStartingGems();
+            gemManager.InitiateMap();
+
+            while (!GameManager.Instance.MainGameRunning)
+            {
+                yield return null;
+            }
+
             yield return new WaitForSeconds(wallRegenInterval);
             StartCoroutine(CollapseMaze());
 
@@ -112,14 +119,21 @@ public class GridGenerate : MonoBehaviour
         }
         else
         {
-            foreach (var wall in GameObject.FindGameObjectsWithTag("Wall"))
-            {
-                Destroy(wall);
-            }
             foreach (var wall in GameObject.FindGameObjectsWithTag("DeathWall"))
             {
+                wallObjects.Remove(wall);
                 Destroy(wall);
             }
+            foreach (var wall in GameObject.FindGameObjectsWithTag("Wall"))
+            {
+                wallObjects.Remove(wall);
+                Destroy(wall);
+            }
+
+            wallPositions.Clear();
+            wallObjects.Clear();
+            specialTilePositions.Clear();
+
             GeneratePremadeMap();
         }
     }
@@ -130,12 +144,21 @@ public class GridGenerate : MonoBehaviour
             Maps[UnityEngine.Random.Range(0, Maps.Count)],
             Vector3.zero,
             Quaternion.Euler(0, 90 * UnityEngine.Random.Range(0, 4), 0)
-        ); 
+        );
         foreach (Transform child in map.GetComponentsInChildren<Transform>())
         {
             if (child.CompareTag("Wall"))
             {
-                wallPositions.Add(child.position);
+                Vector3 roundedPos = new Vector3(Mathf.Round(child.position.x),Mathf.Round(child.position.y),Mathf.Round(child.position.z));
+                wallPositions.Add(roundedPos);
+                gemManager.EmptyWalls.Add(roundedPos);
+                wallObjects.Add(child.gameObject);
+            }
+            if (child.CompareTag("Scaffholding"))
+            {
+                Vector3 roundedPos = new Vector3(Mathf.Round(child.position.x), Mathf.Round(child.position.y), Mathf.Round(child.position.z));
+                wallPositions.Add(roundedPos);
+                wallObjects.Add(child.gameObject);
             }
         }
     }
@@ -144,51 +167,57 @@ public class GridGenerate : MonoBehaviour
     {
         _isCollapsingMaze = true;
         int maxLayer = Mathf.Max(_width, _height) / 2;
+
         for (int layer = 0; layer <= maxLayer; layer++)
         {
+            bool skippedLayer = true;
+
             for (int x = 0; x < _width; x++)
             {
                 for (int y = 0; y < _height; y++)
                 {
                     Vector2Int pos = new Vector2Int(x, y);
-
-                    if (IsInCenterSquare(pos, 3)) continue; // Skip the 3x3 center
                     if (!IsInsideGrid(pos)) continue;
 
                     int distanceFromEdge = Mathf.Min(x, _width - 1 - x, y, _height - 1 - y);
-                    if (distanceFromEdge == layer)
-                    {
-                        Vector3 worldPos = GridToWorldPosition(pos);
-                        worldPos.y = 10;
+                    if (distanceFromEdge != layer) continue;
 
-                        if (!wallPositions.Contains(worldPos))
-                        {
-                            GameManager.Instance.DropDeathWall(worldPos);
-                            wallPositions.Add(worldPos);
-                        }
+                    if (IsInCenterSquare(pos, 5)) continue;
+
+                    Vector3 worldPos = GridToWorldPosition(pos);
+                    worldPos.y = 10;
+
+                    if (!wallPositions.Contains(worldPos))
+                    {
+                        GameManager.Instance.DropDeathWall(worldPos);
+                        wallPositions.Add(worldPos);
+                        skippedLayer = false;
                     }
                 }
             }
-
-            yield return new WaitForSeconds(wallCollapseSpeed);
+            if (!skippedLayer)
+            {
+                yield return new WaitForSeconds(wallCollapseSpeed);
+            }
         }
+
         _isCollapsingMaze = false;
     }
 
     private void RemoveGems()
     {
-        foreach (GameObject gem in gemManager.gemObjects.ToList())
+        foreach (GameObject gem in gemManager.GemObjects.ToList())
         {
             Destroy(gem);
         }
-        gemManager.gemObjects.Clear();
+        gemManager.GemObjects.Clear();
     }
 
     private void ResetPlayerPositions()
     {
         foreach (PlayerHandler player in gameManager.Players)
         {
-            player.transform.position = _spawnPosition;
+            player.transform.position = player.PlayerIndex == 1? GameManager.Instance.SpawnPointPlayer1 : GameManager.Instance.SpawnPointPlayer2;
         }
     }
 
@@ -221,7 +250,8 @@ public class GridGenerate : MonoBehaviour
 
         // Instantiate walls
         foreach (var pos in wallPositions)
-        {;
+        {
+            ;
             GameObject wall = Instantiate(WallPrefab, pos, Quaternion.identity);
             wall.tag = "Wall";
         }

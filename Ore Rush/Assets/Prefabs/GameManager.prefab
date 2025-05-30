@@ -47,12 +47,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b73d3afdfa7f249a8079ff00995e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
-  gemObjects: []
+  _gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
+  _scaffholding: {fileID: 2152728252885862023, guid: 7550a64eab1f5ba49842b7eb6e6cad23, type: 3}
+  GemObjects: []
+  ScaffholdingObjects: []
+  EmptyTiles: []
+  EmptyWalls: []
   GridGenerateScript: {fileID: 743688315619495738}
-  StartGemCount: 2
-  MaxGemCount: 30
-  GemSpawnRate: 5
+  _startScaffholdingCount: 0
+  _maxScaffholdingCount: 5
+  _scaffholdingSpawnRate: 10
+  _startGemCount: 2
+  _maxGemCount: 30
+  _gemSpawnRate: 5
 --- !u!114 &743688315619495738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,10 +79,11 @@ MonoBehaviour:
   - {fileID: 1951668637724875440, guid: f2c0dc8ca413b454390d07c6b95e55b6, type: 3}
   collectionZone: {fileID: 0}
   wallRegenInterval: 30
-  wallCollapseSpeed: 2
+  wallCollapseSpeed: 1
   gameManager: {fileID: 685837030237778843}
   gemManager: {fileID: 3541460209804128929}
   wallPositions: []
+  wallObjects: []
 --- !u!114 &685837030237778843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,28 +96,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _countdownTime: 5
   GemManager: {fileID: 3541460209804128929}
   GridGenerate: {fileID: 743688315619495738}
   StartGameManually: 0
   ScoreTextPlayer1: {fileID: 0}
   ScoreTextPlayer2: {fileID: 0}
-  PickaxeCooldownText1: {fileID: 0}
   PickaxeCooldownSlider1: {fileID: 0}
-  PickaxeCooldownText2: {fileID: 0}
   PickaxeCooldownSlider2: {fileID: 0}
-  DynamiteCooldownText1: {fileID: 0}
-  DynamiteCooldownText2: {fileID: 0}
-  playerCountStartScreen: {fileID: 0}
+  DynamiteCooldownSlider1: {fileID: 0}
+  DynamiteCooldownSlider2: {fileID: 0}
   startScreen: {fileID: 0}
-  CountdownText: {fileID: 0}
-  WinnerText: {fileID: 0}
+  SpawnPointPlayer1: {x: -1, y: 1, z: 0}
+  SpawnPointPlayer2: {x: 1, y: 1, z: 0}
+  player1Connected: {fileID: 0}
+  player2Connected: {fileID: 0}
+  StartScreenAnimator: {fileID: 0}
+  RedBar: {fileID: 0}
+  BlueBar: {fileID: 0}
+  ClashSymbol: {fileID: 0}
+  _scoreBarLerpSpeed: 3
+  _countdownText: {fileID: 0}
+  _startCountdownText: {fileID: 0}
+  _winnerScreen: {fileID: 0}
+  _winnerText: {fileID: 0}
   _fallingWallPrefab: {fileID: 1348852216195122236, guid: 8abb7f9fdc56d3d4ebe330f56e5727f0, type: 3}
   _deathFallingWallPrefab: {fileID: 1348852216195122236, guid: c33b4f48443af8e40ae14db93b6c4abb, type: 3}
   Players: []
   _playerCount: 0
-  GameTime: 300
+  GameTime: 180
   <Width>k__BackingField: 25
   <Height>k__BackingField: 25
+  MainGameRunning: 0
 --- !u!114 &161785804182294043
 MonoBehaviour:
   m_ObjectHideFlags: 0

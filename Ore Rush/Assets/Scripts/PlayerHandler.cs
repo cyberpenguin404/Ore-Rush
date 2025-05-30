@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerHandler : MonoBehaviour
@@ -17,16 +18,28 @@ public class PlayerHandler : MonoBehaviour
     public int PlayerIndex;
     public GameObject _carryingObject { get; private set; }
 
+    [SerializeField]
+    private GameObject _arrowIndicator;
+
     private float _stunTimer = 0f;
     [SerializeField] private float stunDuration = 2f;
-
-    public int Score;
+    public int Score
+    {
+        get => GameManager.Instance.PlayerScores.ContainsKey(PlayerIndex) ? GameManager.Instance.PlayerScores[PlayerIndex] : 0;
+        set
+        {
+            GameManager.Instance.ChangeScore(value, PlayerIndex);
+            ScoreText.text = value.ToString();
+        }
+    }
 
     private TextMeshProUGUI ScoreText => PlayerIndex == 1 ? GameManager.Instance.ScoreTextPlayer1 : GameManager.Instance.ScoreTextPlayer2;
 
-    private TextMeshProUGUI PickaxeCooldownText => PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownText1 : GameManager.Instance.PickaxeCooldownText2;
-    [HideInInspector]
-    public TextMeshProUGUI DynamiteCooldownText => PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownText1 : GameManager.Instance.DynamiteCooldownText2;
+    private Slider _pickaxeCooldownSlider;
+    public Slider DynamiteCooldownSlider;
+
+    public Animator PickaxeAnimtor;
+
     [SerializeField]
     private float PickaxeCooldown;
 
@@ -60,18 +73,38 @@ public class PlayerHandler : MonoBehaviour
     {
         _currentState = new NoneState(this);
 
-        GameManager.Instance._playerCount++;
-        GameManager.Instance.Players.Add(this);
+        GameManager.Instance.ConnectPlayer(this);
         PlayerIndex = GameManager.Instance._playerCount;
         PlayerName = "Player " + PlayerIndex;
 
+        GameManager.Instance.PlayerScores[PlayerIndex] = 0;
+
         GetComponent<Renderer>().material = PlayerIndex == 1 ? player1Material : player2Material;
+        _pickaxeCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownSlider1 : GameManager.Instance.PickaxeCooldownSlider2;
+        _pickaxeCooldownSlider.value = 1;
+        DynamiteCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownSlider1 : GameManager.Instance.DynamiteCooldownSlider2;
+
+    SetSpawnpoint();
     }
+
+    private void SetSpawnpoint()
+    {
+        _charController.enabled = false;
+        gameObject.transform.position = PlayerIndex == 1 ? GameManager.Instance.SpawnPointPlayer1 : GameManager.Instance.SpawnPointPlayer2;
+        _charController.enabled = true;
+    }
+
     void Update()
+    {
+        if (GameManager.Instance.MainGameRunning)
+        HandlePlayer();
+    }
+
+    private void HandlePlayer()
     {
         if (spawnWall)
         {
-            GameManager.Instance.DropWall(transform.position + Vector3.up *10);
+            GameManager.Instance.DropWall(transform.position + Vector3.up * 10);
             spawnWall = false;
         }
         if (_stunTimer > 0)
@@ -89,7 +122,29 @@ public class PlayerHandler : MonoBehaviour
         _currentState.Update();
         HandleCooldowns();
         HandleCarrying();
+        HandleArrow();
     }
+
+    private void HandleArrow()
+    {
+        if (_carryingObject != null)
+        {
+            _arrowIndicator.SetActive(true);
+            RotateArrow();
+        }
+        else
+        {
+            _arrowIndicator.SetActive(false);
+        }
+    }
+
+    private void RotateArrow()
+    {
+        Vector3 directionToCollection = GameManager.Instance.GridGenerate.collectionZone.position - transform.position;
+        directionToCollection.y = 0;
+        _arrowIndicator.transform.rotation = Quaternion.LookRotation(directionToCollection, Vector3.up);
+    }
+
     private IEnumerator StunAnimation()
     {
         float duration = _stunTimer; // or set a fixed duration like 0.5f
@@ -130,8 +185,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (_currentPickaxeCooldown > 0)
         {
-            PickaxeCooldownText.text = "Pickaxe cooldown:" + ((int)_currentPickaxeCooldown).ToString();
-            GameManager.Instance.PickaxeCooldownSlider1.value = _currentPickaxeCooldown; 
+            _pickaxeCooldownSlider.value = 1 - _currentPickaxeCooldown / PickaxeCooldown; 
             _currentPickaxeCooldown -= Time.deltaTime;
         }
     }
@@ -158,7 +212,6 @@ public class PlayerHandler : MonoBehaviour
         if (_carryingObject != null)
         {
             Score++;
-            ScoreText.text = "Score: " + Score;
             Destroy(_carryingObject);
         }
     }
@@ -191,6 +244,12 @@ public class PlayerHandler : MonoBehaviour
             if (hit.collider.CompareTag("Wall"))
             {
                 _currentPickaxeCooldown = PickaxeCooldown;
+
+                GameManager.Instance.GridGenerate.wallPositions.Remove(hit.transform.position);
+                GameManager.Instance.GridGenerate.wallObjects.Remove(hit.collider.gameObject);
+                GameManager.Instance.GemManager.EmptyWalls.Remove(hit.transform.position);
+                GameManager.Instance.GemManager.EmptyTiles.Add(hit.transform.position);
+
                 Destroy(hit.collider.gameObject);
             }
             else if (hit.collider.CompareTag("Scaffholding"))
@@ -219,7 +278,7 @@ public class PlayerHandler : MonoBehaviour
         {
             ThrowGemAway();
         }
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 1, transform.position.z);
     }
     private void ThrowGemAway()
     {
@@ -238,12 +297,12 @@ public class PlayerHandler : MonoBehaviour
             Vector3 worldPos = GameManager.Instance.GemManager.GridGenerateScript.GridToWorldPosition(targetGridPos);
 
             if (!GameManager.Instance.GemManager.GridGenerateScript.wallPositions.Contains(worldPos) &&
-                !GameManager.Instance.GemManager.gemObjects.Exists(obj => obj.transform.position == worldPos))
+                !GameManager.Instance.GemManager.GemObjects.Exists(obj => obj.transform.position == worldPos))
             {
                 _carryingObject.transform.position = worldPos;
                 _carryingObject.GetComponent<Collider>().enabled = true;
 
-                GameManager.Instance.GemManager.gemObjects.Add(_carryingObject);
+                GameManager.Instance.GemManager.GemObjects.Add(_carryingObject);
                 _carryingObject = null;
                 return;
             }
@@ -251,7 +310,7 @@ public class PlayerHandler : MonoBehaviour
 
         _carryingObject.transform.position = transform.position + Vector3.up * 0.5f;
         _carryingObject.GetComponent<Collider>().enabled = true;
-        GameManager.Instance.GemManager.gemObjects.Add(_carryingObject);
+        GameManager.Instance.GemManager.GemObjects.Add(_carryingObject);
         _carryingObject = null;
     }
 
