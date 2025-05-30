@@ -4,7 +4,7 @@ public class FallingWall : MonoBehaviour
 {
     internal bool _isFalling = true;
     private const float _gravity = 9.81f;
-    void Update()
+    virtual public void Update()
     {
         if (_isFalling)
         {
@@ -24,6 +24,21 @@ public class FallingWall : MonoBehaviour
         Vector3 wallPos = transform.position;
         float hitRadius = 1.1f; // Increased range for easier hits
 
+        Collider[] colliders = Physics.OverlapSphere(wallPos, 0.5f);
+        foreach (Collider col in colliders)
+        {
+            if (col.CompareTag("Unbreakable"))
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+
+        if (Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.position, wallPos) <= 3)
+        {
+            Destroy(gameObject);
+            return;
+        }
         foreach (PlayerHandler player in GameManager.Instance.Players)
         {
             Vector3 playerPos = player.transform.position;
@@ -33,11 +48,6 @@ public class FallingWall : MonoBehaviour
                 Destroy(gameObject);
                 return;
             }
-        }
-        if (Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.position, wallPos) <= 3)
-        {
-            Destroy(gameObject);
-            return;
         }
         foreach (Vector3 wall in GameManager.Instance.GridGenerate.wallPositions)
         {

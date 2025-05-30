@@ -37,4 +37,18 @@ public class DeathWall : FallingWall
         GameManager.Instance.GridGenerate.wallObjects.Add(gameObject);
         GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
     }
+    public override void Update()
+    {
+        base.Update();
+        foreach (PlayerHandler player in GameManager.Instance.Players)
+        {
+            Vector3 playerPos = player.transform.position;
+            if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), playerPos) <= HitRadius)
+            {
+                player.Stun();
+                player.transform.position = new Vector3(0, 1, 0);
+                return;
+            }
+        }
+    }
 }

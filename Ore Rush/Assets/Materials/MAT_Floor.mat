@@ -260,12 +260,17 @@ Material:
     - _ZWrite: 1
     m_Colors:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - _BaseColor: {r: 0.1981132, g: 0.10037736, b: 0, a: 1}
     - _Color: {r: 0.19811317, g: 0.100377314, b: 0, a: 1}
 =======
     - _BaseColor: {r: 1, g: 0.5181691, b: 0, a: 1}
     - _Color: {r: 1, g: 0.51816905, b: 0, a: 1}
 >>>>>>> 48ecc37c4524ed419c458b40d1250d21f2f2acde
+=======
+    - _BaseColor: {r: 0.78039217, g: 0.5219968, b: 0.36862746, a: 1}
+    - _Color: {r: 0.78039217, g: 0.5219968, b: 0.36862743, a: 1}
+>>>>>>> 01a22f7e7a4f674be2037924d036e6189fbdc19b
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

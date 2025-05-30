@@ -1,4 +1,5 @@
-﻿using Unity.IO.LowLevel.Unsafe;
+﻿using System.Collections;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,11 @@ public class DynamiteScript : MonoBehaviour
     public float moveRepeatRate = 0.1f;    // Time between repeated moves
 
     public float cooldownDuration = 5f;
+
+    [SerializeField]
+    private Color _flashColor;
+    private Color _startColor = Color.white;
+
 
     [SerializeField]
     private int _range = 2;
@@ -124,11 +130,17 @@ public class DynamiteScript : MonoBehaviour
             indicatorActive = false;
             indicatorInstance.SetActive(false);
             cooldownTimer = cooldownDuration;
+            _player.DynamiteIcon.color = _startColor;
+            _player.RJoystickIcon.SetActive(false);
         }
     }
 
     private void ActivateIndicator()
     {
+
+        _player.RJoystickIcon.SetActive(true);
+
+
         Debug.Log("activated indicator");
         // Snap player position to nearest grid cell
         Vector3 playerPos = transform.position;
@@ -145,6 +157,7 @@ public class DynamiteScript : MonoBehaviour
         // Enable
         indicatorActive = true;
         indicatorInstance.SetActive(true);
+        StartCoroutine(FlashDynamiteIcon());
     }
 
     void HandleCooldown()
@@ -219,7 +232,25 @@ public class DynamiteScript : MonoBehaviour
             lastInputDir = Vector2Int.zero;
         }
     }
+    private IEnumerator FlashDynamiteIcon()
+    {
+        float speed = 2f;
 
+        while (true)
+        {
+            float lerp = (Mathf.Sin(Time.time * Mathf.PI * speed) + 1f) / 2f;
+
+            _player.DynamiteIcon.color = Color.Lerp(_startColor, _flashColor, lerp);
+
+            if (!indicatorActive)
+            {
+                _player.DynamiteIcon.color = _startColor;
+                break;
+            }
+
+            yield return null;
+        }
+    }
 
     Vector3 GridToWorldPosition(Vector2Int gridPosition)
     {

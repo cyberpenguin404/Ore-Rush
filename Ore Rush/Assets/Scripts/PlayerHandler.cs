@@ -32,10 +32,13 @@ public class PlayerHandler : MonoBehaviour
             ScoreText.text = value.ToString();
         }
     }
-
+    [HideInInspector]
+    public Image DynamiteIcon;
+    [HideInInspector]
+    public GameObject RJoystickIcon;
     private TextMeshProUGUI ScoreText => PlayerIndex == 1 ? GameManager.Instance.ScoreTextPlayer1 : GameManager.Instance.ScoreTextPlayer2;
 
-    private Slider _pickaxeCooldownSlider;
+    public Slider PickaxeCooldownSlider;
     public Slider DynamiteCooldownSlider;
 
     public Animator PickaxeAnimtor;
@@ -80,11 +83,13 @@ public class PlayerHandler : MonoBehaviour
         GameManager.Instance.PlayerScores[PlayerIndex] = 0;
 
         GetComponent<Renderer>().material = PlayerIndex == 1 ? player1Material : player2Material;
-        _pickaxeCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownSlider1 : GameManager.Instance.PickaxeCooldownSlider2;
-        _pickaxeCooldownSlider.value = 1;
+        PickaxeCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.PickaxeCooldownSlider1 : GameManager.Instance.PickaxeCooldownSlider2;
+        PickaxeCooldownSlider.value = 1;
         DynamiteCooldownSlider = PlayerIndex == 1 ? GameManager.Instance.DynamiteCooldownSlider1 : GameManager.Instance.DynamiteCooldownSlider2;
+        DynamiteIcon = PlayerIndex == 1 ? GameManager.Instance.DynamiteIcon1 : GameManager.Instance.DynamiteIcon2;
+        RJoystickIcon = PlayerIndex == 1 ? GameManager.Instance.RJoystickIcon1 : GameManager.Instance.RJoystickIcon2;
 
-    SetSpawnpoint();
+        SetSpawnpoint();
     }
 
     private void SetSpawnpoint()
@@ -185,7 +190,6 @@ public class PlayerHandler : MonoBehaviour
     {
         if (_currentPickaxeCooldown > 0)
         {
-            _pickaxeCooldownSlider.value = 1 - _currentPickaxeCooldown / PickaxeCooldown; 
             _currentPickaxeCooldown -= Time.deltaTime;
         }
     }

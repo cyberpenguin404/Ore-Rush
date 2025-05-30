@@ -31,6 +31,7 @@ public class MineState : State
     public override void Update()
     {
         _timer += Time.deltaTime;
+        Owner.PickaxeCooldownSlider.value = _timer / Owner.PickaxeStunTime;
         if (_timer > Owner.PickaxeStunTime)
         {
             Owner.ChangeState(new NoneState(Owner));

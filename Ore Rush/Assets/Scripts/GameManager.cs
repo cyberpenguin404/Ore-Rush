@@ -15,9 +15,20 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField]
+    private float _screenShakeDurationWall = 0.2f;
+    [SerializeField]
+    private float _screenShakeMagnitudeWall = 1;
+    [SerializeField]
+    private float _screenShakeDurationDeathWall = 0.2f;
+    [SerializeField]
+    private float _screenShakeMagnitudeDeathWall = 1;
+    [SerializeField]
     private int _countdownTime = 5;
     public SpawnManager GemManager;
     public GridGenerate GridGenerate;
+
+    [SerializeField]
+    private ScreenShake _screenShake;
 
     public bool StartGameManually;
 
@@ -27,6 +38,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI ScoreTextPlayer2;
     public Slider PickaxeCooldownSlider1;
     public Slider PickaxeCooldownSlider2;
+    public Image DynamiteIcon1;
+    public Image DynamiteIcon2;
+    public GameObject RJoystickIcon1;
+    public GameObject RJoystickIcon2;
     public Slider DynamiteCooldownSlider1;
     public Slider DynamiteCooldownSlider2;
     public GameObject startScreen;
@@ -79,7 +94,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public int Height { get; private set; } = 25;
     private double _remainingTime;
     public bool MainGameRunning = false; 
-    private bool _hasStartedGame = false;
+    public bool _hasStartedGame = false;
 
     void Start()
     {
@@ -174,16 +189,19 @@ public class GameManager : MonoBehaviour
     public void DropWall(Vector3 position)
     {
         Instantiate(_fallingWallPrefab, position, Quaternion.identity);
+        _screenShake.Shake(_screenShakeDurationWall, _screenShakeMagnitudeWall);
     }
     public void DropDeathWall(Vector3 position)
     {
         Instantiate(_deathFallingWallPrefab, position, Quaternion.identity);
+        _screenShake.Shake(_screenShakeDurationDeathWall, _screenShakeMagnitudeDeathWall);
     }
 
     private void StartGame()
     {
         if (!_hasStartedGame)
         {
+            Debug.Log("Starting game");
             _hasStartedGame = true;
             StartCoroutine(StartCountdownRoutine());
         }
@@ -209,6 +227,7 @@ public class GameManager : MonoBehaviour
     }
     public void RestartGame()
     {
+        _hasStartedGame = false;
         SceneManager.LoadScene(0);
     }
 
@@ -221,8 +240,9 @@ public class GameManager : MonoBehaviour
             Debug.Log($"{player.PlayerName}: {player.Score}");
         }
         _winnerText.text = winningplayer.PlayerName + " has won!";
-        Time.timeScale = 0;
+        _playerCount = 0;
         MainGameRunning = false;
+        _hasStartedGame = false;
     }
 
     void Awake()
