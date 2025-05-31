@@ -35,6 +35,9 @@ public class GridGenerate : MonoBehaviour
 
 
     private Vector3 _spawnPosition = new Vector3(0, 1, 0);
+    [SerializeField]
+    private float waitForRegenTime;
+
     public bool _isCollapsingMaze { get; private set; } = false;
 
     private void Start()
@@ -151,7 +154,7 @@ public class GridGenerate : MonoBehaviour
             {
                 Vector3 roundedPos = new Vector3(Mathf.Round(child.position.x),Mathf.Round(child.position.y),Mathf.Round(child.position.z));
                 wallPositions.Add(roundedPos);
-                gemManager.EmptyWalls.Add(roundedPos);
+                gemManager.EmptyWalls.Add(child.gameObject);
                 wallObjects.Add(child.gameObject);
             }
             if (child.CompareTag("Scaffholding"))
@@ -185,7 +188,7 @@ public class GridGenerate : MonoBehaviour
                     if (IsInCenterSquare(pos, 5)) continue;
 
                     Vector3 worldPos = GridToWorldPosition(pos);
-                    worldPos.y = 10;
+                    worldPos.y = 6;
 
                     if (!wallPositions.Contains(worldPos))
                     {
@@ -200,6 +203,7 @@ public class GridGenerate : MonoBehaviour
                 yield return new WaitForSeconds(wallCollapseSpeed);
             }
         }
+        yield return new WaitForSeconds(waitForRegenTime);
 
         _isCollapsingMaze = false;
     }

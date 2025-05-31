@@ -9,6 +9,7 @@ TagManager:
   - Unbreakable
   - Scaffholding
   - DeathWall
+  - Gem
   layers:
   - Default
   - TransparentFX

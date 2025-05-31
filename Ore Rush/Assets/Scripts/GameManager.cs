@@ -140,7 +140,14 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScore(int amount, int playerIndex)
     {
-        PlayerScores[playerIndex] += amount;
+        if (!PlayerScores.ContainsKey(playerIndex))
+        {
+            PlayerScores[playerIndex] = 0;
+        }
+
+        PlayerScores[playerIndex] = amount;
+        Debug.Log($"Player {playerIndex} score changed by {amount}. New score: {PlayerScores[playerIndex]}");
+
         UpdateTargetBarRatios();
     }
 
@@ -212,17 +219,17 @@ public class GameManager : MonoBehaviour
         StartScreenAnimator.SetTrigger("StartGame");
         _startCountdownText.gameObject.SetActive(true);
 
-        while (_countdownTime > 0)
+        while (_countdownTime > 1)
         {
-            _startCountdownText.text = _countdownTime.ToString();
+            _startCountdownText.text = (_countdownTime-1).ToString();
             yield return new WaitForSeconds(1f);
             _countdownTime--;
         }
 
-        _startCountdownText.text = "Go!";
+        _startCountdownText.text = "Collect!";
+        yield return new WaitForSeconds(1f);
         MainGameRunning = true;
 
-        yield return new WaitForSeconds(1f);
         _startCountdownText.gameObject.SetActive(false);
     }
     public void RestartGame()
@@ -234,12 +241,27 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         _winnerScreen.SetActive(true);
-        PlayerHandler winningplayer = Players.OrderByDescending(i => i.Score).FirstOrDefault();
+
+        int highestScore = Players.Max(p => p.Score);
+
+        List<PlayerHandler> topPlayers = Players.Where(p => p.Score == highestScore).ToList();
+
         foreach (PlayerHandler player in Players)
         {
             Debug.Log($"{player.PlayerName}: {player.Score}");
         }
-        _winnerText.text = winningplayer.PlayerName + " has won!";
+
+        if (topPlayers.Count > 1)
+        {
+            string names = string.Join(", ", topPlayers.Select(p => p.PlayerName));
+            _winnerText.text = $"Draw between: {names}!";
+        }
+        else
+        {
+            PlayerHandler winningPlayer = topPlayers[0];
+            _winnerText.text = $"{winningPlayer.PlayerName} has won!";
+        }
+
         _playerCount = 0;
         MainGameRunning = false;
         _hasStartedGame = false;

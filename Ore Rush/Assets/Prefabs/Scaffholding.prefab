@@ -171,7 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03faf2913da0d3242b0dd9d342e31768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WidthIncreasePerDistance: 0.5
   _indicator: {fileID: 6652195911515385533, guid: 5cbc7805cdf9bba4b9d6cf133a80c107, type: 3}
+  _fallingWallChance: 50
 --- !u!1 &7732079117958918930 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8821623529969584324, guid: 47913020116dab14fb3b11451fcc5807, type: 3}

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEditor.ShaderData;
 using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerHandler : MonoBehaviour
@@ -65,7 +66,20 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField]
     private CharacterController _charController;
 
+    [SerializeField]
+    private float _knockbackForce;
+
+    [SerializeField]
+    private GameObject _popup;
+
     private Vector2 _moveInput;
+
+    private Vector3 _knockBack;
+    private float _mass = 5;
+
+    [SerializeField]
+    private GameObject _pickaxeIndicator;
+    private GameObject _currentPickaxeIndicator;
 
     public void OnMovement(InputAction.CallbackContext context)
     {
@@ -124,10 +138,59 @@ public class PlayerHandler : MonoBehaviour
         }
 
         HandleMovement();
+        HandleMineIndicator();
         _currentState.Update();
         HandleCooldowns();
         HandleCarrying();
         HandleArrow();
+    }
+
+    private void HandleMineIndicator()
+    {
+        if (_currentPickaxeCooldown > 0)
+        {
+            return;
+        }
+
+
+        Ray ray = new Ray(new Vector3(transform.position.x, 0, transform.position.z), transform.forward);
+        RaycastHit hit;
+
+        int wallLayerMask = (1 << LayerMask.NameToLayer("Pickaxeable")) | (1 << LayerMask.NameToLayer("Player"));
+
+        if (Physics.Raycast(ray, out hit, mineRange, wallLayerMask))
+        {
+            if (hit.collider.CompareTag("Wall"))
+            {
+                ChangeIndicator(hit);
+            }
+            else if (hit.collider.CompareTag("Scaffholding"))
+            {
+                ChangeIndicator(hit);
+            }
+        }
+        else
+        {
+            Destroy(_currentPickaxeIndicator);
+            _currentPickaxeIndicator = null;
+        }
+    }
+
+    private void ChangeIndicator(RaycastHit hit)
+    {
+        Vector3 targetLocation = new Vector3(hit.transform.position.x, -1.2f, hit.transform.position.z);
+        if (_currentPickaxeIndicator != null)
+        {
+            if (targetLocation != _currentPickaxeIndicator.transform.position)
+            {
+                Destroy(_currentPickaxeIndicator);
+                _currentPickaxeIndicator = Instantiate(_pickaxeIndicator, targetLocation, _pickaxeIndicator.transform.rotation);
+            }
+        }
+        else
+        {
+            _currentPickaxeIndicator = Instantiate(_pickaxeIndicator, targetLocation, _pickaxeIndicator.transform.rotation);
+        }
     }
 
     private void HandleArrow()
@@ -216,6 +279,8 @@ public class PlayerHandler : MonoBehaviour
         if (_carryingObject != null)
         {
             Score++;
+            GameObject newPopup = Instantiate(_popup, _carryingObject.transform.position, _popup.transform.rotation);
+            newPopup.GetComponent<PopupScript>().Text.text = "+" + "1";
             Destroy(_carryingObject);
         }
     }
@@ -241,7 +306,7 @@ public class PlayerHandler : MonoBehaviour
         Ray ray = new Ray(new Vector3(transform.position.x,0,transform.position.z), direction);
         RaycastHit hit;
 
-        int wallLayerMask = 1 << LayerMask.NameToLayer("Pickaxeable");
+        int wallLayerMask = (1 << LayerMask.NameToLayer("Pickaxeable")) | (1 << LayerMask.NameToLayer("Player"));
 
         if (Physics.Raycast(ray, out hit, mineRange, wallLayerMask))
         {
@@ -251,8 +316,13 @@ public class PlayerHandler : MonoBehaviour
 
                 GameManager.Instance.GridGenerate.wallPositions.Remove(hit.transform.position);
                 GameManager.Instance.GridGenerate.wallObjects.Remove(hit.collider.gameObject);
-                GameManager.Instance.GemManager.EmptyWalls.Remove(hit.transform.position);
+                GameManager.Instance.GemManager.EmptyWalls.Remove(hit.collider.gameObject);
                 GameManager.Instance.GemManager.EmptyTiles.Add(hit.transform.position);
+
+                if (hit.collider.GetComponent<WallScript>().gemInsideMe != null)
+                {
+                    PickUpGem(hit.collider.GetComponent<WallScript>().gemInsideMe);
+                }
 
                 Destroy(hit.collider.gameObject);
             }
@@ -260,6 +330,11 @@ public class PlayerHandler : MonoBehaviour
             {
                 _currentPickaxeCooldown = PickaxeCooldown;
                 hit.collider.GetComponent<ScaffholdingScript>().CollapseScaffholding(direction);
+            }
+            else if (hit.collider.CompareTag("Player"))
+            {
+                Debug.Log("hit player");
+                hit.collider.GetComponent<PlayerHandler>().ApplyKnockBack(transform.forward, _knockbackForce);
             }
             else
             {
@@ -271,7 +346,11 @@ public class PlayerHandler : MonoBehaviour
             //Debug.Log("Nothing found");
         }
     }
-
+    public void ApplyKnockBack(Vector3 dir, float force)
+    {
+        dir.Normalize();
+        _knockBack += dir.normalized * force / _mass;
+    }
     public void Stun()
     {
         _stunTimer = stunDuration;
@@ -335,5 +414,15 @@ public class PlayerHandler : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Smooth rotation
         }
         transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+
+        if (_knockBack.magnitude > 0.2f)
+        {
+            _charController.Move(_knockBack * Time.deltaTime);
+            _knockBack = Vector3.Lerp(_knockBack,Vector3.zero, 5*Time.deltaTime);
+        }
+        else
+        {
+            _knockBack = Vector3.zero;
+        }
     }
 }

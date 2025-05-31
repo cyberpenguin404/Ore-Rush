@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
 
 
     public List<Vector3> EmptyTiles = new List<Vector3>();
-    public List<Vector3> EmptyWalls = new List<Vector3>();
+    public List<GameObject> EmptyWalls = new List<GameObject>();
 
     [SerializeField]
     public GridGenerate GridGenerateScript;
@@ -134,11 +134,13 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPosition = EmptyWalls[Random.Range(0, EmptyWalls.Count - 1)];
+        GameObject spawnPosition = EmptyWalls[Random.Range(0, EmptyWalls.Count - 1)];
 
 
         EmptyWalls.Remove(spawnPosition);
-        GemObjects.Add(Instantiate(_gem, spawnPosition, Quaternion.identity));
+        GameObject newGem = Instantiate(_gem, spawnPosition.transform.position, Quaternion.identity);
+        GemObjects.Add(newGem);
+        spawnPosition.GetComponent<WallScript>().gemInsideMe = newGem;
     }
     public void PickupGem(GameObject gem)
     {
