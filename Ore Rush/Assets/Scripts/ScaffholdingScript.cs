@@ -5,7 +5,8 @@ using UnityEngine;
 public class ScaffholdingScript : MonoBehaviour
 {
     private const int StartDropHeight = 20;
-    private const float WidthIncreasePerDistance = 0.5f;
+    [SerializeField]
+    private float WidthIncreasePerDistance = 0.5f;
     [SerializeField] private GameObject _indicator;
 
     [SerializeField, Range(0, 100)]

@@ -59,7 +59,7 @@ public class FallingWall : MonoBehaviour
         }
         GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
         GameManager.Instance.GridGenerate.wallObjects.Add(gameObject);
-        GameManager.Instance.GemManager.EmptyWalls.Add(wallPos);
+        GameManager.Instance.GemManager.EmptyWalls.Add(gameObject);
         GameManager.Instance.GemManager.EmptyTiles.Remove(wallPos);
     }
 }

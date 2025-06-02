@@ -14,18 +14,12 @@ public class MineState : State
 
     public override void Enter()
     {
-        _playerSpeed = Owner.PlayerSpeed;
-        Owner.PlayerSpeed = 0;
-        _direction = Owner.transform.forward;
-        Owner._canTurn = false;
         Owner.PickaxeAnimtor.SetBool("IsMining", true);
     }
     public override void Exit()
     {
         Debug.Log("Exited mine state");
-        Owner.Mine(_direction);
-        Owner.PlayerSpeed = _playerSpeed;
-        Owner._canTurn = true;
+        Owner.Mine(Owner.transform.forward);
         Owner.PickaxeAnimtor.SetBool("IsMining", false);
     }
     public override void Update()
