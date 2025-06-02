@@ -93,10 +93,12 @@ public class GridGenerate : MonoBehaviour
     {
         while (true)
         {
+            GameManager.Instance.Stage++;
             ResetPlayerPositions();
             RemoveGems();
             GenerateMaps();
             gemManager.InitiateMap();
+
 
             while (!GameManager.Instance.MainGameRunning)
             {

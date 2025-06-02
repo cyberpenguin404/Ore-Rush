@@ -140,7 +140,18 @@ public class SpawnManager : MonoBehaviour
         EmptyWalls.Remove(spawnPosition);
         GameObject newGem = Instantiate(_gem, spawnPosition.transform.position, Quaternion.identity);
         GemObjects.Add(newGem);
-        spawnPosition.GetComponent<WallScript>().gemInsideMe = newGem;
+        spawnPosition.GetComponent<WallScript>().gemInsideMe = newGem; 
+        InitializeGemValue(spawnPosition, newGem);
+    }
+
+    private static void InitializeGemValue(GameObject spawnPosition, GameObject newGem)
+    {
+        float distanceFromCollectionZone = Vector3.Distance(spawnPosition.transform.position, GameManager.Instance.GridGenerate.collectionZone.transform.position);
+        float maxDistance = Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.transform.position,
+            new Vector3(GameManager.Instance.Width / 2, 0, GameManager.Instance.Height / 2));
+
+        int gemValue = (int)((10 * GameManager.Instance.Stage) + distanceFromCollectionZone / (maxDistance / 10));
+        newGem.GetComponent<Gem>().Initialize(gemValue);
     }
     public void PickupGem(GameObject gem)
     {

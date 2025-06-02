@@ -8,6 +8,7 @@ public class DeathWall : FallingWall
     {
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         base._isFalling = false;
+        Destroy(_currentFallInidicator);
 
         Vector3 wallPos = transform.position;
 
@@ -27,13 +28,13 @@ public class DeathWall : FallingWall
             if (Vector3.Distance(new Vector3(wallPos.x, 0, wallPos.z), hitWallPos) <= 0.2f && !wall.CompareTag("DeathWall"))
             {
                 GameManager.Instance.GridGenerate.wallPositions.Remove(hitWallPos);
-                GameManager.Instance.GemManager.EmptyWalls.Remove(wall);
+                GameManager.Instance.SpawnManager.EmptyWalls.Remove(wall);
                 GameManager.Instance.GridGenerate.wallObjects.Remove(wall);
                 Destroy(wall);
                 return;
             }
         }
-        GameManager.Instance.GemManager.EmptyTiles.Remove(wallPos);
+        GameManager.Instance.SpawnManager.EmptyTiles.Remove(wallPos);
         GameManager.Instance.GridGenerate.wallObjects.Add(gameObject);
         GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
     }

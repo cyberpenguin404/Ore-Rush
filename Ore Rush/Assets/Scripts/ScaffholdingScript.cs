@@ -108,8 +108,8 @@ public class ScaffholdingScript : MonoBehaviour
 
         GameManager.Instance.GridGenerate.wallPositions.Remove(transform.position);
         GameManager.Instance.GridGenerate.wallObjects.Remove(gameObject);
-        GameManager.Instance.GemManager.ScaffholdingObjects.Remove(gameObject);
-        GameManager.Instance.GemManager.EmptyTiles.Add(transform.position);
+        GameManager.Instance.SpawnManager.ScaffholdingObjects.Remove(gameObject);
+        GameManager.Instance.SpawnManager.EmptyTiles.Add(transform.position);
         Destroy(gameObject);
     }
     private void GenerateConePattern(Vector3 direction, System.Action<Vector3, int> action)

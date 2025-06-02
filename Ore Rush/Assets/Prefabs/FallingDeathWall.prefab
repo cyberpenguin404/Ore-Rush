@@ -121,3 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f673765c9f0a2e4ab2f5eec35d90057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visibilityHeight: 5
+  _meshRenderer: {fileID: 846642548034058494}
+  _fallInidicator: {fileID: 8923579069244817000, guid: a1ccf58429415254787f89404a17284d, type: 3}

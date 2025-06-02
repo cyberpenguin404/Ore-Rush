@@ -80,6 +80,8 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField]
     private GameObject _pickaxeIndicator;
     private GameObject _currentPickaxeIndicator;
+    [SerializeField]
+    private int _maxDropDistance;
 
     public void OnMovement(InputAction.CallbackContext context)
     {
@@ -126,6 +128,7 @@ public class PlayerHandler : MonoBehaviour
             GameManager.Instance.DropWall(transform.position + Vector3.up * 10);
             spawnWall = false;
         }
+        HandleArrow();
         if (_stunTimer > 0)
         {
             _stunTimer -= Time.deltaTime;
@@ -142,7 +145,6 @@ public class PlayerHandler : MonoBehaviour
         _currentState.Update();
         HandleCooldowns();
         HandleCarrying();
-        HandleArrow();
     }
 
     private void HandleMineIndicator()
@@ -268,7 +270,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (_carryingObject == null)
         {
-            GameManager.Instance.GemManager.PickupGem(gem);
+            GameManager.Instance.SpawnManager.PickupGem(gem);
             _carryingObject = gem;
             _carryingObject.GetComponent<Collider>().enabled = false;
         }
@@ -278,9 +280,10 @@ public class PlayerHandler : MonoBehaviour
     {
         if (_carryingObject != null)
         {
-            Score++;
+            int value = _carryingObject.GetComponent<Gem>().Value;
+            Score += value;
             GameObject newPopup = Instantiate(_popup, _carryingObject.transform.position, _popup.transform.rotation);
-            newPopup.GetComponent<PopupScript>().Text.text = "+" + "1";
+            newPopup.GetComponent<PopupScript>().Text.text = "+" + value;
             Destroy(_carryingObject);
         }
     }
@@ -316,8 +319,8 @@ public class PlayerHandler : MonoBehaviour
 
                 GameManager.Instance.GridGenerate.wallPositions.Remove(hit.transform.position);
                 GameManager.Instance.GridGenerate.wallObjects.Remove(hit.collider.gameObject);
-                GameManager.Instance.GemManager.EmptyWalls.Remove(hit.collider.gameObject);
-                GameManager.Instance.GemManager.EmptyTiles.Add(hit.transform.position);
+                GameManager.Instance.SpawnManager.EmptyWalls.Remove(hit.collider.gameObject);
+                GameManager.Instance.SpawnManager.EmptyTiles.Add(hit.transform.position);
 
                 if (hit.collider.GetComponent<WallScript>().gemInsideMe != null)
                 {
@@ -359,13 +362,22 @@ public class PlayerHandler : MonoBehaviour
 
         if (_carryingObject != null)
         {
-            ThrowGemAway();
+            StartCoroutine(ThrowGemNextFrame());
         }
         transform.position = new Vector3(transform.position.x, 1, transform.position.z);
     }
-    private void ThrowGemAway()
+    private IEnumerator ThrowGemNextFrame()
     {
-        Vector2Int playerGridPos = GameManager.Instance.GemManager.GridGenerateScript.WorldToGridPosition(transform.position);
+        yield return null;
+        ThrowGem();
+    }
+    private void ThrowGem()
+    {
+        if (_carryingObject == null)
+        {
+            return;
+        }
+        Vector2Int playerGridPos = GameManager.Instance.SpawnManager.GridGenerateScript.WorldToGridPosition(transform.position);
         List<Vector2Int> directions = new List<Vector2Int>
         {
             Vector2Int.up,
@@ -374,26 +386,28 @@ public class PlayerHandler : MonoBehaviour
             Vector2Int.right
         };
 
-        foreach (var dir in directions)
+        for (int distance = _maxDropDistance; distance >= 0; distance--)
         {
-            Vector2Int targetGridPos = playerGridPos + dir * 2;
-            Vector3 worldPos = GameManager.Instance.GemManager.GridGenerateScript.GridToWorldPosition(targetGridPos);
-
-            if (!GameManager.Instance.GemManager.GridGenerateScript.wallPositions.Contains(worldPos) &&
-                !GameManager.Instance.GemManager.GemObjects.Exists(obj => obj.transform.position == worldPos))
+            foreach (var dir in directions)
             {
-                _carryingObject.transform.position = worldPos;
-                _carryingObject.GetComponent<Collider>().enabled = true;
+                Vector2Int targetGridPos = playerGridPos + dir * distance;
+                Vector3 worldPos = GameManager.Instance.SpawnManager.GridGenerateScript.GridToWorldPosition(targetGridPos);
+                Debug.Log(worldPos);
 
-                GameManager.Instance.GemManager.GemObjects.Add(_carryingObject);
-                _carryingObject = null;
-                return;
+                if (GameManager.Instance.SpawnManager.EmptyTiles.Contains(worldPos))
+                {
+                    _carryingObject.transform.position = worldPos;
+                    _carryingObject.GetComponent<Collider>().enabled = true;
+
+                    GameManager.Instance.SpawnManager.GemObjects.Add(_carryingObject);
+                    _carryingObject = null;
+                    return;
+                }
             }
         }
-
         _carryingObject.transform.position = transform.position + Vector3.up * 0.5f;
         _carryingObject.GetComponent<Collider>().enabled = true;
-        GameManager.Instance.GemManager.GemObjects.Add(_carryingObject);
+        GameManager.Instance.SpawnManager.GemObjects.Add(_carryingObject);
         _carryingObject = null;
     }
 

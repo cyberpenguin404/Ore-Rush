@@ -24,8 +24,10 @@ public class GameManager : MonoBehaviour
     private float _screenShakeMagnitudeDeathWall = 1;
     [SerializeField]
     private int _countdownTime = 5;
-    public SpawnManager GemManager;
+    public SpawnManager SpawnManager;
     public GridGenerate GridGenerate;
+
+    public int Stage;
 
     [SerializeField]
     private ScreenShake _screenShake;
