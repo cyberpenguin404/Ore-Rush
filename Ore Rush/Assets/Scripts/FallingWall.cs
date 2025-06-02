@@ -91,7 +91,7 @@ public class FallingWall : MonoBehaviour
         }
         foreach (GameObject wall in GameManager.Instance.GridGenerate.wallObjects)
         {
-            if (Vector3.Distance(wall.transform.position, wallPos) <= 0.9f)
+            if (Vector3.Distance(wall.transform.position, wallPos) <= 0.5f)
             {
                 Destroy(gameObject);
                 return;
