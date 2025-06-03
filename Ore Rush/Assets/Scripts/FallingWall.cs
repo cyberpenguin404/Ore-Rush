@@ -12,7 +12,8 @@ public class FallingWall : MonoBehaviour
     private FallingWallIndicator _currentFallIndicatorScript;
     private void Start()
     {
-        _meshRenderer.enabled = false;
+        _meshRenderer.enabled = false; 
+        gameObject.layer = LayerMask.NameToLayer("FallingWall");
     }
     virtual public void Update()
     {
@@ -56,11 +57,12 @@ public class FallingWall : MonoBehaviour
         Vector3 wallPos = transform.position;
         float hitRadius = 1.1f;
 
-        Collider[] colliders = Physics.OverlapSphere(wallPos, 0.5f);
+        Collider[] colliders = Physics.OverlapSphere(wallPos, 0.2f);
         foreach (Collider col in colliders)
         {
             if (col.CompareTag("Unbreakable"))
             {
+                Debug.Log("hit unbreakable wall");
                 Destroy(gameObject);
                 return;
             }
@@ -68,6 +70,7 @@ public class FallingWall : MonoBehaviour
 
         if (Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.position, wallPos) <= 3)
         {
+            Debug.Log("hit collection zone");
             Destroy(gameObject);
             return;
         }
@@ -77,6 +80,7 @@ public class FallingWall : MonoBehaviour
             if (Vector3.Distance(new Vector3(playerPos.x, 0, playerPos.z), wallPos) <= hitRadius)
             {
                 player.Stun();
+                Debug.Log("hit player");
                 Destroy(gameObject);
                 return;
             }
@@ -85,6 +89,7 @@ public class FallingWall : MonoBehaviour
         {
             if (Vector3.Distance(gem.transform.position, wallPos) <= 0.9f)
             {
+                Debug.Log("hit gem");
                 GetComponent<WallScript>().gemInsideMe = gem;
                 return;
             }
@@ -93,10 +98,13 @@ public class FallingWall : MonoBehaviour
         {
             if (Vector3.Distance(wall.transform.position, wallPos) <= 0.5f)
             {
+                Debug.Log("hit wall");
                 Destroy(gameObject);
                 return;
             }
         }
+
+        gameObject.layer = LayerMask.NameToLayer("Pickaxeable");
         GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
         GameManager.Instance.GridGenerate.wallObjects.Add(gameObject);
         GameManager.Instance.SpawnManager.EmptyWalls.Add(gameObject);

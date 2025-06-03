@@ -12,6 +12,10 @@ public class DeathWall : FallingWall
 
         Vector3 wallPos = transform.position;
 
+        GameManager.Instance.SpawnManager.EmptyTiles.Remove(wallPos);
+        GameManager.Instance.GridGenerate.wallObjects.Add(gameObject);
+        GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
+
         foreach (PlayerHandler player in GameManager.Instance.Players)
         {
             Vector3 playerPos = player.transform.position;
@@ -34,9 +38,16 @@ public class DeathWall : FallingWall
                 return;
             }
         }
-        GameManager.Instance.SpawnManager.EmptyTiles.Remove(wallPos);
-        GameManager.Instance.GridGenerate.wallObjects.Add(gameObject);
-        GameManager.Instance.GridGenerate.wallPositions.Add(wallPos);
+        foreach (GameObject scaffolding in GameManager.Instance.SpawnManager.ScaffholdingObjects)
+        {
+            Vector3 hitScaffholdingPos = scaffolding.transform.position;
+            if (Vector3.Distance(new Vector3(wallPos.x, 0, wallPos.z), hitScaffholdingPos) <= 0.5f)
+            {
+                GameManager.Instance.SpawnManager.ScaffholdingObjects.Remove(scaffolding);
+                Destroy(scaffolding);
+                return;
+            }
+        }
     }
     public override void Update()
     {

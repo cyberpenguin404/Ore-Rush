@@ -121,9 +121,7 @@ public class SpawnManager : MonoBehaviour
         GameObject newScaffholding = Instantiate(_scaffholding, spawnPosition, Quaternion.identity);
 
         EmptyTiles.Remove(spawnPosition);
-        GridGenerateScript.wallPositions.Add(spawnPosition);
         ScaffholdingObjects.Add(newScaffholding);
-        GridGenerateScript.wallObjects.Add(newScaffholding);
     }
     private void SpawnGem()
     {
@@ -137,8 +135,9 @@ public class SpawnManager : MonoBehaviour
         GameObject spawnPosition = EmptyWalls[Random.Range(0, EmptyWalls.Count - 1)];
 
 
-        EmptyWalls.Remove(spawnPosition);
         GameObject newGem = Instantiate(_gem, spawnPosition.transform.position, Quaternion.identity);
+        EmptyWalls.Remove(spawnPosition);
+
         GemObjects.Add(newGem);
         spawnPosition.GetComponent<WallScript>().gemInsideMe = newGem; 
         InitializeGemValue(spawnPosition, newGem);
