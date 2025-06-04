@@ -139,7 +139,9 @@ public class SpawnManager : MonoBehaviour
         EmptyWalls.Remove(spawnPosition);
 
         GemObjects.Add(newGem);
-        spawnPosition.GetComponent<WallScript>().gemInsideMe = newGem; 
+        spawnPosition.GetComponent<WallScript>().gemInsideMe = newGem;
+        spawnPosition.GetComponent<WallScript>().UpdateWallMesh();
+
         InitializeGemValue(spawnPosition, newGem);
     }
 
