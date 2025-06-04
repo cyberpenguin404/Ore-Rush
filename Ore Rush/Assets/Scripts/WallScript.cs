@@ -9,8 +9,6 @@ public class WallScript : MonoBehaviour
     public GameObject defaultWallVisual;
     public GameObject GemWallVisual;
 
-    [SerializeField]
-    private MeshFilter _meshFilter;
     public void UpdateWallMesh()
     {
         if (gemInsideMe != null)
