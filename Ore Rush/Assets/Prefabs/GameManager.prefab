@@ -81,9 +81,10 @@ MonoBehaviour:
   wallRegenInterval: 60
   wallCollapseSpeed: 1
   gameManager: {fileID: 685837030237778843}
-  gemManager: {fileID: 3541460209804128929}
+  SpawnManager: {fileID: 3541460209804128929}
   wallPositions: []
   wallObjects: []
+  waitForRegenTime: 0
 --- !u!114 &685837030237778843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,9 +101,10 @@ MonoBehaviour:
   _screenShakeMagnitudeWall: 0.5
   _screenShakeDurationDeathWall: 0.2
   _screenShakeMagnitudeDeathWall: 0.1
-  _countdownTime: 5
-  GemManager: {fileID: 3541460209804128929}
+  _countdownTime: 9
+  SpawnManager: {fileID: 3541460209804128929}
   GridGenerate: {fileID: 743688315619495738}
+  Stage: 0
   _screenShake: {fileID: 0}
   StartGameManually: 0
   ScoreTextPlayer1: {fileID: 0}
