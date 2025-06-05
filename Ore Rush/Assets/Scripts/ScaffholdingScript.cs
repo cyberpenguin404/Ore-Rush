@@ -55,8 +55,12 @@ public class ScaffholdingScript : MonoBehaviour
 
     private static bool IsOutOfBounds(Vector3 indicatorPosition)
     {
-        return Mathf.Abs(indicatorPosition.x) > (GameManager.Instance.Width / 2) + 1 ||
-                        Mathf.Abs(indicatorPosition.z) > (GameManager.Instance.Width / 2) + 1;
+        int x = Mathf.RoundToInt(indicatorPosition.x);
+        int z = Mathf.RoundToInt(indicatorPosition.z);
+        int halfWidth = GameManager.Instance.Width / 2;
+        int halfHeight = GameManager.Instance.Height / 2;
+
+        return Mathf.Abs(x) > halfWidth || Mathf.Abs(z) > halfHeight;
     }
 
     public void OnTriggerExitRelayed(Collider other)
@@ -108,8 +112,8 @@ public class ScaffholdingScript : MonoBehaviour
 
         GameManager.Instance.GridGenerate.wallPositions.Remove(transform.position);
         GameManager.Instance.GridGenerate.wallObjects.Remove(gameObject);
-        GameManager.Instance.GemManager.ScaffholdingObjects.Remove(gameObject);
-        GameManager.Instance.GemManager.EmptyTiles.Add(transform.position);
+        GameManager.Instance.SpawnManager.ScaffholdingObjects.Remove(gameObject);
+        GameManager.Instance.SpawnManager.EmptyTiles.Add(transform.position);
         Destroy(gameObject);
     }
     private void GenerateConePattern(Vector3 direction, System.Action<Vector3, int> action)

@@ -24,8 +24,10 @@ public class GameManager : MonoBehaviour
     private float _screenShakeMagnitudeDeathWall = 1;
     [SerializeField]
     private int _countdownTime = 5;
-    public SpawnManager GemManager;
+    public SpawnManager SpawnManager;
     public GridGenerate GridGenerate;
+
+    public int Stage;
 
     [SerializeField]
     private ScreenShake _screenShake;
@@ -169,14 +171,24 @@ public class GameManager : MonoBehaviour
     public float GetPlayerWinRatio(int playerIndex)
     {
         int totalScore = PlayerScores.Values.Sum();
-        if (totalScore == 0) return 0.5f; // Neutral bar
-        float playerScorePercentage = (float)PlayerScores[playerIndex] / totalScore;
+        if (totalScore == 0) return 0.5f;
 
-        playerScorePercentage = MathF.Min(0.9f, playerScorePercentage);
-        playerScorePercentage = MathF.Max(0.1f, playerScorePercentage);
+        float score1 = PlayerScores.ContainsKey(1) ? PlayerScores[1] : 0;
+        float score2 = PlayerScores.ContainsKey(2) ? PlayerScores[2] : 0;
+
+        float bias = 2.5f;
+        float adjusted1 = Mathf.Pow(score1 / (score1 + score2 + 0.001f), bias);
+        float adjusted2 = Mathf.Pow(score2 / (score1 + score2 + 0.001f), bias);
+        float sumAdjusted = adjusted1 + adjusted2;
+
+        float ratio1 = adjusted1 / sumAdjusted;
+        float ratio2 = adjusted2 / sumAdjusted;
+
+        float returnratio = playerIndex == 1 ? ratio1 : ratio2;
+        returnratio = Mathf.Clamp(returnratio, 0.1f, 0.9f);
 
 
-        return playerScorePercentage;
+        return returnratio;
     }
     private void HandleGame()
     {

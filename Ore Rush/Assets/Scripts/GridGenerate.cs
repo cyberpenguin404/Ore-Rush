@@ -26,7 +26,7 @@ public class GridGenerate : MonoBehaviour
     [SerializeField]
     private GameManager gameManager;
     [SerializeField]
-    private SpawnManager gemManager;
+    private SpawnManager SpawnManager;
 
     private GameObject[,] gridArray;
     public List<Vector3> wallPositions = new List<Vector3>();
@@ -93,10 +93,12 @@ public class GridGenerate : MonoBehaviour
     {
         while (true)
         {
+            GameManager.Instance.Stage++;
             ResetPlayerPositions();
-            RemoveGems();
+            RemoveGemsAndScaffholding();
             GenerateMaps();
-            gemManager.InitiateMap();
+            SpawnManager.InitiateMap();
+
 
             while (!GameManager.Instance.MainGameRunning)
             {
@@ -154,7 +156,7 @@ public class GridGenerate : MonoBehaviour
             {
                 Vector3 roundedPos = new Vector3(Mathf.Round(child.position.x),Mathf.Round(child.position.y),Mathf.Round(child.position.z));
                 wallPositions.Add(roundedPos);
-                gemManager.EmptyWalls.Add(child.gameObject);
+                SpawnManager.EmptyWalls.Add(child.gameObject);
                 wallObjects.Add(child.gameObject);
             }
             if (child.CompareTag("Scaffholding"))
@@ -208,13 +210,18 @@ public class GridGenerate : MonoBehaviour
         _isCollapsingMaze = false;
     }
 
-    private void RemoveGems()
+    private void RemoveGemsAndScaffholding()
     {
-        foreach (GameObject gem in gemManager.GemObjects.ToList())
+        foreach (GameObject gem in SpawnManager.GemObjects.ToList())
         {
             Destroy(gem);
         }
-        gemManager.GemObjects.Clear();
+        SpawnManager.GemObjects.Clear();
+        foreach (GameObject scaffolding in SpawnManager.ScaffholdingObjects.ToList())
+        {
+            Destroy(scaffolding);
+        }
+        SpawnManager.ScaffholdingObjects.Clear();
     }
 
     private void ResetPlayerPositions()
@@ -371,8 +378,8 @@ public class GridGenerate : MonoBehaviour
 
     public Vector3 GridToWorldPosition(Vector2Int gridPosition)
     {
-        float x = gridPosition.x - (_width - 1) / 2f;
-        float z = gridPosition.y - (_height - 1) / 2f;
+        float x = Mathf.Round(gridPosition.x - (_width - 1) / 2f);
+        float z = Mathf.Round(gridPosition.y - (_height - 1) / 2f);
         return new Vector3(x, 0, z);
     }
 

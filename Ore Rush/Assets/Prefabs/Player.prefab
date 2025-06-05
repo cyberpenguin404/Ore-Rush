@@ -415,6 +415,7 @@ MonoBehaviour:
   _knockbackForce: 30
   _popup: {fileID: 6387169773407738372, guid: de8946372c4684c4bba08e1991a61b98, type: 3}
   _pickaxeIndicator: {fileID: 2508619797239837947, guid: ecb52cc1914fcfd4cba67e73c5f888bc, type: 3}
+  _maxDropDistance: 0
 --- !u!114 &-9111881618879416552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,8 +431,8 @@ MonoBehaviour:
   indicatorPrefabPlayer1: {fileID: 3961507253054405463, guid: 02e6eb23df51aaa4b9ca493978d734a6, type: 3}
   indicatorPrefabPlayer2: {fileID: 3961507253054405463, guid: 24aa484dee5800644befa2b1d076410e, type: 3}
   pillarPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
-  moveRepeatDelay: 0.3
-  moveRepeatRate: 0.1
+  moveRepeatDelay: 0.2
+  moveRepeatRate: 0.05
   cooldownDuration: 10
   _flashColor: {r: 1, g: 0.51713115, b: 0, a: 1}
   _range: 5
