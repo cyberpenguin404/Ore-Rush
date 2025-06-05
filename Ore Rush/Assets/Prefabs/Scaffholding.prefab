@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 456058658922641905}
   - component: {fileID: 4072876549498798984}
   - component: {fileID: 3306195720620302209}
-  m_Layer: 7
+  m_Layer: 2
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 6682794361500639625}
   - component: {fileID: 1079772843008509771}
   m_Layer: 7
-  m_Name: Scaffholding 1
+  m_Name: Scaffholding
   m_TagString: Scaffholding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

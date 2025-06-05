@@ -137,7 +137,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2879279454562175343}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallWithoutGems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7265383895803277863}
-  - {fileID: 8786280020517851446}
   m_Father: {fileID: 2996484234596097654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8746521615836363371
@@ -170,7 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6241950432194217862}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallWithGems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,6 +269,10 @@ PrefabInstance:
       value: Wall (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -351,9 +354,17 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: b364b8364676a894980380a235fd5e3c, type: 2}
+    - target: {fileID: 74863931320819754, guid: b5976d03166f946459aaae038dedc2fe, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b5976d03166f946459aaae038dedc2fe, type: 3}
       propertyPath: m_Name
       value: GemWall (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b5976d03166f946459aaae038dedc2fe, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b5976d03166f946459aaae038dedc2fe, type: 3}
       propertyPath: m_IsActive
@@ -379,6 +390,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[4]'
       value: 
       objectReference: {fileID: 2100000, guid: da4b14316767bf5418d5ba7766b4f301, type: 2}
+    - target: {fileID: 5335601853256353763, guid: b5976d03166f946459aaae038dedc2fe, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -393,82 +408,4 @@ MeshRenderer:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b5976d03166f946459aaae038dedc2fe, type: 3}
   m_PrefabInstance: {fileID: 7357944041318618290}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &9107855549921851101
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2879279454562175343}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.47
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.235
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.47
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_Name
-      value: Wall (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
---- !u!4 &8786280020517851446 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 38a0d643590e90749afcc685c7b6ee53, type: 3}
-  m_PrefabInstance: {fileID: 9107855549921851101}
   m_PrefabAsset: {fileID: 0}

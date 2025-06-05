@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0
+  Color: {r: 0, g: 0, b: 0, a: 0}
   _valueColors:
   - {r: 0, g: 1, b: 0.006011009, a: 0}
   - {r: 1, g: 0.7067175, b: 0, a: 0}
@@ -134,5 +135,5 @@ MonoBehaviour:
   - {r: 0, g: 0.5471698, b: 0.45911396, a: 0}
   - {r: 0, g: 0.25157225, b: 0.23779035, a: 0}
   - {r: 0.0033819634, g: 0.11949676, b: 0.11769698, a: 0}
-  _minValue: 10
-  _maxValue: 100
+  _minValue: 5
+  _maxValue: 30
