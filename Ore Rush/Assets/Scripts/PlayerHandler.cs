@@ -83,6 +83,14 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField]
     private int _maxDropDistance;
 
+    [SerializeField] private PlayerInput _playerInput;
+    public Gamepad _gamepad;
+
+    public bool RumbleController;
+    public float LowFrequency;
+    public float HighFrequency;
+    public float Duration;
+
     public void OnMovement(InputAction.CallbackContext context)
     {
         _moveInput = context.ReadValue<Vector2>();
@@ -106,6 +114,18 @@ public class PlayerHandler : MonoBehaviour
         RJoystickIcon = PlayerIndex == 1 ? GameManager.Instance.RJoystickIcon1 : GameManager.Instance.RJoystickIcon2;
 
         SetSpawnpoint();
+
+        if (_playerInput != null && _playerInput.devices.Count > 0)
+        {
+            foreach (var device in _playerInput.devices)
+            {
+                if (device is Gamepad gp)
+                {
+                    _gamepad = gp;
+                    break;
+                }
+            }
+        }
     }
 
     private void SetSpawnpoint()
@@ -117,12 +137,18 @@ public class PlayerHandler : MonoBehaviour
 
     void Update()
     {
+        if (RumbleController == true)
+        {
+            RumbleController = false;
+            Rumble(LowFrequency, HighFrequency, Duration);
+        }
         if (GameManager.Instance.MainGameRunning)
         HandlePlayer();
     }
 
     private void HandlePlayer()
     {
+
         if (spawnWall)
         {
             GameManager.Instance.DropWall(transform.position + Vector3.up * 10);
@@ -324,6 +350,7 @@ public class PlayerHandler : MonoBehaviour
 
                 if (hit.collider.GetComponent<WallScript>().gemInsideMe != null)
                 {
+                    Rumble(0.4f, 0.5f, 0.1f);
                     PickUpGem(hit.collider.GetComponent<WallScript>().gemInsideMe);
                 }
 
@@ -331,11 +358,13 @@ public class PlayerHandler : MonoBehaviour
             }
             else if (hit.collider.CompareTag("Scaffholding"))
             {
+                Rumble(0.3f,0.4f, 0.1f);
                 _currentPickaxeCooldown = PickaxeCooldown;
                 hit.collider.GetComponent<ScaffholdingScript>().CollapseScaffholding(direction);
             }
             else if (hit.collider.CompareTag("Player"))
             {
+                Rumble(0.5f, 0.5f, 0.1f);
                 Debug.Log("hit player");
                 hit.collider.GetComponent<PlayerHandler>().ApplyKnockBack(transform.forward, _knockbackForce);
             }
@@ -357,6 +386,8 @@ public class PlayerHandler : MonoBehaviour
     public void Stun()
     {
         _stunTimer = stunDuration;
+
+        Rumble(0.6f, 0.6f, 0.2f);
 
         Debug.Log("Player stunned");
 
@@ -438,5 +469,19 @@ public class PlayerHandler : MonoBehaviour
         {
             _knockBack = Vector3.zero;
         }
+    }
+    public void Rumble(float lowFrequency = 0.5f, float highFrequency = 0.5f, float duration = 0.2f)
+    {
+        if (_gamepad != null)
+        {
+            _gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
+            StartCoroutine(StopRumbleAfter(duration));
+        }
+    }
+
+    private IEnumerator StopRumbleAfter(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        _gamepad?.SetMotorSpeeds(0, 0);
     }
 }

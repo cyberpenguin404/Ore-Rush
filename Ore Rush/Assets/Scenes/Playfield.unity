@@ -242,10 +242,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2094037976}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
-      propertyPath: SpawnManager
-      value: 
-      objectReference: {fileID: 762176183}
-    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: _screenShake
       value: 
       objectReference: {fileID: 1675227727}
@@ -273,10 +269,6 @@ PrefabInstance:
       propertyPath: _countdownText
       value: 
       objectReference: {fileID: 2023916382}
-    - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
-      propertyPath: _countdownTime
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 685837030237778843, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: ScoreTextPlayer1
       value: 
@@ -317,10 +309,6 @@ PrefabInstance:
       propertyPath: DynamiteCooldownSlider2
       value: 
       objectReference: {fileID: 172987324}
-    - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
-      propertyPath: SpawnManager
-      value: 
-      objectReference: {fileID: 762176183}
     - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: collectionZone
       value: 
@@ -511,17 +499,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8579a1d0563ad5438b0cc8977601f8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &762176183 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3541460209804128929, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
-  m_PrefabInstance: {fileID: 456377489}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3b73d3afdfa7f249a8079ff00995e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &778561960 stripped

@@ -58,6 +58,7 @@ public class DeathWall : FallingWall
             if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z), playerPos) <= HitRadius)
             {
                 player.Stun();
+                Destroy(player._carryingObject);
                 player.transform.position = new Vector3(0, 1, 0);
                 return;
             }

@@ -3025,7 +3025,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 16.399796, y: 0, z: 115.88696, w: 13.689453}
+  m_margin: {x: -35.21202, y: 0, z: 115.88696, w: 13.689453}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4920,8 +4920,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 39586fae771f6184598ffb2627bf994a, type: 2}
+  m_sharedMaterial: {fileID: -5230343782970125799, guid: 39586fae771f6184598ffb2627bf994a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5521,7 +5521,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 16.399796, y: 0, z: 115.88696, w: 13.689453}
+  m_margin: {x: -57.236206, y: 0, z: 115.88696, w: 13.689453}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7101,11 +7101,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3558501000851008536, guid: f1e3c6465d7c65e4ea72b8a8a13b89ab, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3558501000851008536, guid: f1e3c6465d7c65e4ea72b8a8a13b89ab, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3558501000851008536, guid: f1e3c6465d7c65e4ea72b8a8a13b89ab, type: 3}
       propertyPath: m_LocalPosition.x

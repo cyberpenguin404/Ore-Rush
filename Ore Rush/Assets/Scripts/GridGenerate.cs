@@ -94,7 +94,7 @@ public class GridGenerate : MonoBehaviour
         while (true)
         {
             GameManager.Instance.Stage++;
-            ResetPlayerPositions();
+            //ResetPlayerPositions();
             RemoveGemsAndScaffholding();
             GenerateMaps();
             SpawnManager.InitiateMap();

@@ -208,11 +208,19 @@ public class GameManager : MonoBehaviour
     public void DropWall(Vector3 position)
     {
         Instantiate(_fallingWallPrefab, position, Quaternion.identity);
+        foreach (PlayerHandler player in Players)
+        {
+            player.Rumble(0.4f, 0.5f, 0.1f);
+        }
         _screenShake.Shake(_screenShakeDurationWall, _screenShakeMagnitudeWall);
     }
     public void DropDeathWall(Vector3 position)
     {
         Instantiate(_deathFallingWallPrefab, position, Quaternion.identity);
+        foreach (PlayerHandler player in Players)
+        {
+            player.Rumble(0.4f, 0.5f, 0.1f);
+        }
         _screenShake.Shake(_screenShakeDurationDeathWall, _screenShakeMagnitudeDeathWall);
     }
 

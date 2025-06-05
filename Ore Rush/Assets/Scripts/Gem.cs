@@ -5,6 +5,7 @@ public class Gem : MonoBehaviour
 {
     public int Value;
     private Material _instanceMaterial;
+    public Color Color;
 
     [Header("Color Lerp Settings")]
     [SerializeField] private Color[] _valueColors; // List of colors (e.g., green, yellow, orange, red)
@@ -38,7 +39,7 @@ public class Gem : MonoBehaviour
 
         float lerpBetweenCurrentColors = scaledLerpValue - colorIndex;
 
-        Color color = Color.Lerp(_valueColors[colorIndex], _valueColors[colorIndex + 1], lerpBetweenCurrentColors);
-        _instanceMaterial.color = color;
+        Color = Color.Lerp(_valueColors[colorIndex], _valueColors[colorIndex + 1], lerpBetweenCurrentColors);
+        _instanceMaterial.color = Color;
     }
 }

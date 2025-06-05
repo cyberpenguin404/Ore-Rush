@@ -9,12 +9,22 @@ public class WallScript : MonoBehaviour
     public GameObject defaultWallVisual;
     public GameObject GemWallVisual;
 
+    [SerializeField] public Material _instanceMaterial;
+    [SerializeField] private Renderer _gemRenderer;
+
+
+
     public void UpdateWallMesh()
     {
         if (gemInsideMe != null)
         {
             defaultWallVisual.SetActive(false);
             GemWallVisual.SetActive(true);
+
+            _instanceMaterial = _gemRenderer.material;
+
+
+            _instanceMaterial.color = gemInsideMe.GetComponent<Gem>().Color;
         }
         else
         {

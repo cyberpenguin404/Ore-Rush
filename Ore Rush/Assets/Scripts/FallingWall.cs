@@ -85,6 +85,15 @@ public class FallingWall : MonoBehaviour
                 return;
             }
         }
+        foreach (GameObject wall in GameManager.Instance.GridGenerate.wallObjects)
+        {
+            if (Vector3.Distance(wall.transform.position, wallPos) <= 0.5f)
+            {
+                Debug.Log("hit wall");
+                Destroy(gameObject);
+                return;
+            }
+        }
         foreach (GameObject gem in GameManager.Instance.SpawnManager.GemObjects)
         {
             if (Vector3.Distance(gem.transform.position, wallPos) <= 0.9f)
@@ -92,15 +101,6 @@ public class FallingWall : MonoBehaviour
                 Debug.Log("hit gem");
                 GetComponent<WallScript>().gemInsideMe = gem;
                 GetComponent<WallScript>().UpdateWallMesh();
-                return;
-            }
-        }
-        foreach (GameObject wall in GameManager.Instance.GridGenerate.wallObjects)
-        {
-            if (Vector3.Distance(wall.transform.position, wallPos) <= 0.5f)
-            {
-                Debug.Log("hit wall");
-                Destroy(gameObject);
                 return;
             }
         }
