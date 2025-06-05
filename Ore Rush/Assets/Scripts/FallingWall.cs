@@ -101,7 +101,6 @@ public class FallingWall : MonoBehaviour
                 Debug.Log("hit gem");
                 GetComponent<WallScript>().gemInsideMe = gem;
                 GetComponent<WallScript>().UpdateWallMesh();
-                return;
             }
         }
 

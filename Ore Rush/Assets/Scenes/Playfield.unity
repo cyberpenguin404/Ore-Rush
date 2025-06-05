@@ -313,6 +313,10 @@ PrefabInstance:
       propertyPath: collectionZone
       value: 
       objectReference: {fileID: 299288655}
+    - target: {fileID: 743688315619495738, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
+      propertyPath: wallCollapseSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2797907973698817927, guid: d4a9213d8cad2364f8368e2927598986, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gem: {fileID: 6418093966074318679, guid: f0240e4d9aa3c8e4ca6d9541062a85dc, type: 3}
-  _scaffholding: {fileID: 2152728252885862023, guid: 7550a64eab1f5ba49842b7eb6e6cad23, type: 3}
+  _scaffholding: {fileID: 3041751881268569210, guid: e3263b61b5f281944a917976e35b700c, type: 3}
   GemObjects: []
   ScaffholdingObjects: []
   EmptyTiles: []

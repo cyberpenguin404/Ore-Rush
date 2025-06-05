@@ -17,7 +17,7 @@ public class PlayerHandler : MonoBehaviour
     public string PlayerName;
 
     public int PlayerIndex;
-    public GameObject _carryingObject { get; private set; }
+    public GameObject _carryingObject;
 
     [SerializeField]
     private GameObject _arrowIndicator;
@@ -155,6 +155,7 @@ public class PlayerHandler : MonoBehaviour
             spawnWall = false;
         }
         HandleArrow();
+        HandleMineIndicator();
         if (_stunTimer > 0)
         {
             _stunTimer -= Time.deltaTime;
@@ -167,7 +168,6 @@ public class PlayerHandler : MonoBehaviour
         }
 
         HandleMovement();
-        HandleMineIndicator();
         _currentState.Update();
         HandleCooldowns();
         HandleCarrying();
@@ -294,7 +294,7 @@ public class PlayerHandler : MonoBehaviour
 
     public void PickUpGem(GameObject gem)
     {
-        if (_carryingObject == null)
+        if (_carryingObject == null && _stunTimer <= 0)
         {
             GameManager.Instance.SpawnManager.PickupGem(gem);
             _carryingObject = gem;

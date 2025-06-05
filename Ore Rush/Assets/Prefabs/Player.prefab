@@ -396,6 +396,7 @@ MonoBehaviour:
   spawnWall: 0
   PlayerName: Player 1
   PlayerIndex: 0
+  _carryingObject: {fileID: 0}
   _arrowIndicator: {fileID: 5274578565627849861}
   stunDuration: 2
   DynamiteIcon: {fileID: 0}
@@ -407,7 +408,7 @@ MonoBehaviour:
   player1Material: {fileID: 2100000, guid: bd46058bc4f32464f9c9fece64c3d77c, type: 2}
   player2Material: {fileID: 2100000, guid: 0ea9bd0d855efbb47bea27a5568428f0, type: 2}
   <CarryingOffset>k__BackingField: {x: 0, y: 1, z: 0}
-  <mineRange>k__BackingField: 1
+  <mineRange>k__BackingField: 1.1
   <PickaxeStunTime>k__BackingField: 0.5
   _canTurn: 1
   PlayerSpeed: 5
@@ -415,7 +416,7 @@ MonoBehaviour:
   _knockbackForce: 30
   _popup: {fileID: 6387169773407738372, guid: de8946372c4684c4bba08e1991a61b98, type: 3}
   _pickaxeIndicator: {fileID: 2508619797239837947, guid: ecb52cc1914fcfd4cba67e73c5f888bc, type: 3}
-  _maxDropDistance: 0
+  _maxDropDistance: 1
   _playerInput: {fileID: 5707481357011166481}
   RumbleController: 0
   LowFrequency: 0.4
