@@ -1,14 +1,10 @@
-using NUnit.Framework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class GameManager : MonoBehaviour
 {
@@ -73,7 +69,23 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _startCountdownText;
     [SerializeField]
-    private GameObject _winnerScreen;
+    private GameObject _P1winnerScreen;
+    [SerializeField]
+    private GameObject _P2winnerScreen;
+    [SerializeField]
+    private GameObject _drawScreen;
+    [SerializeField]
+    private List<TextMeshProUGUI> _scoresP1EndScreen;
+    [SerializeField]
+    private List<TextMeshProUGUI> _scoresP2EndScreen;
+    [SerializeField]
+    private List<TextMeshProUGUI> _QuotesEndScreen;
+
+    private List<string> _quotes = new List<string>() { "As a child I yearned for the mines", "You are a gem", "I mined, I dynamited, and I overwon", "I'm digging it so good rn", "I dig you", 
+        "There was light at the end of the tunnel.", "You ore the best!", "The deeper you go, the weirder it gets", "You are dynamite!", "Dynamike from brawl stars", "You are so coo - al!", "Mining away!", "Dude I am ****** my pants", "99% stop right before their big win!", 
+        "This is deep", "We are rich!", "Rock and stone!", "Chicken jockey!", "W", "ez", "I... am Dave", "As a child, I yearned for the mines, but something always got in the way. But the call of the mines was too strong. So I started digging, and digging, until I found... this. A wonderland where everything you can imagine is possible. As long as what you imagine... can be built out of blocks!\"",
+    "Dave, more like dumb"};
+
     [SerializeField]
     private TextMeshProUGUI _winnerText;
     [SerializeField]
@@ -260,7 +272,6 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-        _winnerScreen.SetActive(true);
 
         int highestScore = Players.Max(p => p.Score);
 
@@ -274,12 +285,32 @@ public class GameManager : MonoBehaviour
         if (topPlayers.Count > 1)
         {
             string names = string.Join(", ", topPlayers.Select(p => p.PlayerName));
-            _winnerText.text = $"Draw between: {names}!";
+            _drawScreen.SetActive(true);
         }
         else
         {
             PlayerHandler winningPlayer = topPlayers[0];
-            _winnerText.text = $"{winningPlayer.PlayerName} has won!";
+            if (winningPlayer.PlayerIndex == 1)
+            {
+                _P1winnerScreen.SetActive(true);
+            }
+            else
+            {
+                _P2winnerScreen.SetActive(true);
+            }
+        }
+
+        foreach (TextMeshProUGUI text in _scoresP1EndScreen)
+        {
+            text.text = Players[0].Score.ToString();
+        }
+        foreach (TextMeshProUGUI text in _scoresP2EndScreen)
+        {
+            text.text = Players[1].Score.ToString();
+        }
+        foreach (TextMeshProUGUI text in _QuotesEndScreen)
+        {
+            text.text = _quotes[Random.Range(0, _quotes.Count - 1)];
         }
 
         _playerCount = 0;

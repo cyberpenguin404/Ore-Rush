@@ -413,15 +413,13 @@ MonoBehaviour:
   _canTurn: 1
   PlayerSpeed: 5
   _charController: {fileID: 4480786922093275286}
-  _knockbackForce: 30
+  _knockbackForce: 90
   _popup: {fileID: 6387169773407738372, guid: de8946372c4684c4bba08e1991a61b98, type: 3}
   _pickaxeIndicator: {fileID: 2508619797239837947, guid: ecb52cc1914fcfd4cba67e73c5f888bc, type: 3}
   _maxDropDistance: 1
   _playerInput: {fileID: 5707481357011166481}
-  RumbleController: 0
-  LowFrequency: 0.4
-  HighFrequency: 0.5
-  Duration: 0.1
+  slowDuration: 1
+  slowMultiplier: 0.5
 --- !u!114 &-9111881618879416552
 MonoBehaviour:
   m_ObjectHideFlags: 0

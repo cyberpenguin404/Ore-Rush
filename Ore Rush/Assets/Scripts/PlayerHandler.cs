@@ -86,10 +86,11 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     public Gamepad _gamepad;
 
-    public bool RumbleController;
-    public float LowFrequency;
-    public float HighFrequency;
-    public float Duration;
+    [SerializeField] private float slowDuration = 1.5f;
+    [SerializeField] private float slowMultiplier = 0.5f;
+
+    private float _slowTimer = 0f;
+    private float _originalSpeed;
 
     public void OnMovement(InputAction.CallbackContext context)
     {
@@ -98,6 +99,7 @@ public class PlayerHandler : MonoBehaviour
 
     private void Start()
     {
+        _originalSpeed = PlayerSpeed;
         _currentState = new NoneState(this);
 
         GameManager.Instance.ConnectPlayer(this);
@@ -137,11 +139,6 @@ public class PlayerHandler : MonoBehaviour
 
     void Update()
     {
-        if (RumbleController == true)
-        {
-            RumbleController = false;
-            Rumble(LowFrequency, HighFrequency, Duration);
-        }
         if (GameManager.Instance.MainGameRunning)
         HandlePlayer();
     }
@@ -171,6 +168,19 @@ public class PlayerHandler : MonoBehaviour
         _currentState.Update();
         HandleCooldowns();
         HandleCarrying();
+        HandleSpeedRecovery();
+    }
+
+    private void HandleSpeedRecovery()
+    {
+        if (_slowTimer > 0f)
+        {
+            _slowTimer -= Time.deltaTime;
+            if (_slowTimer <= 0f)
+            {
+                PlayerSpeed = _originalSpeed;
+            }
+        }
     }
 
     private void HandleMineIndicator()
@@ -382,6 +392,9 @@ public class PlayerHandler : MonoBehaviour
     {
         dir.Normalize();
         _knockBack += dir.normalized * force / _mass;
+
+        _slowTimer = slowDuration;
+        PlayerSpeed = _originalSpeed * slowMultiplier;
     }
     public void Stun()
     {

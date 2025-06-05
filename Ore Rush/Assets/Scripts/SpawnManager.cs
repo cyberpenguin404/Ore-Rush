@@ -122,6 +122,7 @@ public class SpawnManager : MonoBehaviour
 
         EmptyTiles.Remove(spawnPosition);
         ScaffholdingObjects.Add(newScaffholding);
+        GameManager.Instance.GridGenerate.wallObjects.Add(newScaffholding);
     }
     private void SpawnGem()
     {
@@ -153,7 +154,7 @@ public class SpawnManager : MonoBehaviour
         float maxDistance = Vector3.Distance(GameManager.Instance.GridGenerate.collectionZone.transform.position,
             new Vector3(GameManager.Instance.Width / 2, 0, GameManager.Instance.Height / 2));
 
-        int gemValue = (int)((5 * GameManager.Instance.Stage) + distanceFromCollectionZone / (maxDistance / 10));
+        int gemValue = (int)((10 * GameManager.Instance.Stage) * (distanceFromCollectionZone / maxDistance));
         newGem.GetComponent<Gem>().Initialize(gemValue);
     }
     public void PickupGem(GameObject gem)
