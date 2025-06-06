@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -74,6 +75,12 @@ public class GameManager : MonoBehaviour
     private GameObject _P2winnerScreen;
     [SerializeField]
     private GameObject _drawScreen;
+    [SerializeField]
+    private GameObject _drawScreenRestartButton;
+    [SerializeField]
+    private GameObject _P1winnerScreenRestartButton;
+    [SerializeField]
+    private GameObject _P2winnerScreenRestartButton;
     [SerializeField]
     private List<TextMeshProUGUI> _scoresP1EndScreen;
     [SerializeField]
@@ -286,6 +293,7 @@ public class GameManager : MonoBehaviour
         {
             string names = string.Join(", ", topPlayers.Select(p => p.PlayerName));
             _drawScreen.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(_drawScreenRestartButton);
         }
         else
         {
@@ -293,10 +301,12 @@ public class GameManager : MonoBehaviour
             if (winningPlayer.PlayerIndex == 1)
             {
                 _P1winnerScreen.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(_P1winnerScreenRestartButton);
             }
             else
             {
                 _P2winnerScreen.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(_P2winnerScreenRestartButton);
             }
         }
 
