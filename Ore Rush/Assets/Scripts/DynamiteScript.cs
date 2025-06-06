@@ -72,7 +72,7 @@ public class DynamiteScript : MonoBehaviour
 
     public void ToggleDynamite(InputAction.CallbackContext context)
     {
-        if (!context.started || cooldownTimer > 0f || !GameManager.Instance.MainGameRunning)
+        if (!context.performed || cooldownTimer > 0f || !GameManager.Instance.MainGameRunning)
         {
             return;
         }

@@ -164,6 +164,7 @@ public class GridGenerate : MonoBehaviour
                 Vector3 roundedPos = new Vector3(Mathf.Round(child.position.x), Mathf.Round(child.position.y), Mathf.Round(child.position.z));
                 wallPositions.Add(roundedPos);
                 wallObjects.Add(child.gameObject);
+                GameManager.Instance.SpawnManager.ScaffholdingObjects.Add(child.gameObject);
             }
         }
     }

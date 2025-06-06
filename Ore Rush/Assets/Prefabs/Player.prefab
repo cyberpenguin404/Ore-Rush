@@ -436,7 +436,7 @@ MonoBehaviour:
   indicatorPrefabPlayer2: {fileID: 3961507253054405463, guid: 24aa484dee5800644befa2b1d076410e, type: 3}
   pillarPrefab: {fileID: 1616951762359463011, guid: 1128d2ab3225ebe4b8a8dc285a362987, type: 3}
   moveRepeatDelay: 0.2
-  moveRepeatRate: 0.05
+  moveRepeatRate: 0.03
   cooldownDuration: 10
   _flashColor: {r: 1, g: 0.51713115, b: 0, a: 1}
   _range: 5
