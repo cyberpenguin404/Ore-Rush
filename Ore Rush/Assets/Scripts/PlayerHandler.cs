@@ -5,8 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEditor.ShaderData;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerHandler : MonoBehaviour
 {
